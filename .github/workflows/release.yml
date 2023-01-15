@@ -40,8 +40,9 @@ jobs:
           poetry run pdoc \
               --logo '${{ env.logo }}' \
               --footer-text='Version ${{ github.ref_name }}' \
+              --docformat numpy \
               chris -o pdoc
-      - name: Deploy docs
+      - name: Deploy docs (version)
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           branch: gh-pages
