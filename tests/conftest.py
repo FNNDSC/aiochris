@@ -1,8 +1,9 @@
 import asyncio
+from dataclasses import dataclass
+
 import pytest
 import aiohttp
-from typing import TypedDict
-from chris.common.types import ChrisURL, ChrisUsername, ChrisPassword
+from chris.models.types import ChrisURL, Username, Password
 
 
 @pytest.fixture(scope="session")
@@ -16,21 +17,22 @@ def event_loop():
 
 
 @pytest.fixture(scope="session")
-async def session(event_loop) -> aiohttp.ClientSession:
+async def session(event_loop: asyncio.AbstractEventLoop) -> aiohttp.ClientSession:
     async with aiohttp.ClientSession(loop=event_loop) as session:
         yield session
 
 
-@pytest.fixture(scope="session")
-def cube_url():
-    return ChrisURL("http://localhost:8000/api/v1/")
-
-
-class UserCredentials(TypedDict):
-    username: ChrisUsername
-    password: ChrisPassword
+@dataclass
+class UserCredentials:
+    username: Username
+    password: Password
+    url: ChrisURL
 
 
 @pytest.fixture(scope="session")
-def cube_superuser() -> UserCredentials:
-    return {"username": ChrisUsername("chris"), "password": ChrisPassword("chris1234")}
+def credentials() -> UserCredentials:
+    return UserCredentials(
+        username=Username("chris"),
+        password=Password("chris1234"),
+        url=ChrisURL("http://localhost:8000/api/v1/"),
+    )

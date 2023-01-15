@@ -1,3 +1,3 @@
 """
-Code shared between the clients for *CUBE* and the *ChRIS Store.*
+Code shared between the client for *CUBE* and the *ChRIS Store.*
 """

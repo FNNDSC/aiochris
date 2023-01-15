@@ -4,10 +4,37 @@
 [pyserde](https://github.com/yukinarit/pyserde)
 ([dataclasses](https://docs.python.org/3/library/dataclasses.html) deserializer).
 
-There are a lot of similarities between the JSON APIs
-of *ChRIS* and the *ChRIS* Store. The commonalities are
-defined in the module `chris.common`, and the specific
-clients are defined in `chris.cube` and `chris.store`.
+## Efficiency with aiohttp
+
+If using more than one client in an application, it's more efficient
+to use the same
+[connector](https://docs.aiohttp.org/en/stable/client_advanced.html#connectors).
+
+```python
+import aiohttp
+from chris import ChrisClient
+
+with aiohttp.TCPConnector() as connector:
+    client1 = await ChrisClient.from_login(
+        url='https://example.com/cube/api/v1/',
+        username='user1',
+        password='user1234',
+        connector=connector,
+        connector_owner=False
+    )
+    client2 = await ChrisClient.from_login(
+        url='https://example.com/cube/api/v1/',
+        username='user2',
+        password='user4321',
+        connector=connector,
+        connector_owner=False
+    )
+    ...
+```
 """
 
-__docformat__ = "numpy"
+import chris.client
+from chris.client.normal import ChrisClient
+from chris.client.anon import AnonChrisClient
+
+__all__ = ["AnonChrisClient", "ChrisClient", "client"]

@@ -1,32 +1,9 @@
 from dataclasses import dataclass
-from typing import Optional
 
 from serde import deserialize
-from chris.common.types import ApiUrl, UserUrl
-from chris.common.search import PaginatedUrl
-from chris.common.atypes import AuthenticatedCollectionLinks
-from chris.common.models import Plugin
-from chris.cube.types import AdminUrl, ComputeResourceName, ComputeResourceId, PfconUrl
-
-
-@deserialize
-@dataclass(frozen=True)
-class CubeCollectionLinks(AuthenticatedCollectionLinks):
-    chrisinstance: ApiUrl
-    files: ApiUrl
-    compute_resources: ApiUrl
-    uploadedfiles: ApiUrl
-    pacsfiles: ApiUrl
-    servicefiles: ApiUrl
-    filebrowser: ApiUrl
-    user: UserUrl
-    admin: Optional[AdminUrl] = None
-
-
-@deserialize
-@dataclass(frozen=True)
-class ChrisAdminCollectionLinks:
-    compute_resources: ApiUrl
+from chris.models.types import ApiUrl
+from chris.models.res import Plugin
+from chris._old.types import ComputeResourceName, ComputeResourceId, PfconUrl
 
 
 @deserialize

@@ -1,10 +1,10 @@
 from typing import TypeVar, AsyncIterator, Sequence, Iterable
-from chris.common.types import PluginUrl
-from chris.common.client import AuthenticatedClient
-from chris.common.search import get_paginated, to_sequence
+from chris.models.types import PluginUrl
+from chris.base import AuthenticatedClient
+from chris.helper.search import get_paginated, acollect
 import chris.common.decorator as http
-from chris.cube.types import ComputeResourceName, PfconUrl, Feed
-from chris.cube.models import CubeCollectionLinks, CubePlugin, ComputeResource
+from chris._old.types import ComputeResourceName, PfconUrl, Feed
+from chris.models import CubeCollectionLinks, CubePlugin, ComputeResource
 
 _T = TypeVar("_T")
 
@@ -55,4 +55,4 @@ class CubeClient(AuthenticatedClient[CubeCollectionLinks, CubePlugin, "CubeClien
         )
 
     async def get_all_compute_resources(self) -> Sequence[ComputeResource]:
-        return await to_sequence(self.search_compute_resources())
+        return await acollect(self.search_compute_resources())

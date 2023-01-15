@@ -1,13 +1,4 @@
-"""
-These types are private because they represent analogous
-features between _ChRIS_ store and _CUBE_, but are not
-directly interoperable.
-e.g. `https://chrisstore.co/api/v1/plugins/search`
-and `https://cube.chrisproject.org/api/v1/plugins/search/`
-are analogous but one wouldn't make sense in the context
-of the other.
-"""
-from typing import NewType, Optional, TypeVar, AsyncGenerator, Type, AsyncIterable, Any
+from typing import Optional, TypeVar, AsyncGenerator, Type, AsyncIterable, Any
 
 import aiohttp
 from serde import deserialize, from_dict
@@ -17,8 +8,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
-PaginatedUrl = NewType("PaginatedUrl", str)
 T = TypeVar("T")
 
 
@@ -29,14 +18,14 @@ class _Paginated:
     """
 
     count: int
-    next: Optional[PaginatedUrl]
-    previous: Optional[PaginatedUrl]
+    next: Optional[str]
+    previous: Optional[str]
     results: list[Any]
 
 
 async def get_paginated(
     session: aiohttp.ClientSession,
-    url: PaginatedUrl,
+    url: str,
     element_type: Type[T],
     max_requests: int = 100,
 ) -> AsyncGenerator[T, None]:
@@ -57,7 +46,7 @@ async def get_paginated(
             yield next_element
 
 
-async def to_sequence(async_iterable: AsyncIterable[T]) -> list[T]:
+async def acollect(async_iterable: AsyncIterable[T]) -> list[T]:
     # nb: using tuple here causes
     #     TypeError: 'async_generator' object is not iterable
     # return tuple(e async for e in async_iterable)

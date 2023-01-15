@@ -1,18 +1,17 @@
 """
-Be careful: types between _CUBE_ and _ChRIS_ store are not interoperable.
-For instance, a `PluginId` from the _ChRIS_ store is meaningless in _CUBE_.
+NewTypes for ChRIS models.
 """
 
 from typing import NewType
 
-ChrisUsername = NewType("ChrisUsername", str)
-ChrisPassword = NewType("ChrisPassword", str)
+Username = NewType("ChrisUsername", str)
+Password = NewType("ChrisPassword", str)
 ChrisURL = NewType("ChrisURL", str)
-ChrisToken = NewType("ChrisToken", str)
 
 ApiUrl = NewType("ApiUrl", str)
+"""URL which I am too lazy to be more specific about."""
 ResourceId = NewType("ResourceId", int)
-
+"""ID number which I am too lazy to be more specific about."""
 PluginName = NewType("PluginName", str)
 ImageTag = NewType("ImageTag", str)
 PluginVersion = NewType("PluginVersion", str)

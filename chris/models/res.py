@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from serde import deserialize
-from chris.common.types import (
+from chris.models.types import (
     UserUrl,
     UserId,
-    ChrisUsername,
+    Username,
     PluginName,
     ImageTag,
     PluginVersion,
@@ -25,8 +25,8 @@ class Plugin:
 
 @deserialize
 @dataclass(frozen=True)
-class CreatedUser:
+class User:
     url: UserUrl
     id: UserId
-    username: ChrisUsername
+    username: Username
     email: str
