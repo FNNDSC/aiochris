@@ -1,0 +1,39 @@
+name: test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  local:
+    name: Tests
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        python-version: [ '3.10', '3.11' ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '${{ matrix.python-version }}'
+        # https://github.com/snok/install-poetry#caching-the-poetry-installation
+      - name: Load cached poetry installation
+        id: cached-poetry
+        uses: actions/cache@v3
+        with:
+          path: ~/.local
+          key: poetry-0  # increment to reset cache
+      - name: Install Python Poetry
+        if: steps.cached-poetry.outputs.cache-hit != 'true'
+        uses: jennydaman/install-poetry@83b32fe109e39af733e68ef8544a6f665c470a16
+        with:
+          poetry-version: '1.3.1'
+
+      - name: miniChRIS
+        uses: FNNDSC/miniChRIS-docker@20230109
+
+      - name: Install
+        run: poetry install --with=dev
+      - name: Test
+        run: poetry run pytest

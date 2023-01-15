@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "aiochris"
+version = "0.0.0"
+description = "ChRIS client built on aiohttp"
+authors = ["FNNDSC <dev@babyMRI.org>"]
+readme = "README.md"
+license = "MIT"
+packages = [
+    {include = "chris"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiohttp = "^3.8.3"
+
+# https://github.com/yukinarit/pyserde/issues/292
+pyserde = "0.8.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+pytest-asyncio = "^0.20.3"
+
+
+[tool.poetry.group.doc.dependencies]
+pdoc = "^12.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
