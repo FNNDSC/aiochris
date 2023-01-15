@@ -26,3 +26,9 @@ poetry install --with=dev
 
 1. Start up [miniCHRIS](https://github.com/FNNDSC/miniChRIS-docker)
 2. `poetry run pytest`
+
+### Code Formatting
+
+```shell
+poetry run pre-commit run --all-files
+```

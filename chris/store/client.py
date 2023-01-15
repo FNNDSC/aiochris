@@ -23,6 +23,7 @@ class AnonymousChrisStoreClient(
     """
     An unauthenticated *ChRIS Store* client.
     """
+
     pass
 
 
@@ -33,6 +34,7 @@ class ChrisStoreClient(
     """
     An authenticated *ChRIS Store* client.
     """
+
     async def upload_plugin(
         self, name: str, dock_image: str, public_repo: str, descriptor_file: Path
     ) -> Plugin:
