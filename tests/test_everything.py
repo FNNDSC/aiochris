@@ -77,7 +77,7 @@ async def create_user_and_client(
 @pytest.fixture
 async def chris_store_client(session, some_name) -> ChrisStoreClient:
     async with create_user_and_client(
-        session, ChrisStoreClient, ChrisURL('http://localhost:8010/api/v1/'), some_name
+        session, ChrisStoreClient, ChrisURL("http://localhost:8010/api/v1/"), some_name
     ) as client:
         yield client
 

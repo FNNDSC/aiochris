@@ -17,9 +17,11 @@ class CubeClient(AuthenticatedClient[CubeCollectionLinks, CubePlugin, "CubeClien
         ...
 
     async def register_plugin_from_store(
-            self, plugin_store_url: PluginUrl, compute_names: Iterable[ComputeResourceName]
+        self, plugin_store_url: PluginUrl, compute_names: Iterable[ComputeResourceName]
     ) -> CubePlugin:
-        return await self._register_plugin_from_store_raw(plugin_store_url=plugin_store_url, compute_names=','.join(compute_names))
+        return await self._register_plugin_from_store_raw(
+            plugin_store_url=plugin_store_url, compute_names=",".join(compute_names)
+        )
 
     @http.post("/chris-admin/api/v1/computeresources/")
     async def create_compute_resource(

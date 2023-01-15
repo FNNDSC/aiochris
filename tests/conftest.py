@@ -20,6 +20,7 @@ async def session(event_loop) -> aiohttp.ClientSession:
     async with aiohttp.ClientSession(loop=event_loop) as session:
         yield session
 
+
 @pytest.fixture(scope="session")
 def cube_url():
     return ChrisURL("http://localhost:8000/api/v1/")

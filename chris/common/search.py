@@ -27,6 +27,7 @@ class _Paginated:
     """
     Response from a paginated endpoint.
     """
+
     count: int
     next: Optional[PaginatedUrl]
     previous: Optional[PaginatedUrl]
