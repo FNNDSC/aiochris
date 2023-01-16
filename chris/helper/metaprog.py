@@ -36,5 +36,10 @@ def generic_of(c: Type, t: Type[_T], is_subclass=False) -> Optional[Type[_T]]:
             if subclass_generic is not None:
                 return subclass_generic
     if not is_subclass:
-        raise TypeError(f"No generic of {t} found in {c} nor its subclasses")
+        raise TypeError(
+            f"No generic of {t} found in {c} nor its subclasses."
+            "\nWARNING: generic_of fails if importlib.reload was called "
+            "to reload the generic type's superclass. This happens "
+            "when running pdoc as a webserver."
+        )
     return None
