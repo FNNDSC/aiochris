@@ -1,41 +1,68 @@
-from chris import AnonChrisClient, ChrisClient, ChrisAdminClient
-from chris.helper.collection import has_collection
-from chris.helper.metaprog import get_class_of_method, get_return_hint
-from chris.models.collection_links import (
-    AnonymousCollectionLinks,
-    CollectionLinks,
-    AdminCollectionLinks,
-)
+"""
+Testing metaprogramming without using any of the public classes of this package
+nor any real HTTP requests.
+"""
+
+from dataclasses import dataclass
+
+import aiohttp
+import pytest
+from pytest_mock import MockerFixture
+
+from chris.client.base import AbstractClient
+from chris.helper.metaprog import get_return_hint
+from chris.models.collection_links import AbstractCollectionLinks
+
+from chris.models.types import ApiUrl
+from chris.helper import collection
 
 
-class ExampleClass:
-    def method(self) -> frozenset:
+@dataclass(frozen=True)
+class ExampleCollectionLinks(AbstractCollectionLinks):
+    example_collection_name: ApiUrl
+
+
+class ExampleClient(AbstractClient[ExampleCollectionLinks]):
+    @collection.post("example_collection_name")
+    async def example_method(self, a_param: str) -> list:
         ...
 
 
-def test_get_class_of_method():
-    assert get_class_of_method(ExampleClass.method) is ExampleClass
-
-
 def test_get_return_hint():
-    assert get_return_hint(ExampleClass.method) is frozenset
+    assert get_return_hint(ExampleClient.example_method) is list
 
 
-def test_has_collection():
-    assert has_collection(AnonChrisClient, "plugins")
-    assert has_collection(ChrisClient, "plugins")
-    assert has_collection(ChrisAdminClient, "plugins")
+async def test_request_to_collection_link(mocker: MockerFixture):
+    link = ApiUrl("https://example.com/post_to_link")
+    links = ExampleCollectionLinks(example_collection_name=link)
+    client = ExampleClient(
+        url="https://example.com",
+        collection_links=links,
+        s=mocker.MagicMock(spec_set=aiohttp.ClientSession),
+    )
+    mock_response = mocker.AsyncMock()
+    mock_response.raise_for_status = mocker.MagicMock()
+    mock_response.status = 200
+    mock_response.text = mocker.AsyncMock(return_value="[3, 4, 5]")
+    client.s.post = mocker.AsyncMock(return_value=mock_response)
 
-    assert not has_collection(AnonChrisClient, "user")
-    assert has_collection(ChrisClient, "user")
-    assert has_collection(ChrisAdminClient, "user")
-
-    assert not has_collection(AnonChrisClient, "admin")
-    assert not has_collection(ChrisClient, "admin")
-    assert has_collection(ChrisAdminClient, "admin")
+    res = await client.example_method(a_param="hello")
+    assert res == [3, 4, 5]
+    client.s.post.assert_called_once_with(
+        link, json={"a_param": "hello"}, raise_for_status=mocker.ANY
+    )
 
 
-def test_collection_links_type():
-    assert AnonChrisClient.collection_links_type is AnonymousCollectionLinks
-    assert ChrisClient.collection_links_type is CollectionLinks
-    assert ChrisAdminClient.collection_links_type is AdminCollectionLinks
+def test_metaclass_validates_links():
+    expected_msg = (
+        r"Method .+BadClient.bad_method.+ requests collection_link "
+        r"\"a_name_that_dne\" which is not defined in .+ExampleCollectionLinks.*"
+    )
+    with pytest.raises(TypeError, match=expected_msg) as e:
+
+        class BadClient(AbstractClient[ExampleCollectionLinks]):
+            @collection.post("a_name_that_dne")
+            async def bad_method(self, a_param: str) -> list:
+                ...
+
+    print(e.value.args)

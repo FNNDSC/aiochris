@@ -9,6 +9,11 @@ from chris.models.types import (
     PluginVersion,
     PluginUrl,
     PluginId,
+    FeedId,
+    ApiUrl,
+    ComputeResourceId,
+    ComputeResourceName,
+    PfconUrl,
 )
 
 
@@ -30,3 +35,24 @@ class User:
     id: UserId
     username: Username
     email: str
+
+
+@deserialize
+@dataclass(frozen=True)
+class Feed:
+    id: FeedId
+    name: str
+
+
+@deserialize
+@dataclass(frozen=True)
+class ComputeResource:
+    url: ApiUrl
+    id: ComputeResourceId
+    creation_date: str
+    modification_date: str
+    name: ComputeResourceName
+    compute_url: PfconUrl
+    compute_auth_url: str
+    description: str
+    max_job_exec_seconds: int

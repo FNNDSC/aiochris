@@ -1,5 +1,4 @@
 import abc
-import functools
 from dataclasses import dataclass
 from typing import (
     Optional,
@@ -8,49 +7,32 @@ from typing import (
     AsyncContextManager,
     AsyncIterator,
     Type,
-    ForwardRef,
     Callable,
 )
 
 import aiohttp
-import typing_inspect
 from serde import from_dict
 
-from chris.helper.metaprog import generic_of
-from chris.models.collection_links import AnonymousCollectionLinks
-from chris.models.res import Plugin
+from chris.client.meta import CollectionClientMeta
 from chris.helper.search import get_paginated, T
+from chris.models.collection_links import AbstractCollectionLinks
+from chris.models.res import Plugin
 
 # in Python 3.11 we will be able to use Self!
 CSelf = TypeVar("CSelf", bound="AbstractChrisClient")
 
 _C = TypeVar("_C", bound="AuthenticatedClient")
-L = TypeVar("L", bound=AnonymousCollectionLinks)
-
-
-class CollectionClientMeta(abc.ABCMeta):
-    """
-    A metaclass for `AbstractChrisClient` which sets the class attribute `collection_links_type`.
-    """
-
-    def __new__(mcs, name, bases, dct):
-        c = super().__new__(mcs, name, bases, dct)
-        c.collection_links_type: Type[AnonymousCollectionLinks] = generic_of(  # noqa
-            c, AnonymousCollectionLinks
-        )
-        return c
+L = TypeVar("L", bound=AbstractCollectionLinks)
 
 
 @dataclass(frozen=True)
-class AbstractChrisClient(
-    Generic[L, CSelf],
-    AsyncContextManager[CSelf],
+class AbstractClient(
+    Generic[L],
     abc.ABC,
     metaclass=CollectionClientMeta,
 ):
     """
-    Provides the implementation for most of the read-only GET resources of ChRIS
-    and functions related to the client object's own usage.
+    Class which specifies the fields which a ChRIS API related client must have.
     """
 
     collection_links: L
@@ -59,6 +41,33 @@ class AbstractChrisClient(
     max_requests: int = 1000
     """
     Maximum number of requests to make for pagination.
+    """
+
+    @classmethod
+    def has_collection(cls, name: str) -> bool:
+        """
+        Parameters
+        ----------
+        name
+            name from collection_links
+
+        Returns
+        -------
+        `True` if this class' `collection_links` has a link for the name
+        """
+        return cls.collection_links_type.has_field(name)
+
+
+class AbstractChrisClient(
+    Generic[L, CSelf],
+    AbstractClient[L],
+    AsyncContextManager[CSelf],
+    abc.ABC,
+    metaclass=CollectionClientMeta,
+):
+    """
+    Provides the implementation for most of the read-only GET resources of ChRIS
+    and functions related to the client object's own usage.
     """
 
     @classmethod

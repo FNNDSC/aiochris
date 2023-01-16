@@ -23,3 +23,12 @@ PluginId = NewType("PluginId", int)
 
 UserUrl = NewType("UserUrl", str)
 UserId = NewType("UserId", int)
+
+AdminUrl = NewType("AdminUrl", str)
+"""A admin resource URL ending with `/chris-admin/api/v1/`"""
+ComputeResourceName = NewType("ComputeResourceName", str)
+ComputeResourceId = NewType("ComputeResourceId", str)
+
+PfconUrl = NewType("PfconUrl", str)
+
+FeedId = NewType("FeedId", str)
