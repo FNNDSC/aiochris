@@ -1,11 +1,12 @@
 import abc
-from typing import AsyncContextManager, Generic, Optional, Callable, AsyncIterator
+from typing import AsyncContextManager, Generic, Optional, Callable
 
 import aiohttp
 from serde import from_dict
 
 from chris.client.base import CSelf, L, AbstractClient
 from chris.helper import collection
+from chris.helper.search import Search
 from chris.models.res import Plugin
 
 
@@ -87,15 +88,8 @@ class AbstractChrisClient(
     # ChRIS API functions
     # ==================================================
 
-    async def get_first_plugin(self, **query) -> Optional[Plugin]:
-        """
-        Get the first plugin from a search.
-        """
-        search_results = self.search_plugins(limit=1, max_requests=1, **query)
-        return await anext(search_results, None)
-
     @collection.search("plugins")
-    def search_plugins(self, **query) -> AsyncIterator[Plugin]:
+    def search_plugins(self, **query) -> Search[Plugin]:
         """
         Search for plugins.
         """

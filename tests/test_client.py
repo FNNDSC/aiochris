@@ -68,5 +68,5 @@ async def normal_client(session, admin_credentials) -> ChrisClient:
 
 
 async def test_get_plugin(anon_client: AnonChrisClient):
-    p = await anon_client.get_first_plugin(name_exact="pl-dircopy")
+    p = await anon_client.search_plugins(name_exact="pl-dircopy").first()
     assert p.name == "pl-dircopy"

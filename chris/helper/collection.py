@@ -11,15 +11,16 @@ and the response is deserialized according to the method's return type hint.
 """
 import functools
 import logging
-from typing import Callable, TypeVar
+import typing
+from typing import Callable, TypeVar, Type
 
 from serde.json import from_json
 
 from chris.client.meta import CollectionClientMeta
 from chris.client.base import AbstractClient
 from chris.helper.errors import raise_for_status, ResponseError
-from chris.helper.metaprog import get_return_hint, get_return_item_type
-from chris.helper.search import get_paginated
+from chris.helper.metaprog import get_return_hint
+from chris.helper.search import Search
 
 logger = logging.getLogger(__name__)
 
@@ -61,19 +62,19 @@ def search(collection_name: str):
     (Pagination is handled internally, HTTP requests are made as-needed.)
     """
 
-    def decorator(fn: Callable[[...], _R]):
-        return_item_type = get_return_item_type(fn)
+    def decorator(fn: Callable[[...], Search[_R]]):
+        return_item_type = _get_search_item_type(fn)
 
         @functools.wraps(fn)
         def wrapped(self: AbstractClient, *args, **kwargs: str) -> _R:
             if args:
                 raise TypeError(f"Function {fn} only supports kwargs.")
 
-            base_url = self.collection_links.get(collection_name)
-            return get_paginated(
-                session=self.s,
-                url=f"{base_url}search/?{_join_qs(kwargs)}",
-                element_type=return_item_type,
+            return Search[return_item_type](
+                Item=return_item_type,
+                s=self.s,
+                base_url=self.collection_links.get(collection_name),
+                params=kwargs,
                 max_requests=self.max_requests,
             )
 
@@ -83,5 +84,8 @@ def search(collection_name: str):
     return decorator
 
 
-def _join_qs(query: dict) -> str:
-    return "&".join(f"{k}={v}" for k, v in query.items() if v)
+def _get_search_item_type(fn: Callable[[...], Search[_R]]) -> Type[_R]:
+    return_type = get_return_hint(fn)
+    if typing.get_origin(return_type) is not Search:
+        raise TypeError(return_type)
+    return typing.get_args(return_type)[0]

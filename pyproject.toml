@@ -16,6 +16,7 @@ aiohttp = "^3.8.3"
 # https://github.com/yukinarit/pyserde/issues/292
 pyserde = "0.8.3"
 async-property = "^0.2.1"
+yarl = "^1.8.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.1"

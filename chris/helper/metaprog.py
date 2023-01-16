@@ -18,21 +18,6 @@ def get_return_hint(fn: Callable[[...], _T]) -> Type[_T]:
     return hints["return"]
 
 
-def get_return_item_type(fn: Callable[[...], AsyncIterator[_T]]) -> Type[_T]:
-    t = get_return_hint(fn)
-    if not _is_async_iterator(t):
-        raise TypeError(t)
-    args = typing.get_args(t)
-    if len(args) != 1:
-        raise TypeError(t)
-    return args[0]
-
-
-def _is_async_iterator(t: Type) -> typing.TypeGuard[AsyncIterator]:
-    origin = typing.get_origin(t)
-    return origin is typing.AsyncIterator or origin is collections.abc.AsyncIterator
-
-
 def generic_of(c: Type, t: Type[_T], is_subclass=False) -> Optional[Type[_T]]:
     """
     Get the actual class represented by a bound TypeVar of a generic.

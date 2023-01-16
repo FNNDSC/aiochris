@@ -2,17 +2,17 @@
 Testing metaprogramming without using any of the public classes of this package
 nor any real HTTP requests.
 """
-import typing
 import json
 from dataclasses import dataclass
-from typing import AsyncIterator
 
+import yarl
 import aiohttp
 import pytest
 from pytest_mock import MockerFixture
 
 from chris.client.base import AbstractClient
-from chris.helper.metaprog import get_return_hint, get_return_item_type
+from chris.helper.metaprog import get_return_hint
+from chris.helper.search import Search
 from chris.models.collection_links import AbstractCollectionLinks
 
 from chris.models.types import ApiUrl
@@ -31,19 +31,12 @@ class ExampleClient(AbstractClient[ExampleCollectionLinks]):
         ...
 
     @collection.search("another_name")
-    def example_search(self, **kwargs) -> AsyncIterator[str]:
+    def example_search(self, **kwargs) -> Search[str]:
         ...
 
 
 def test_get_return_hint():
     assert get_return_hint(ExampleClient.example_method) is list
-
-
-def test_get_return_item_of():
-    def example_search() -> AsyncIterator[str]:
-        ...
-
-    assert get_return_item_type(example_search) is str
 
 
 @pytest.fixture
@@ -90,15 +83,27 @@ async def test_search(example_client: ExampleClient, mocker: MockerFixture):
     mock_response.text = mocker.AsyncMock(return_value=json.dumps(first_res))
     example_client.s.get = mocker.AsyncMock(return_value=mock_response)
     search = example_client.example_search(animal="fish", edible="yes")
+    assert search.Item is str
     example_client.s.get.assert_not_called()
-    assert await anext(search) == "yellowfin"
+
+    assert await search.count() == first_res["count"]
+    example_client.s.get.assert_called_once()
+    called_url: yarl.URL = example_client.s.get.call_args.args[0]
+    assert "limit=1" in called_url.query_string
+    assert "offset=0" in called_url.query_string
+    assert called_url.query_string.count("limit") == 1
+    assert called_url.query_string.count("offset") == 1
+    example_client.s.get.reset_mock()
+
+    search_iter = aiter(search)
+    assert await anext(search_iter) == "yellowfin"
     expected_uri = "https://example.com/something/search/?animal=fish&edible=yes"
-    example_client.s.get.assert_called_once_with(expected_uri)
+    example_client.s.get.assert_called_once_with(yarl.URL(expected_uri))
     example_client.s.get.reset_mock()
     mock_response.text.reset_mock()
-    assert await anext(search) == "tuna"
+    assert await anext(search_iter) == "tuna"
     example_client.s.get.assert_not_called()
-    assert await anext(search) == "salmon"
+    assert await anext(search_iter) == "salmon"
     example_client.s.get.assert_not_called()
 
     second_res = {
@@ -108,11 +113,11 @@ async def test_search(example_client: ExampleClient, mocker: MockerFixture):
         "results": ["flounder", "swordfish"],
     }
     mock_response.text = mocker.AsyncMock(return_value=json.dumps(second_res))
-    assert await anext(search) == "flounder"
+    assert await anext(search_iter) == "flounder"
     example_client.s.get.assert_called_once_with(first_res["next"])
     example_client.s.get.reset_mock()
-    assert await anext(search) == "swordfish"
-    assert await anext(search, None) is None
+    assert await anext(search_iter) == "swordfish"
+    assert await anext(search_iter, None) is None
     example_client.s.get.assert_not_called()
 
 
