@@ -1,9 +1,13 @@
-import pytest
-from chris import AnonChrisClient, ChrisClient
-from chris.helper.search import acollect
-from typing import Type, Callable, Awaitable
 import functools
+import time
+from typing import Callable, Awaitable
+
+import pytest
 from aiohttp.client_exceptions import ClientConnectorError
+
+from chris import AnonChrisClient, ChrisClient, ChrisAdminClient
+from chris.models.types import Username, Password
+from tests.conftest import UserCredentials
 
 
 def skip_if_not_connected(f: Callable[[...], Awaitable]):
@@ -19,24 +23,45 @@ def skip_if_not_connected(f: Callable[[...], Awaitable]):
 
 @pytest.fixture(scope="session")
 @skip_if_not_connected
-async def anon(session, credentials) -> AnonChrisClient:
+async def anon_client(session, admin_credentials) -> AnonChrisClient:
     return await AnonChrisClient.from_url(
-        url=credentials.url, connector=session.connector, connector_owner=False
+        url=admin_credentials.url, connector=session.connector, connector_owner=False
+    )
+
+
+@pytest.fixture
+def new_user_info(admin_credentials) -> UserCredentials:
+    now = int(time.time())
+    return UserCredentials(
+        username=Username(f"test-user-{now}"),
+        password=Password(f"chris1234{now}"),
+        url=admin_credentials.url,
     )
 
 
 @pytest.fixture(scope="session")
-@skip_if_not_connected
-async def chris(session, credentials) -> ChrisClient:
-    return await ChrisClient.from_login(
-        url=credentials.url,
-        username=credentials.username,
-        password=credentials.password,
+async def admin_client(session, admin_credentials) -> ChrisAdminClient:
+    return await ChrisAdminClient.from_login(
+        url=admin_credentials.url,
+        username=admin_credentials.username,
+        password=admin_credentials.password,
         connector=session.connector,
         connector_owner=False,
     )
 
 
-async def test_get_plugin(anon: AnonChrisClient):
-    p = await anon.get_first_plugin(name_exact="pl-dircopy")
+@pytest.fixture(scope="session")
+@skip_if_not_connected
+async def normal_client(session, admin_credentials) -> ChrisClient:
+    return await ChrisClient.from_login(
+        url=admin_credentials.url,
+        username=admin_credentials.username,
+        password=admin_credentials.password,
+        connector=session.connector,
+        connector_owner=False,
+    )
+
+
+async def test_get_plugin(anon_client: AnonChrisClient):
+    p = await anon_client.get_first_plugin(name_exact="pl-dircopy")
     assert p.name == "pl-dircopy"

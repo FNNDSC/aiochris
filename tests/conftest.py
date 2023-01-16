@@ -30,7 +30,7 @@ class UserCredentials:
 
 
 @pytest.fixture(scope="session")
-def credentials() -> UserCredentials:
+def admin_credentials() -> UserCredentials:
     return UserCredentials(
         username=Username("chris"),
         password=Password("chris1234"),

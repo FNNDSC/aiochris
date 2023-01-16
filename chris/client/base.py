@@ -16,6 +16,7 @@ import aiohttp
 import typing_inspect
 from serde import from_dict
 
+from chris.helper.metaprog import generic_of
 from chris.models.collection_links import AnonymousCollectionLinks
 from chris.models.res import Plugin
 from chris.helper.search import get_paginated, T
@@ -27,8 +28,26 @@ _C = TypeVar("_C", bound="AuthenticatedClient")
 L = TypeVar("L", bound=AnonymousCollectionLinks)
 
 
+class CollectionClientMeta(abc.ABCMeta):
+    """
+    A metaclass for `AbstractChrisClient` which sets the class attribute `collection_links_type`.
+    """
+
+    def __new__(mcs, name, bases, dct):
+        c = super().__new__(mcs, name, bases, dct)
+        c.collection_links_type: Type[AnonymousCollectionLinks] = generic_of(  # noqa
+            c, AnonymousCollectionLinks
+        )
+        return c
+
+
 @dataclass(frozen=True)
-class AbstractChrisClient(Generic[L, CSelf], AsyncContextManager[CSelf], abc.ABC):
+class AbstractChrisClient(
+    Generic[L, CSelf],
+    AsyncContextManager[CSelf],
+    abc.ABC,
+    metaclass=CollectionClientMeta,
+):
     """
     Provides the implementation for most of the read-only GET resources of ChRIS
     and functions related to the client object's own usage.
@@ -89,8 +108,7 @@ class AbstractChrisClient(Generic[L, CSelf], AsyncContextManager[CSelf], abc.ABC
 
         res = await session.get(url)
         body = await res.json()
-        links_type = generic_of(cls, AnonymousCollectionLinks)
-        links = from_dict(links_type, body["collection_links"])
+        links = from_dict(cls.collection_links_type, body["collection_links"])
 
         return cls(url=url, s=session, collection_links=links)
 
@@ -138,27 +156,3 @@ class AbstractChrisClient(Generic[L, CSelf], AsyncContextManager[CSelf], abc.ABC
     @staticmethod
     def _join_qs(query: dict) -> str:
         return "&".join(f"{k}={v}" for k, v in query.items() if v)
-
-
-_T = TypeVar("_T")
-
-
-@functools.cache
-def generic_of(c: type, t: Type[_T], subclass=False) -> Optional[Type[_T]]:
-    """
-    Get the actual class represented by a bound TypeVar of a generic.
-    """
-    for generic_type in typing_inspect.get_args(c):
-        if isinstance(generic_type, (str, ForwardRef, TypeVar)):
-            continue
-        if issubclass(generic_type, t):
-            return generic_type
-
-    if hasattr(c, "__orig_bases__"):
-        for subclass in c.__orig_bases__:
-            subclass_generic = generic_of(subclass, t, subclass=True)
-            if subclass_generic is not None:
-                return subclass_generic
-    if not subclass:
-        raise ValueError("Superclass does not inherit BaseClient")
-    return None
