@@ -3,12 +3,17 @@ from typing import Optional, Generic, Callable
 
 import aiohttp
 
-from chris.client.base import AbstractChrisClient, L, CSelf
+from chris.client.base import L, CSelf
+from chris.client.chris import AbstractChrisClient
 from chris.helper.errors import IncorrectLoginError, raise_for_status
 from chris.models.types import ChrisURL, Username, Password
 
 
 class AuthenticatedClient(AbstractChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC):
+    """
+    An authenticated ChRIS client.
+    """
+
     @classmethod
     async def from_login(
         cls,

@@ -21,6 +21,9 @@ class CollectionClientMeta(abc.ABCMeta):
 
     def __new__(mcs, name, bases, dct):
         c = super().__new__(mcs, name, bases, dct)
+        if abc.ABC in bases:
+            c.collection_links_type = AbstractCollectionLinks
+            return c
         c.collection_links_type: Type[AbstractCollectionLinks] = generic_of(
             c, AbstractCollectionLinks
         )

@@ -9,7 +9,7 @@ async def raise_for_status(res: aiohttp.ClientResponse) -> None:
         res.raise_for_status()
         return
     exception = BadRequestError if res.status < 500 else InternalServerError
-    raise exception(res.status, res.url, await res.text())
+    raise exception(res.status, res.url, await res.json())
 
 
 class BaseClientError(Exception):

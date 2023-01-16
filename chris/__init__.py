@@ -34,8 +34,9 @@ with aiohttp.TCPConnector() as connector:
 """
 
 import chris.client
+import chris.models
 from chris.client.normal import ChrisClient
 from chris.client.anon import AnonChrisClient
 from chris.client.admin import ChrisAdminClient
 
-__all__ = ["AnonChrisClient", "ChrisClient", "ChrisAdminClient", "client"]
+__all__ = ["AnonChrisClient", "ChrisClient", "ChrisAdminClient", "client", "models"]

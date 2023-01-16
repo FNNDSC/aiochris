@@ -29,12 +29,17 @@ async def anon_client(session, admin_credentials) -> AnonChrisClient:
     )
 
 
+@pytest.fixture(scope="session")
+def now_str() -> str:
+    return str(int(time.time()))
+
+
 @pytest.fixture
-def new_user_info(admin_credentials) -> UserCredentials:
-    now = int(time.time())
+def new_user_info(now_str, admin_credentials) -> UserCredentials:
+
     return UserCredentials(
-        username=Username(f"test-user-{now}"),
-        password=Password(f"chris1234{now}"),
+        username=Username(f"test-user-{now_str}"),
+        password=Password(f"chris1234{now_str}"),
         url=admin_credentials.url,
     )
 

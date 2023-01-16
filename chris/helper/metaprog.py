@@ -2,9 +2,9 @@
 Metaprogramming helper functions.
 """
 import abc
-import inspect
+import collections.abc
 import typing
-from typing import Type, Callable, TypeVar, ForwardRef, Optional
+from typing import Type, Callable, TypeVar, ForwardRef, Optional, AsyncIterator
 
 import typing_inspect
 
@@ -16,6 +16,21 @@ def get_return_hint(fn: Callable[[...], _T]) -> Type[_T]:
     if "return" not in hints:
         raise ValueError(f"Function {fn} must define a return type hint.")
     return hints["return"]
+
+
+def get_return_item_type(fn: Callable[[...], AsyncIterator[_T]]) -> Type[_T]:
+    t = get_return_hint(fn)
+    if not _is_async_iterator(t):
+        raise TypeError(t)
+    args = typing.get_args(t)
+    if len(args) != 1:
+        raise TypeError(t)
+    return args[0]
+
+
+def _is_async_iterator(t: Type) -> typing.TypeGuard[AsyncIterator]:
+    origin = typing.get_origin(t)
+    return origin is typing.AsyncIterator or origin is collections.abc.AsyncIterator
 
 
 def generic_of(c: Type, t: Type[_T], is_subclass=False) -> Optional[Type[_T]]:

@@ -2,7 +2,7 @@ from typing import Optional
 
 import aiohttp
 
-from chris.client.base import AbstractChrisClient
+from chris.client.chris import AbstractChrisClient
 from chris.models.collection_links import AnonymousCollectionLinks
 
 

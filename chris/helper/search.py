@@ -6,6 +6,8 @@ from serde.json import from_json
 
 import logging
 
+from chris.helper.errors import raise_for_status
+
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
@@ -36,7 +38,7 @@ async def get_paginated(
     logger.debug("GET, max_requests=%d, --> %s", max_requests, url)
     if max_requests <= 0:
         raise TooMuchPaginationException()
-    res = await session.get(url)
+    res = await session.get(url)  # N.B. not checking for 4XX, 5XX statuses
     data: _Paginated = from_json(_Paginated, await res.text())
     for element in data.results:
         yield from_dict(element_type, element)

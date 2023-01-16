@@ -125,6 +125,18 @@ files = [
 frozenlist = ">=1.1.0"
 
 [[package]]
+name = "async-property"
+version = "0.2.1"
+description = "Python decorator for async properties."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "async_property-0.2.1-py2.py3-none-any.whl", hash = "sha256:f1f105009a6216ed9a13031aa13632754ed8a5c2e329fb8f9f2082d83529eacd"},
+    {file = "async_property-0.2.1.tar.gz", hash = "sha256:53826fd45a67d7d6cca3d7abbc0e8ba951f7c7618c830021fbd3675979b0b67d"},
+]
+
+[[package]]
 name = "async-timeout"
 version = "4.0.2"
 description = "Timeout context manager for asyncio programs"
@@ -954,4 +966,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4731614596d20a542571054bacad9401eb4d70653a52706db798823d0cfab98e"
+content-hash = "281287a8b09e48060c6583b571cb8c45869512a078ee24dbc67fb93df1a520a1"
