@@ -1,6 +1,8 @@
 """
 Metaprogramming helper functions.
 """
+import abc
+import inspect
 import typing
 from typing import Type, Callable, TypeVar, ForwardRef, Optional
 
@@ -16,7 +18,7 @@ def get_return_hint(fn: Callable[[...], _T]) -> Type[_T]:
     return hints["return"]
 
 
-def generic_of(c: Type, t: Type[_T], subclass=False) -> Optional[Type[_T]]:
+def generic_of(c: Type, t: Type[_T], is_subclass=False) -> Optional[Type[_T]]:
     """
     Get the actual class represented by a bound TypeVar of a generic.
     """
@@ -28,9 +30,11 @@ def generic_of(c: Type, t: Type[_T], subclass=False) -> Optional[Type[_T]]:
 
     if hasattr(c, "__orig_bases__"):
         for subclass in c.__orig_bases__:
-            subclass_generic = generic_of(subclass, t, subclass=True)
+            if subclass is abc.ABC:
+                return None
+            subclass_generic = generic_of(subclass, t, is_subclass=True)
             if subclass_generic is not None:
                 return subclass_generic
-    if not subclass:
-        raise TypeError("Superclass does not inherit BaseClient")
+    if not is_subclass:
+        raise TypeError(f"No generic of {t} found in {c} nor its subclasses")
     return None
