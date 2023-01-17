@@ -1,7 +1,6 @@
 import copy
-import typing
-from dataclasses import dataclass
 import logging
+from dataclasses import dataclass
 from typing import (
     Optional,
     TypeVar,
@@ -15,8 +14,10 @@ from typing import (
 
 import aiohttp
 import yarl
-from serde import deserialize, from_dict
+from serde import deserialize
 from serde.json import from_json
+
+from chris.helper._de_connected import deserialize_connected
 
 logger = logging.getLogger(__name__)
 
@@ -60,8 +61,8 @@ class Search(Generic[T], AsyncIterable[T]):
         """
         Get the number of items in this collection search.
         """
-        res = await self.s.get(self._first_url)
-        data: _Paginated = from_json(_Paginated, await res.text())
+        async with self.s.get(self._first_url) as res:
+            data: _Paginated = from_json(_Paginated, await res.text())
         return data.count
 
     def _paginate(self, url: yarl.URL) -> AsyncIterator[T]:
@@ -104,10 +105,10 @@ async def _get_paginated(
     logger.debug("GET, max_requests=%d, --> %s", max_requests, url)
     if max_requests <= 0:
         raise TooMuchPaginationException()
-    res = await session.get(url)  # N.B. not checking for 4XX, 5XX statuses
-    data: _Paginated = from_json(_Paginated, await res.text())
-    for element in data.results:
-        yield from_dict(item_type, element)
+    async with session.get(url) as res:  # N.B. not checking for 4XX, 5XX statuses
+        data: _Paginated = from_json(_Paginated, await res.text())
+        for element in data.results:
+            yield deserialize_connected(session, item_type, element)
     if data.next is not None:
         next_results = _get_paginated(session, data.next, item_type, max_requests - 1)
         async for next_element in next_results:

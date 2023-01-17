@@ -14,13 +14,13 @@ import logging
 import typing
 from typing import Callable, TypeVar, Type
 
-from serde.json import from_json
 
 from chris.client.meta import CollectionClientMeta
 from chris.client.base import AbstractClient
 from chris.helper.errors import raise_for_status, ResponseError
 from chris.helper.metaprog import get_return_hint
 from chris.helper.search import Search
+from chris.helper._de_connected import deserialize_connected
 
 logger = logging.getLogger(__name__)
 
@@ -42,12 +42,13 @@ def post(collection_name: str):
 
             url = self.collection_links.get(collection_name)
             logger.debug("POST --> {} : {}", url, kwargs)
-            res = await self.s.post(url, json=kwargs, raise_for_status=False)
-            try:
-                await raise_for_status(res)
-            except ResponseError as e:
-                raise e.__class__(*e.args, f"data={kwargs}")
-            return from_json(return_type, await res.text())
+            async with self.s.post(url, json=kwargs, raise_for_status=False) as res:
+                try:
+                    await raise_for_status(res)
+                except ResponseError as e:
+                    raise e.__class__(*e.args, f"data={kwargs}")
+                data = await res.json(content_type="application/json")
+            return deserialize_connected(self.s, return_type, data)
 
         CollectionClientMeta.mark_to_check(wrapped, collection_name)
         return wrapped

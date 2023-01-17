@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from serde import deserialize
+
+from chris.models.connected import Connected
 from chris.models.types import (
     UserUrl,
     UserId,
@@ -19,7 +21,7 @@ from chris.models.types import (
 
 @deserialize
 @dataclass(frozen=True)
-class Plugin:
+class Plugin(Connected):
     url: PluginUrl
     id: PluginId
     name: PluginName

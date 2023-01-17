@@ -4,6 +4,9 @@ nor any real HTTP requests.
 """
 import json
 from dataclasses import dataclass
+import dataclasses
+from typing import AsyncContextManager, Any
+from unittest.mock import Mock, AsyncMock, MagicMock
 
 import yarl
 import aiohttp
@@ -53,15 +56,51 @@ def example_client(mocker: MockerFixture) -> ExampleClient:
     )
 
 
+@dataclass
+class MockResponse:
+    data: Any
+    status: int = 200
+    text: AsyncMock = dataclasses.field(default_factory=AsyncMock)
+    json: AsyncMock = dataclasses.field(default_factory=AsyncMock)
+    raise_for_status: Mock = dataclasses.field(default_factory=Mock)
+
+    def __post_init__(self):
+        self.text.return_value = json.dumps(self.data)
+        self.json.return_value = self.data
+
+
+class MockRequest(AsyncContextManager[Mock]):
+    def __init__(self, data, status):
+        super().__init__()
+        self.res = MockResponse(data, status)
+
+    async def __aenter__(self):
+        return self.res
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+    @classmethod
+    def using(cls, mocker: MockerFixture, data=None, status=200) -> Mock:
+        return mocker.Mock(return_value=MockRequest(data, status))
+
+
+async def test_mock_request(example_client: ExampleClient, mocker: MockerFixture):
+    expected = ["apple", 345]
+    url = "https://example.com/test_mock"
+    example_client.s.post = MockRequest.using(mocker, expected)
+    async with example_client.s.post(url) as res:
+        assert isinstance(res, MockResponse)
+        assert res.json.return_value == expected
+        actual = await res.json()
+        assert actual == expected
+    example_client.s.post.assert_called_once_with(url)
+
+
 async def test_request_to_collection_link(
     example_client: ExampleClient, mocker: MockerFixture
 ):
-    mock_response = mocker.AsyncMock()
-    mock_response.raise_for_status = mocker.MagicMock()
-    mock_response.status = 200
-    mock_response.text = mocker.AsyncMock(return_value="[3, 4, 5]")
-    example_client.s.post = mocker.AsyncMock(return_value=mock_response)
-
+    example_client.s.post = MockRequest.using(mocker, [3, 4, 5])
     res = await example_client.example_method(a_param="hello")
     assert res == [3, 4, 5]
     example_client.s.post.assert_called_once_with(
@@ -78,10 +117,7 @@ async def test_search(example_client: ExampleClient, mocker: MockerFixture):
         "previous": None,
         "results": ["yellowfin", "tuna", "salmon"],
     }
-    mock_response = mocker.MagicMock()
-    mock_response.status = 200
-    mock_response.text = mocker.AsyncMock(return_value=json.dumps(first_res))
-    example_client.s.get = mocker.AsyncMock(return_value=mock_response)
+    example_client.s.get = MockRequest.using(mocker, first_res)
     search = example_client.example_search(animal="fish", edible="yes")
     assert search.Item is str
     example_client.s.get.assert_not_called()
@@ -100,7 +136,7 @@ async def test_search(example_client: ExampleClient, mocker: MockerFixture):
     expected_uri = "https://example.com/something/search/?animal=fish&edible=yes"
     example_client.s.get.assert_called_once_with(yarl.URL(expected_uri))
     example_client.s.get.reset_mock()
-    mock_response.text.reset_mock()
+
     assert await anext(search_iter) == "tuna"
     example_client.s.get.assert_not_called()
     assert await anext(search_iter) == "salmon"
@@ -112,7 +148,7 @@ async def test_search(example_client: ExampleClient, mocker: MockerFixture):
         "previous": "https://example.com/something/search/?animal=fish&edible=yes?limit=3&offset=0",
         "results": ["flounder", "swordfish"],
     }
-    mock_response.text = mocker.AsyncMock(return_value=json.dumps(second_res))
+    example_client.s.get = MockRequest.using(mocker, second_res)
     assert await anext(search_iter) == "flounder"
     example_client.s.get.assert_called_once_with(first_res["next"])
     example_client.s.get.reset_mock()
