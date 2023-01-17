@@ -32,3 +32,17 @@ poetry install --with=dev
 ```shell
 poetry run pre-commit run --all-files
 ```
+
+### Preview Documentation
+
+`pdoc` can run its own HTTP server with hot-reloading:
+
+```shell
+pdoc -p 7777 --no-browser chris
+```
+
+However it can be buggy, so alternatively build the documentation and use `http.server`:
+
+```shell
+pdoc -o /tmp/pdoc chris && python -m http.server -d /tmp/pdoc 7777
+```

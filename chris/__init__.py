@@ -35,8 +35,19 @@ with aiohttp.TCPConnector() as connector:
 
 import chris.client
 import chris.models
+import chris.helper
 from chris.client.normal import ChrisClient
 from chris.client.anon import AnonChrisClient
 from chris.client.admin import ChrisAdminClient
+from chris.models.enums import Status, ParameterTypeName
 
-__all__ = ["AnonChrisClient", "ChrisClient", "ChrisAdminClient", "client", "models"]
+__all__ = [
+    "AnonChrisClient",
+    "ChrisClient",
+    "ChrisAdminClient",
+    "Status",
+    "ParameterTypeName",
+    "client",
+    "models",
+    "helper",
+]

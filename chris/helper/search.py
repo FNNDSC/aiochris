@@ -40,6 +40,19 @@ class _Paginated:
 class Search(Generic[T], AsyncIterable[T]):
     """
     Search result.
+
+    Examples
+    --------
+
+    Use with an `async for` loop:
+
+    TODO example with plugin instances
+
+    ```python
+    finished_freesurfer: Search = chris.plugin_instances(plugin_name_exact='pl-fshack', status='finishedSuccessfully')
+    async for p in chris.plugin_instances(
+
+    ```
     """
 
     base_url: str
@@ -54,12 +67,25 @@ class Search(Generic[T], AsyncIterable[T]):
     async def first(self) -> Optional[T]:
         """
         Get the first item.
+
+        Examples
+        --------
+
+        This function is commonly used to "get one thing" from CUBE.
+
+        ```python
+        await chris.search_plugins(name_exact="pl-dircopy").first()
         """
         return await anext(self._first_aiter(), None)
 
     async def count(self) -> int:
         """
         Get the number of items in this collection search.
+
+        Examples
+        --------
+
+        `count` is useful for rendering a progress bar. TODO example with files
         """
         async with self.s.get(self._first_url) as res:
             data: _Paginated = from_json(_Paginated, await res.text())
