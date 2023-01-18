@@ -1,13 +1,18 @@
 import abc
+import io
 import os
-from typing import Optional, Generic, Callable
+from pathlib import Path
+from typing import Optional, Generic, Callable, AsyncIterable
 
 import aiohttp
+import aiofiles
+import serde.json
 from async_property import async_cached_property
 
 from chris.client.base import L, CSelf
 from chris.client.base import BaseChrisClient
 from chris.link import http
+from chris.link.linked import deserialize_res
 from chris.models.logged_in import Plugin, File
 from chris.models.public import User
 from chris.util.errors import IncorrectLoginError, raise_for_status
@@ -116,9 +121,15 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         """
         ...
 
-    def upload(self, local_file: str | os.PathLike, upload_path: str) -> File:
+    async def upload_file(
+        self, local_file: str | os.PathLike, upload_path: str
+    ) -> File:
         """
         Upload a local file to *ChRIS*.
+
+        .. warning:: Uses non-async code.
+                     The file is read using non-async code.
+                     Performance will suffer with large files and hard drives.
 
         Examples
         --------
@@ -131,7 +142,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
             password='chris1234',
             url='https://cube.chrisproject.org/api/v1/'
         )
-        file = await chris.upload("./my_data.dat", 'dir/my_data.dat')
+        file = await chris.upload_file("./my_data.dat", 'dir/my_data.dat')
         assert file.fname == 'chris/uploads/dir/my_data.dat'
         ```
 
@@ -140,7 +151,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
 
         ```python
         upload_jobs = (
-            chris.upload(p, f'big_folder/{p}')
+            chris.upload_file(p, f'big_folder/{p}')
             for p in Path('incoming')
         )
         await asyncio.gather(upload_jobs)
@@ -153,9 +164,56 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         upload_path
             A subpath of `{username}/uploads/` where to upload the file to in *CUBE*
         """
-        if not str(upload_path).startswith(""):
-            ...
-        raise NotImplementedError()
+        upload_path = await self._add_upload_prefix(upload_path)
+        local_file = Path(local_file)
+        with local_file.open("rb") as f:
+            data = aiohttp.FormData()
+            data.add_field("upload_path", upload_path)
+            data.add_field("fname", f, filename=local_file.name)
+            sent = self.s.post(self.collection_links.uploadedfiles, data=data)
+            return await deserialize_res(
+                sent, self, {"fname": local_file, "upload_path": upload_path}, File
+            )
+
+        # read_stream = _file_sender(local_file, chunk_size)
+        # file_length = os.stat(local_file).st_size
+        # return await self.upload_stream(read_stream, upload_path, str(local_file), file_length)
+
+    # doesn't work: 411 Length Required
+    # async def upload_stream(self, read_stream: AsyncIterable[bytes], upload_path: str, fname: str, length: int
+    #                         ) -> File:
+    #     """
+    #     Stream a file upload to *ChRIS*. For a higher-level wrapper which accepts
+    #     a path argument instead, see `upload`.
+    #
+    #     Parameters
+    #     ----------
+    #     read_stream
+    #         bytes stream
+    #     upload_path
+    #         uploadedfiles path starting with `'{username}/uploads/`
+    #     fname
+    #         file name to use in the multipart POST request
+    #     length
+    #         content length
+    #     """
+    #     data = aiohttp.FormData()
+    #     data.add_field('upload_path', upload_path)
+    #     data.add_field('fname', read_stream, filename=fname)
+    #     async with self.s.post(self.collection_links.uploadedfiles, data=data) as res:
+    #         return serde.json.from_json(File, await res.text())
+    #
+    #     with aiohttp.MultipartWriter() as mpwriter:
+    #         mpwriter.append_form({'upload_path': upload_path})
+    #         mpwriter.append(read_stream, headers={
+    #             'Content-Disposition': 'form-data; name="fname"; filename="value_goes_here"'
+    #         })
+
+    async def _add_upload_prefix(self, upload_path: str) -> str:
+        upload_prefix = f"{await self.username()}/uploads/"
+        if str(upload_path).startswith(upload_prefix):
+            return upload_path
+        return f"{upload_prefix}{upload_path}"
 
     @http.get("user")
     async def user(self) -> User:
@@ -172,3 +230,16 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         """
         user = await self._user  # this is weird
         return user.username
+
+
+# async def _file_sender(file_name: str | os.PathLike, chunk_size: int):
+#     """
+#     Stream the reading of a file using an asynchronous generator.
+#
+#     https://docs.aiohttp.org/en/stable/client_quickstart.html#streaming-uploads
+#     """
+#     async with aiofiles.open(file_name, 'rb') as f:
+#         chunk = await f.read(chunk_size)
+#         while chunk:
+#             yield chunk
+#             chunk = await f.read(chunk_size)

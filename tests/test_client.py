@@ -1,5 +1,6 @@
 import functools
 import time
+from pathlib import Path
 from typing import Callable, Awaitable
 
 import pytest
@@ -88,15 +89,22 @@ async def test_get_plugin(anon_client: AnonChrisClient):
     assert p.name == "pl-dircopy"
 
 
-async def test_create_plugin_instance(normal_client: ChrisClient):
-    plugin = await normal_client.search_plugins(name_exact="pl-dircopy").first()
-    plinst = await plugin.create_instance(dir="chris/uploads")  # TODO better test
-    assert plinst.plugin_id == plugin.id
-
-
 async def test_username(normal_client: ChrisClient, new_user_info):
     assert (await normal_client.username()) == new_user_info.username
 
 
 async def test_get_user(normal_client: ChrisClient, new_user_info):
     assert (await normal_client.user()).username == new_user_info.username
+
+
+async def test_everything(normal_client: ChrisClient, tmp_path: Path, now_str: str):
+    example_file_path = tmp_path / "hello_aiochris.txt"
+    example_file_path.write_text("testing is good fun")
+
+    upload_subpath = f"aiochris-test-upload-{now_str}/hello_aiochris.txt"
+    uploaded_file = await normal_client.upload(example_file_path, upload_subpath)
+    assert uploaded_file.fname.endswith("hello_aiochris.txt")
+
+    plugin = await normal_client.search_plugins(name_exact="pl-dircopy").first()
+    plinst = await plugin.create_instance(dir=uploaded_file.parent)
+    assert plinst.plugin_id == plugin.id

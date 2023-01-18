@@ -127,4 +127,22 @@ class File(LinkedModel):
     fsize: int
     file_resource: FileResourceUrl
 
+    @property
+    def parent(self) -> str:
+        """
+        Get the parent (directory) of a file.
+
+        Examples
+        --------
+
+        ```python
+        assert file.fname == 'chris/feed_4/pl-dircopy_7/data/hello-world.txt'
+        assert file.parent == 'chris/feed_4/pl-dircopy_7/data'
+        ```
+        """
+        split = self.fname.split("/")
+        if len(split) <= 1:
+            return self.fname
+        return "/".join(split[:-1])
+
     # TODO download methods

@@ -49,5 +49,5 @@ __all__ = [
     "ParameterTypeName",
     "client",
     "models",
-    "helper",
+    "util",
 ]

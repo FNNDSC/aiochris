@@ -2,11 +2,23 @@ import abc
 import dataclasses
 import functools
 
-from typing import Final, Any, Optional, Callable, Type, TypeGuard, TypeVar, Iterable
+from typing import (
+    Final,
+    Any,
+    Optional,
+    Callable,
+    Type,
+    TypeGuard,
+    TypeVar,
+    Iterable,
+    AsyncContextManager,
+)
 
 import aiohttp
 import serde
 import yarl
+
+from chris.util.errors import raise_for_status, ResponseError
 
 T = TypeVar("T")
 
@@ -130,3 +142,18 @@ def deserialize_linked(client: Linked, t: Type[T], o: dict) -> T:
         o["s"] = client.s
         o["max_search_requests"] = client.max_search_requests
     return serde.from_dict(t, o, reuse_instances=True)
+
+
+async def deserialize_res(
+    sent_request: AsyncContextManager[aiohttp.ClientResponse],
+    client: Linked,
+    sent_data: dict,
+    return_type: Type[T],
+) -> T:
+    async with sent_request as res:
+        try:
+            await raise_for_status(res)
+        except ResponseError as e:
+            raise e.__class__(*e.args, f"data={sent_data}")
+        sent_data = await res.json(content_type="application/json")
+    return deserialize_linked(client, return_type, sent_data)
