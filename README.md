@@ -39,11 +39,11 @@ poetry run pre-commit run --all-files
 `pdoc` can run its own HTTP server with hot-reloading:
 
 ```shell
-pdoc -p 7777 --no-browser chris
+pdoc -p 7777 --no-browser --docformat numpy chris
 ```
 
 However it can be buggy, so alternatively build the documentation and use `http.server`:
 
 ```shell
-pdoc -o /tmp/pdoc chris && python -m http.server -d /tmp/pdoc 7777
+pdoc -o /tmp/pdoc --docformat numpy chris && python -m http.server -d /tmp/pdoc 7777
 ```
