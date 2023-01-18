@@ -102,7 +102,7 @@ async def test_everything(normal_client: ChrisClient, tmp_path: Path, now_str: s
     example_file_path.write_text("testing is good fun")
 
     upload_subpath = f"aiochris-test-upload-{now_str}/hello_aiochris.txt"
-    uploaded_file = await normal_client.upload(example_file_path, upload_subpath)
+    uploaded_file = await normal_client.upload_file(example_file_path, upload_subpath)
     assert uploaded_file.fname.endswith("hello_aiochris.txt")
 
     plugin = await normal_client.search_plugins(name_exact="pl-dircopy").first()
