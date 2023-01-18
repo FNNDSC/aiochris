@@ -4,20 +4,22 @@ from async_property import async_cached_property
 from serde import from_dict
 
 from chris.client.authed import AuthenticatedClient
-from chris.client.base import AbstractClient
-from chris.util import collection
+from chris.link.collection_client import CollectionJsonApiClient
+from chris.link import http
+from chris.models.logged_in import Plugin
+
 from chris.util.search import acollect
 from chris.models.collection_links import AdminCollectionLinks, AdminApiCollectionLinks
-from chris.models.public import PublicPlugin, ComputeResource
+from chris.models.public import ComputeResource
 from chris.models.types import PluginUrl, ComputeResourceName, PfconUrl
 
 
-class _AdminApiClient(AbstractClient[AdminApiCollectionLinks]):
+class _AdminApiClient(CollectionJsonApiClient[AdminApiCollectionLinks]):
     """
     A client to `/chris-admin/api/v1/`
     """
 
-    @collection.post("compute_resources")
+    @http.post("compute_resources")
     async def create_compute_resource(self, **kwargs) -> ComputeResource:
         ...
 
@@ -28,15 +30,15 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
     add new compute resources.
     """
 
-    @collection.post("admin")
+    @http.post("admin")
     async def _register_plugin_from_store_raw(
         self, plugin_store_url: str, compute_names: str
-    ) -> PublicPlugin:
+    ) -> Plugin:
         ...
 
     async def register_plugin_from_store(
         self, plugin_store_url: PluginUrl, compute_names: Iterable[ComputeResourceName]
-    ) -> PublicPlugin:
+    ) -> Plugin:
         """
         Register a plugin from a ChRIS Store.
         """
@@ -75,5 +77,8 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
         body = await res.json()
         links = from_dict(AdminApiCollectionLinks, body["collection_links"])
         return _AdminApiClient(
-            url=self.collection_links.admin, s=self.s, collection_links=links
+            url=self.collection_links.admin,
+            s=self.s,
+            collection_links=links,
+            max_search_requests=self.max_search_requests,
         )

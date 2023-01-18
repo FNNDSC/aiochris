@@ -2,7 +2,7 @@ import abc
 import dataclasses
 import functools
 
-from typing import Final, Any, Optional, Callable, Type, TypeGuard, TypeVar
+from typing import Final, Any, Optional, Callable, Type, TypeGuard, TypeVar, Iterable
 
 import aiohttp
 import serde
@@ -104,14 +104,19 @@ class LinkedModel(Linked, abc.ABC):
 
     @classmethod
     def _has_link(cls, name: str) -> bool:
-        return any(name == f.name for f in dataclasses.fields(cls))
+        return any(name == field for field in cls._field_names())
+
+    @classmethod
+    def _field_names(cls) -> frozenset[str]:
+        # LinkedMeta.__new__ is called before the dataclasses.dataclass
+        # decorator, so dataclasses.fields only returns the superclass fields.
+        # Hence, it is necessary to also check __annotations__
+        return frozenset(
+            (*(f.name for f in dataclasses.fields(cls)), *cls.__annotations__.keys())
+        )
 
     def _get_link(self, name: str) -> yarl.URL:
-        return yarl.URL(self._fields[name])
-
-    @functools.cached_property
-    def _fields(self) -> dict[str, Any]:
-        return dataclasses.asdict(self)
+        return yarl.URL(getattr(self, name))
 
 
 def deserialize_linked(client: Linked, t: Type[T], o: dict) -> T:

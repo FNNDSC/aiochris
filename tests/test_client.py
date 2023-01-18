@@ -70,3 +70,9 @@ async def normal_client(session, admin_credentials) -> ChrisClient:
 async def test_get_plugin(anon_client: AnonChrisClient):
     p = await anon_client.search_plugins(name_exact="pl-dircopy").first()
     assert p.name == "pl-dircopy"
+
+
+async def test_create_plugin_instance(normal_client: ChrisClient):
+    plugin = await normal_client.search_plugins(name_exact="pl-dircopy").first()
+    plinst = await plugin.create_instance(dir="chris/uploads")  # TODO better test
+    assert plinst.plugin_id == plugin.id

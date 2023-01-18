@@ -9,10 +9,10 @@ import datetime
 
 from serde import deserialize
 
-from chris.util import collection
+from chris.link import http
+from chris.link.linked import LinkedModel
 from chris.models.enums import PluginType
 from chris.models.public import PublicPlugin
-from chris.models.connected import Connected
 from chris.models.types import (
     PluginInstanceUrl,
     PluginInstanceId,
@@ -31,6 +31,7 @@ from chris.models.types import (
     PluginInstanceParamtersUrl,
     ComputeResourceUrl,
     SplitsUrl,
+    ApiUrl,
 )
 from chris.models.enums import Status
 
@@ -38,7 +39,7 @@ from chris.models.enums import Status
 # TODO It'd be better to use inheritance instead of optionals
 @deserialize
 @dataclass(frozen=True)
-class PluginInstance(Connected):
+class PluginInstance(LinkedModel):
     """
     A *plugin instance* in _ChRIS_ is a computing job, i.e. an attempt to run
     a computation (a non-interactive command-line app) to produce data.
@@ -105,6 +106,8 @@ class Plugin(PublicPlugin):
     A ChRIS plugin. Create a plugin instance of this plugin to run it.
     """
 
-    @collection.post()
+    instances: ApiUrl
+
+    @http.post("instances")
     async def create_instance(self, **kwargs) -> PluginInstance:
         ...

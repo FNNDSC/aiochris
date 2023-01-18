@@ -16,7 +16,10 @@ class CollectionJsonApiClient(Generic[L], Linked):
     A class base for HTTP clients which accept "application/json" from a Collection+JSON API.
     """
 
+    url: str
+    """Base API URL"""
     collection_links: L
+    """Base API collection links"""
 
     def _get_link(self, name: str) -> yarl.URL:
         link = self.collection_links.get(name)

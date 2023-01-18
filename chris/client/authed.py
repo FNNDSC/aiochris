@@ -4,12 +4,15 @@ from typing import Optional, Generic, Callable
 import aiohttp
 
 from chris.client.base import L, CSelf
-from chris.client.chris import AbstractChrisClient
+from chris.client.base import BaseChrisClient
+from chris.link import http
+from chris.models.logged_in import Plugin
 from chris.util.errors import IncorrectLoginError, raise_for_status
 from chris.models.types import ChrisURL, Username, Password
+from chris.util.search import Search
 
 
-class AuthenticatedClient(AbstractChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC):
+class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC):
     """
     An authenticated ChRIS client.
     """
@@ -20,6 +23,7 @@ class AuthenticatedClient(AbstractChrisClient[L, CSelf], Generic[L, CSelf], abc.
         url: str | ChrisURL,
         username: str | Username,
         password: str | Password,
+        max_search_requests: int = 100,
         connector: Optional[aiohttp.TCPConnector] = None,
         connector_owner: bool = True,
     ) -> CSelf:
@@ -31,7 +35,12 @@ class AuthenticatedClient(AbstractChrisClient[L, CSelf], Generic[L, CSelf], abc.
         ) as session:
             try:
                 c = await cls.__from_login_with(
-                    url, username, password, session, connector_owner
+                    url=url,
+                    username=username,
+                    password=password,
+                    max_search_requests=max_search_requests,
+                    session=session,
+                    connector_owner=connector_owner,
                 )
             except BaseException as e:
                 if connector is None:
@@ -45,6 +54,7 @@ class AuthenticatedClient(AbstractChrisClient[L, CSelf], Generic[L, CSelf], abc.
         url: str | ChrisURL,
         username: Username,
         password: Password,
+        max_search_requests: int,
         session: aiohttp.ClientSession,
         connector_owner: bool,
     ) -> CSelf:
@@ -60,6 +70,7 @@ class AuthenticatedClient(AbstractChrisClient[L, CSelf], Generic[L, CSelf], abc.
         return await cls.from_token(
             url=url,
             token=data["token"],
+            max_search_requests=max_search_requests,
             connector=session.connector,
             connector_owner=connector_owner,
         )
@@ -69,6 +80,7 @@ class AuthenticatedClient(AbstractChrisClient[L, CSelf], Generic[L, CSelf], abc.
         cls,
         url: str | ChrisURL,
         token: str,
+        max_search_requests: int,
         connector: Optional[aiohttp.TCPConnector] = None,
         connector_owner: Optional[bool] = True,
     ) -> CSelf:
@@ -76,7 +88,11 @@ class AuthenticatedClient(AbstractChrisClient[L, CSelf], Generic[L, CSelf], abc.
         Construct an authenticated client using the given token.
         """
         return await cls.new(
-            url, connector, connector_owner, session_modifier=cls.__curry_token(token)
+            url=url,
+            max_search_requests=max_search_requests,
+            connector=connector,
+            connector_owner=connector_owner,
+            session_modifier=cls.__curry_token(token),
         )
 
     @staticmethod
@@ -85,3 +101,10 @@ class AuthenticatedClient(AbstractChrisClient[L, CSelf], Generic[L, CSelf], abc.
             session.headers.update({"Authorization": "Token " + token})
 
         return add_token_to
+
+    @http.search("plugins")
+    def search_plugins(self, **query) -> Search[Plugin]:
+        """
+        Search for plugins.
+        """
+        ...

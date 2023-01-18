@@ -49,6 +49,7 @@ def example_client(mocker: MockerFixture) -> ExampleClient:
         collection_links=links,
         s=mocker.MagicMock(spec_set=aiohttp.ClientSession),
         max_search_requests=10,
+        url="https://example.com/",
     )
 
 

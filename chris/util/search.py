@@ -17,7 +17,7 @@ import yarl
 from serde import deserialize
 from serde.json import from_json
 
-from chris.util._de_connected import deserialize_connected
+from chris.link.linked import deserialize_linked, Linked
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +57,7 @@ class Search(Generic[T], AsyncIterable[T]):
 
     base_url: str
     params: dict[str, Any]
-    s: aiohttp.ClientSession
+    client: Linked
     Item: Type[T]
     max_requests: int = 100
 
@@ -87,13 +87,16 @@ class Search(Generic[T], AsyncIterable[T]):
 
         `count` is useful for rendering a progress bar. TODO example with files
         """
-        async with self.s.get(self._first_url) as res:
+        async with self.client.s.get(self._first_url) as res:
             data: _Paginated = from_json(_Paginated, await res.text())
         return data.count
 
     def _paginate(self, url: yarl.URL) -> AsyncIterator[T]:
         return _get_paginated(
-            session=self.s, url=url, item_type=self.Item, max_requests=self.max_requests
+            client=self.client,
+            url=url,
+            item_type=self.Item,
+            max_requests=self.max_requests,
         )
 
     @property
@@ -119,34 +122,45 @@ class Search(Generic[T], AsyncIterable[T]):
 
 
 async def _get_paginated(
-    session: aiohttp.ClientSession,
+    client: Linked,
     url: yarl.URL | str,
     item_type: Type[T],
-    max_requests: int = 100,
+    max_requests: int,
 ) -> AsyncGenerator[T, None]:
     """
     Make HTTP GET requests to a paginated endpoint. Further requests to the
     "next" URL are made in the background as needed.
     """
     logger.debug("GET, max_requests=%d, --> %s", max_requests, url)
-    if max_requests <= 0:
-        raise TooMuchPaginationException()
-    async with session.get(url) as res:  # N.B. not checking for 4XX, 5XX statuses
+    if max_requests != -1 and max_requests == 0:
+        raise TooMuchPaginationError(
+            f"too many requests made to {url}. "
+            f"If this is expected, then pass the argument max_search_requests=-1 to "
+            f"the client constructor classmethod."
+        )
+    async with client.s.get(url) as res:  # N.B. not checking for 4XX, 5XX statuses
         data: _Paginated = from_json(_Paginated, await res.text())
         for element in data.results:
-            yield deserialize_connected(session, item_type, element)
+            yield deserialize_linked(client, item_type, element)
     if data.next is not None:
-        next_results = _get_paginated(session, data.next, item_type, max_requests - 1)
+        next_results = _get_paginated(client, data.next, item_type, max_requests - 1)
         async for next_element in next_results:
             yield next_element
 
 
 async def acollect(async_iterable: AsyncIterable[T]) -> list[T]:
+    """
+    Simple helper to convert a `Search` to a [`list`](https://docs.python.org/3/library/stdtypes.html#list).
+
+    Using this function is not recommended unless you can assume the collection is small.
+    """
     # nb: using tuple here causes
     #     TypeError: 'async_generator' object is not iterable
     # return tuple(e async for e in async_iterable)
     return [e async for e in async_iterable]
 
 
-class TooMuchPaginationException(Exception):
+class TooMuchPaginationError(Exception):
+    """ """
+
     pass

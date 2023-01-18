@@ -5,7 +5,7 @@ Read-only models for CUBE resources.
 from dataclasses import dataclass
 from serde import deserialize
 
-from chris.models.connected import Connected
+from chris.link.linked import LinkedModel
 from chris.models.types import (
     UserUrl,
     UserId,
@@ -25,7 +25,7 @@ from chris.models.types import (
 
 @deserialize
 @dataclass(frozen=True)
-class PublicPlugin(Connected):
+class PublicPlugin(LinkedModel):
     """
     A ChRIS plugin.
     """

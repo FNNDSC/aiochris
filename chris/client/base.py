@@ -1,46 +1,97 @@
 import abc
-from dataclasses import dataclass
-from typing import TypeVar, Generic
+from typing import AsyncContextManager, Generic, Optional, Callable, TypeVar
 
 import aiohttp
+from serde import from_dict
 
-from chris.client.meta import CollectionClientMeta
-from chris.models.collection_links import AbstractCollectionLinks
+from chris.link.collection_client import L, CollectionJsonApiClient
 
-# in Python 3.11 we will be able to use Self!
-CSelf = TypeVar("CSelf", bound="AbstractChrisClient")
-
-L = TypeVar("L", bound=AbstractCollectionLinks)
+CSelf = TypeVar(
+    "CSelf", bound="BaseChrisClient"
+)  # can't wait for `Self` in Python 3.11!
 
 
-@dataclass(frozen=True)
-class AbstractClient(
-    Generic[L],
+class BaseChrisClient(
+    Generic[L, CSelf],
+    CollectionJsonApiClient[L],
+    AsyncContextManager[CSelf],
     abc.ABC,
-    metaclass=CollectionClientMeta,
 ):
     """
-    Class which specifies the fields which a ChRIS API related client must have.
-    """
-
-    collection_links: L
-    s: aiohttp.ClientSession
-    url: str
-    max_requests: int = 1000
-    """
-    Maximum number of requests to make for pagination.
+    Provides the implementation for most of the read-only GET resources of ChRIS
+    and functions related to the client object's own usage.
     """
 
     @classmethod
-    def has_collection(cls, name: str) -> bool:
+    async def new(
+        cls,
+        url: str,
+        max_search_requests: int = 100,
+        connector: Optional[aiohttp.BaseConnector] = None,
+        connector_owner: bool = True,
+        session_modifier: Optional[Callable[[aiohttp.ClientSession], None]] = None,
+    ) -> CSelf:
         """
+        A constructor which creates the session for the `BaseChrisClient`
+        and makes an initial request to populate `collection_links`.
+
         Parameters
         ----------
-        name
-            name from collection_links
-
-        Returns
-        -------
-        `True` if this class' `collection_links` has a link for the name
+        url
+            ChRIS backend url, e.g. "https://cube.chrisproject.org/api/v1/"
+        max_search_requests
+            Maximum number of HTTP requests to make while retrieving items from a
+            paginated endpoint before raising `chris.util.search.TooMuchPaginationError`.
+            Use `max_search_requests=-1` to allow for "infinite" pagination
+            (well, you're still limited by Python's stack).
+        connector
+            [`aiohttp.BaseConnector`](https://docs.aiohttp.org/en/v3.8.3/client_advanced.html#connectors) to use.
+            If creating multiple client objects in the same program,
+            reusing connectors between them is more efficient.
+        connector_owner
+            If `True`, this client will close its `aiohttp.BaseConnector`
+        session_modifier
+            Called to mutate the created `aiohttp.ClientSession` for the object.
+            If the client requires authentication, define `session_modifier`
+            to add authentication headers to the session.
         """
-        return cls.collection_links_type.has_field(name)
+        if not url.endswith("/api/v1/"):
+            raise ValueError("url must end with /api/v1/")
+        accept_json = {
+            "Accept": "application/json",
+            # 'Content-Type': 'application/vnd.collection+json',
+        }
+        # TODO maybe we want to wrap the session:
+        # - status == 4XX --> print response text
+        # - content-type: application/vnd.collection+json
+        session = aiohttp.ClientSession(
+            headers=accept_json,
+            raise_for_status=True,
+            connector=connector,
+            connector_owner=connector_owner,
+        )
+        if session_modifier is not None:
+            session_modifier(session)
+
+        res = await session.get(url)
+        body = await res.json()
+        links = from_dict(cls._collection_type(), body["collection_links"])
+
+        return cls(
+            url=url,
+            s=session,
+            collection_links=links,
+            max_search_requests=max_search_requests,
+        )
+
+    async def __aenter__(self) -> CSelf:
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.close()
+
+    async def close(self):
+        """
+        Close the HTTP session used by this client.
+        """
+        await self.s.close()

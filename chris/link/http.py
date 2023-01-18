@@ -44,7 +44,7 @@ def post(link_name: str):
                 except ResponseError as e:
                     raise e.__class__(*e.args, f"data={kwargs}")
                 data = await res.json(content_type="application/json")
-            return deserialize_linked(self.s, return_type, data)
+            return deserialize_linked(self, return_type, data)
 
         LinkedMeta.mark_to_check(wrapped, link_name)
         return wrapped
@@ -69,7 +69,7 @@ def search(collection_name: str):
 
             return Search[return_item_type](
                 Item=return_item_type,
-                s=self.s,
+                client=self,
                 base_url=self._get_link(collection_name),
                 params=kwargs,
                 max_requests=self.max_search_requests,
