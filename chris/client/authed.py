@@ -130,6 +130,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         .. warning:: Uses non-async code.
                      The file is read using non-async code.
                      Performance will suffer with large files and hard drives.
+                     See [aiolibs/aiohttp#7174](https://github.com/aio-libs/aiohttp/issues/7174)
 
         Examples
         --------
