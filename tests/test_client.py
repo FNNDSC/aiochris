@@ -7,6 +7,7 @@ import pytest
 from aiohttp.client_exceptions import ClientConnectorError
 
 from chris import AnonChrisClient, ChrisClient, ChrisAdminClient
+from chris.models.public import ComputeResource
 from chris.models.types import Username, Password
 from chris.util.errors import IncorrectLoginError
 from tests.conftest import UserCredentials
@@ -33,6 +34,9 @@ async def anon_client(session, admin_credentials) -> AnonChrisClient:
 
 @pytest.fixture(scope="session")
 def now_str() -> str:
+    """
+    A string which is different on each test session.
+    """
     return str(int(time.time()))
 
 
@@ -97,7 +101,28 @@ async def test_get_user(normal_client: ChrisClient, new_user_info):
     assert (await normal_client.user()).username == new_user_info.username
 
 
-async def test_everything(normal_client: ChrisClient, tmp_path: Path, now_str: str):
+@pytest.fixture(scope="session")
+async def new_compute_resource(
+    admin_client: ChrisAdminClient, now_str: str
+) -> ComputeResource:
+    name = f"test-aiochris-{now_str}-cr"
+    created_compute_resource = await admin_client.create_compute_resource(
+        name=name,
+        compute_url=f"http://localhost:56965/does-not-exist/api/v1/",
+        compute_user=f"pfcon",
+        compute_password=f"pfcon1234",
+        description="a fake compute resource for testing aiochris.",
+    )
+    assert created_compute_resource.name == name
+    return created_compute_resource
+
+
+async def test_everything(
+    normal_client: ChrisClient,
+    tmp_path: Path,
+    now_str: str,
+    new_compute_resource: ComputeResource,
+):
     example_file_path = tmp_path / "hello_aiochris.txt"
     example_file_path.write_text("testing is good fun")
 
@@ -106,5 +131,9 @@ async def test_everything(normal_client: ChrisClient, tmp_path: Path, now_str: s
     assert uploaded_file.fname.endswith("hello_aiochris.txt")
 
     plugin = await normal_client.search_plugins(name_exact="pl-dircopy").first()
-    plinst = await plugin.create_instance(dir=uploaded_file.parent)
+    plinst = await plugin.create_instance(
+        dir=uploaded_file.parent, compute_resource_name="host"
+    )
     assert plinst.plugin_id == plugin.id
+
+    # new_compute_resource.name

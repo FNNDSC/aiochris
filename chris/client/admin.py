@@ -48,16 +48,16 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
 
     async def create_compute_resource(
         self,
-        name: ComputeResourceName,
-        compute_url: PfconUrl,
+        name: str | ComputeResourceName,
+        compute_url: str | PfconUrl,
         compute_user: str,
         compute_password: str,
-        description: str = "",
+        description: str,
     ) -> ComputeResource:
         """
         Define a new compute resource.
         """
-        return await self._admin.create_compute_resource(
+        return await (await self._admin).create_compute_resource(
             name=name,
             compute_url=compute_url,
             compute_user=compute_user,
