@@ -8,7 +8,7 @@ from chris.link.collection_client import CollectionJsonApiClient
 from chris.link import http
 from chris.models.logged_in import Plugin
 
-from chris.util.search import acollect
+from chris.util.search import acollect, Search
 from chris.models.collection_links import AdminCollectionLinks, AdminApiCollectionLinks
 from chris.models.public import ComputeResource
 from chris.models.types import PluginUrl, ComputeResourceName, PfconUrl
@@ -52,7 +52,10 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
         compute_url: str | PfconUrl,
         compute_user: str,
         compute_password: str,
-        description: str,
+        description: str = None,
+        compute_auth_url: str = None,
+        compute_auth_token: str = None,
+        max_job_exec_seconds: str = None,
     ) -> ComputeResource:
         """
         Define a new compute resource.
@@ -63,10 +66,10 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
             compute_user=compute_user,
             compute_password=compute_password,
             description=description,
+            compute_auth_url=compute_auth_url,
+            compute_auth_token=compute_auth_token,
+            max_job_exec_seconds=max_job_exec_seconds,
         )
-
-    async def get_all_compute_resources(self) -> Sequence[ComputeResource]:
-        return await acollect(self.search_compute_resources())
 
     @async_cached_property
     async def _admin(self) -> _AdminApiClient:

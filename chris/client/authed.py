@@ -2,7 +2,7 @@ import abc
 import io
 import os
 from pathlib import Path
-from typing import Optional, Generic, Callable, AsyncIterable
+from typing import Optional, Generic, Callable, AsyncIterable, Sequence
 
 import aiohttp
 import aiofiles
@@ -14,10 +14,10 @@ from chris.client.base import BaseChrisClient
 from chris.link import http
 from chris.link.linked import deserialize_res
 from chris.models.logged_in import Plugin, File
-from chris.models.public import User
+from chris.models.public import User, ComputeResource
 from chris.util.errors import IncorrectLoginError, raise_for_status
 from chris.models.types import ChrisURL, Username, Password
-from chris.util.search import Search
+from chris.util.search import Search, acollect
 
 
 class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC):
@@ -231,6 +231,22 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         """
         user = await self._user  # this is weird
         return user.username
+
+    @http.search("compute_resources")
+    def search_compute_resources(self, **query) -> Search[ComputeResource]:
+        """
+        Search for existing compute resources.
+        """
+        ...
+
+    async def get_all_compute_resources(self) -> Sequence[ComputeResource]:
+        """
+        Get all compute resources.
+
+        This method exists for convenience.
+        The number of compute resources of a CUBE is typically small so it's ok.
+        """
+        return await acollect(self.search_compute_resources())
 
 
 # async def _file_sender(file_name: str | os.PathLike, chunk_size: int):

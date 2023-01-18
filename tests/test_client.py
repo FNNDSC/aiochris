@@ -103,17 +103,23 @@ async def test_get_user(normal_client: ChrisClient, new_user_info):
 
 @pytest.fixture(scope="session")
 async def new_compute_resource(
-    admin_client: ChrisAdminClient, now_str: str
+    admin_client: ChrisAdminClient, normal_client: ChrisClient, now_str: str
 ) -> ComputeResource:
-    name = f"test-aiochris-{now_str}-cr"
+    """
+    Create a compute resource as the admin user, then check that it exists as the normal user.
+    """
     created_compute_resource = await admin_client.create_compute_resource(
-        name=name,
+        name=f"test-aiochris-{now_str}-cr",
         compute_url=f"http://localhost:56965/does-not-exist/api/v1/",
         compute_user=f"pfcon",
         compute_password=f"pfcon1234",
         description="a fake compute resource for testing aiochris.",
     )
-    assert created_compute_resource.name == name
+    search = await normal_client.search_compute_resources(
+        name=created_compute_resource.name
+    ).first()
+    assert search.id == created_compute_resource.id
+    assert created_compute_resource in await normal_client.get_all_compute_resources()
     return created_compute_resource
 
 

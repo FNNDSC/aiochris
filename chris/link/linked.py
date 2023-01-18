@@ -1,7 +1,5 @@
 import abc
 import dataclasses
-import functools
-
 from typing import (
     Final,
     Any,
@@ -10,7 +8,6 @@ from typing import (
     Type,
     TypeGuard,
     TypeVar,
-    Iterable,
     AsyncContextManager,
 )
 

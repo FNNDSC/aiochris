@@ -11,7 +11,7 @@ and the response is deserialized according to the method's return type hint.
 import functools
 import logging
 import typing
-from typing import Callable, TypeVar, Type
+from typing import Callable, TypeVar, Type, Any, Optional
 
 from chris.link.metaprog import get_return_hint
 from chris.util.search import Search
@@ -55,10 +55,11 @@ def post(link_name: str):
         return_type = get_return_hint(fn)
 
         @functools.wraps(fn)
-        async def wrapped(self: Linked, *args, **kwargs: str) -> _R:
+        async def wrapped(self: Linked, *args, **kwargs: dict[str, Any]) -> _R:
             if args:
                 raise TypeError(f"Function {fn} only supports kwargs.")
 
+            kwargs = _filter_none(kwargs)
             url = self._get_link(link_name)
             logger.debug("POST --> {} : {}", url, kwargs)
 
@@ -82,7 +83,7 @@ def search(collection_name: str):
         return_item_type = _get_search_item_type(fn)
 
         @functools.wraps(fn)
-        def wrapped(self: Linked, *args, **kwargs: str) -> _R:
+        def wrapped(self: Linked, *args, **kwargs: dict[str, Any]) -> _R:
             if args:
                 raise TypeError(f"Function {fn} only supports kwargs.")
 
@@ -105,3 +106,11 @@ def _get_search_item_type(fn: Callable[[...], Search[_R]]) -> Type[_R]:
     if typing.get_origin(return_type) is not Search:
         raise TypeError(return_type)
     return typing.get_args(return_type)[0]
+
+
+K = TypeVar("K")
+V = TypeVar("V")
+
+
+def _filter_none(d: dict[K, Optional[V]]) -> dict[K, V]:
+    return {k: v for k, v, in d.items() if v is not None}
