@@ -32,6 +32,8 @@ from chris.models.types import (
     ComputeResourceUrl,
     SplitsUrl,
     ApiUrl,
+    FileResourceUrl,
+    FileFname,
 )
 from chris.models.enums import Status
 
@@ -111,3 +113,18 @@ class Plugin(PublicPlugin):
     @http.post("instances")
     async def create_instance(self, **kwargs) -> PluginInstance:
         ...
+
+
+@deserialize
+@dataclass(frozen=True)
+class File(LinkedModel):
+    """
+    A file in CUBE.
+    """
+
+    url: str
+    fname: FileFname
+    fsize: int
+    file_resource: FileResourceUrl
+
+    # TODO download methods

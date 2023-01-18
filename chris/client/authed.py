@@ -1,12 +1,15 @@
 import abc
+import os
 from typing import Optional, Generic, Callable
 
 import aiohttp
+from async_property import async_cached_property
 
 from chris.client.base import L, CSelf
 from chris.client.base import BaseChrisClient
 from chris.link import http
-from chris.models.logged_in import Plugin
+from chris.models.logged_in import Plugin, File
+from chris.models.public import User
 from chris.util.errors import IncorrectLoginError, raise_for_status
 from chris.models.types import ChrisURL, Username, Password
 from chris.util.search import Search
@@ -102,9 +105,70 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
 
         return add_token_to
 
+    # ============================================================
+    # CUBE API methods
+    # ============================================================
+
     @http.search("plugins")
     def search_plugins(self, **query) -> Search[Plugin]:
         """
         Search for plugins.
         """
         ...
+
+    def upload(self, local_file: str | os.PathLike, upload_path: str) -> File:
+        """
+        Upload a local file to *ChRIS*.
+
+        Examples
+        --------
+
+        Upload a single file:
+
+        ```python
+        chris = await ChrisClient.from_login(
+            username='chris',
+            password='chris1234',
+            url='https://cube.chrisproject.org/api/v1/'
+        )
+        file = await chris.upload("./my_data.dat", 'dir/my_data.dat')
+        assert file.fname == 'chris/uploads/dir/my_data.dat'
+        ```
+
+        Upload (in parallel) all `*.txt` files in a directory
+        `'incoming'` to `chris/uploads/big_folder`:
+
+        ```python
+        upload_jobs = (
+            chris.upload(p, f'big_folder/{p}')
+            for p in Path('incoming')
+        )
+        await asyncio.gather(upload_jobs)
+        ```
+
+        Parameters
+        ----------
+        local_file
+            Path of an existing local file to upload.
+        upload_path
+            A subpath of `{username}/uploads/` where to upload the file to in *CUBE*
+        """
+        if not str(upload_path).startswith(""):
+            ...
+        raise NotImplementedError()
+
+    @http.get("user")
+    async def user(self) -> User:
+        """Gets the user's information."""
+        ...
+
+    @async_cached_property
+    async def _user(self) -> User:
+        return await self.user()
+
+    async def username(self) -> Username:
+        """
+        Gets the username. In contrast to `self.user`, this method will use a cached API call.
+        """
+        user = await self._user  # this is weird
+        return user.username

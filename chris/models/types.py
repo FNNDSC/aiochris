@@ -52,6 +52,7 @@ PipelineParameterId = NewType("ParameterLocalId", int)
 PluginParameterId = NewType("ParameterGlobalId", int)
 PluginInstanceId = NewType("PluginInstanceId", int)
 
+FileFname = NewType("FileFname", str)
 FileResourceName = NewType("FileResourceName", str)
 FileId = NewType("FileId", int)
 

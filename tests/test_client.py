@@ -7,6 +7,7 @@ from aiohttp.client_exceptions import ClientConnectorError
 
 from chris import AnonChrisClient, ChrisClient, ChrisAdminClient
 from chris.models.types import Username, Password
+from chris.util.errors import IncorrectLoginError
 from tests.conftest import UserCredentials
 
 
@@ -34,9 +35,8 @@ def now_str() -> str:
     return str(int(time.time()))
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def new_user_info(now_str, admin_credentials) -> UserCredentials:
-
     return UserCredentials(
         username=Username(f"test-user-{now_str}"),
         password=Password(f"chris1234{now_str}"),
@@ -57,11 +57,27 @@ async def admin_client(session, admin_credentials) -> ChrisAdminClient:
 
 @pytest.fixture(scope="session")
 @skip_if_not_connected
-async def normal_client(session, admin_credentials) -> ChrisClient:
+async def normal_client(session, new_user_info) -> ChrisClient:
+    with pytest.raises(IncorrectLoginError):
+        await ChrisClient.from_login(
+            url=new_user_info.url,
+            username=new_user_info.username,
+            password=new_user_info.password,
+            connector=session.connector,
+            connector_owner=False,
+        )
+    created_user = await ChrisClient.create_user(
+        url=new_user_info.url,
+        username=new_user_info.username,
+        password=new_user_info.password,
+        email=f"{new_user_info.username}@example.com",
+        session=session,
+    )
+    assert created_user.username == new_user_info.username
     return await ChrisClient.from_login(
-        url=admin_credentials.url,
-        username=admin_credentials.username,
-        password=admin_credentials.password,
+        url=new_user_info.url,
+        username=new_user_info.username,
+        password=new_user_info.password,
         connector=session.connector,
         connector_owner=False,
     )
@@ -76,3 +92,11 @@ async def test_create_plugin_instance(normal_client: ChrisClient):
     plugin = await normal_client.search_plugins(name_exact="pl-dircopy").first()
     plinst = await plugin.create_instance(dir="chris/uploads")  # TODO better test
     assert plinst.plugin_id == plugin.id
+
+
+async def test_username(normal_client: ChrisClient, new_user_info):
+    assert (await normal_client.username()) == new_user_info.username
+
+
+async def test_get_user(normal_client: ChrisClient, new_user_info):
+    assert (await normal_client.user()).username == new_user_info.username

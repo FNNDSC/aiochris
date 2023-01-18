@@ -13,14 +13,40 @@ import logging
 import typing
 from typing import Callable, TypeVar, Type
 
+import aiohttp
+
 from chris.util.errors import raise_for_status, ResponseError
 from chris.link.metaprog import get_return_hint
 from chris.util.search import Search
-from chris.link.linked import LinkedMeta, Linked, deserialize_linked
+from chris.link.linked import LinkedMeta, Linked, deserialize_linked, T
 
 logger = logging.getLogger(__name__)
 
 _R = TypeVar("_R")
+
+
+def get(link_name: str):
+    """
+    Creates a decorator for which replaces the given method with one that does a GET request.
+    """
+
+    def decorator(fn: Callable[[...], _R]):
+        return_type = get_return_hint(fn)
+
+        @functools.wraps(fn)
+        async def wrapped(self: Linked, *args, **kwargs: str) -> _R:
+            if args:
+                raise TypeError(f"Function {fn} only supports kwargs.")
+
+            url = self._get_link(link_name)
+            logger.debug("GET --> {} : {}", url, kwargs)
+            sent = self.s.get(url, params=kwargs, raise_for_status=False)
+            return await _deserialize_res(sent, self, kwargs, return_type)
+
+        LinkedMeta.mark_to_check(wrapped, link_name)
+        return wrapped
+
+    return decorator
 
 
 def post(link_name: str):
@@ -38,13 +64,9 @@ def post(link_name: str):
 
             url = self._get_link(link_name)
             logger.debug("POST --> {} : {}", url, kwargs)
-            async with self.s.post(url, json=kwargs, raise_for_status=False) as res:
-                try:
-                    await raise_for_status(res)
-                except ResponseError as e:
-                    raise e.__class__(*e.args, f"data={kwargs}")
-                data = await res.json(content_type="application/json")
-            return deserialize_linked(self, return_type, data)
+
+            sent = self.s.post(url, json=kwargs, raise_for_status=False)
+            return await _deserialize_res(sent, self, kwargs, return_type)
 
         LinkedMeta.mark_to_check(wrapped, link_name)
         return wrapped
@@ -86,3 +108,18 @@ def _get_search_item_type(fn: Callable[[...], Search[_R]]) -> Type[_R]:
     if typing.get_origin(return_type) is not Search:
         raise TypeError(return_type)
     return typing.get_args(return_type)[0]
+
+
+async def _deserialize_res(
+    sent_request: typing.AsyncContextManager[aiohttp.ClientResponse],
+    client: Linked,
+    data: dict,
+    return_type: Type[T],
+) -> T:
+    async with sent_request as res:
+        try:
+            await raise_for_status(res)
+        except ResponseError as e:
+            raise e.__class__(*e.args, f"data={data}")
+        data = await res.json(content_type="application/json")
+    return deserialize_linked(client, return_type, data)
