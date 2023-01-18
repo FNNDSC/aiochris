@@ -1,3 +1,7 @@
+"""
+Read-only models for CUBE resources.
+"""
+
 from dataclasses import dataclass
 from serde import deserialize
 
@@ -21,7 +25,11 @@ from chris.models.types import (
 
 @deserialize
 @dataclass(frozen=True)
-class Plugin(Connected):
+class PublicPlugin(Connected):
+    """
+    A ChRIS plugin.
+    """
+
     url: PluginUrl
     id: PluginId
     name: PluginName

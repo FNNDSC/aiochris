@@ -5,9 +5,9 @@ import aiohttp
 from serde import from_dict
 
 from chris.client.base import CSelf, L, AbstractClient
-from chris.helper import collection
-from chris.helper.search import Search
-from chris.models.res import Plugin
+from chris.util import collection
+from chris.util.search import Search
+from chris.models.public import PublicPlugin
 
 
 class AbstractChrisClient(
@@ -89,7 +89,7 @@ class AbstractChrisClient(
     # ==================================================
 
     @collection.search("plugins")
-    def search_plugins(self, **query) -> Search[Plugin]:
+    def search_plugins(self, **query) -> Search[PublicPlugin]:
         """
         Search for plugins.
         """

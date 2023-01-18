@@ -17,10 +17,10 @@ from typing import Callable, TypeVar, Type
 
 from chris.client.meta import CollectionClientMeta
 from chris.client.base import AbstractClient
-from chris.helper.errors import raise_for_status, ResponseError
-from chris.helper.metaprog import get_return_hint
-from chris.helper.search import Search
-from chris.helper._de_connected import deserialize_connected
+from chris.util.errors import raise_for_status, ResponseError
+from chris.link.metaprog import get_return_hint
+from chris.util.search import Search
+from chris.util._de_connected import deserialize_connected
 
 logger = logging.getLogger(__name__)
 

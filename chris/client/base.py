@@ -10,7 +10,6 @@ from chris.models.collection_links import AbstractCollectionLinks
 # in Python 3.11 we will be able to use Self!
 CSelf = TypeVar("CSelf", bound="AbstractChrisClient")
 
-_C = TypeVar("_C", bound="AuthenticatedClient")
 L = TypeVar("L", bound=AbstractCollectionLinks)
 
 

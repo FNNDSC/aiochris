@@ -1,3 +1,3 @@
-# import chris.helper.search
+# import chris.util.search
 
 __all__ = ["search", "errors"]

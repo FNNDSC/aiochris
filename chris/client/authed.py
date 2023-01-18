@@ -5,7 +5,7 @@ import aiohttp
 
 from chris.client.base import L, CSelf
 from chris.client.chris import AbstractChrisClient
-from chris.helper.errors import IncorrectLoginError, raise_for_status
+from chris.util.errors import IncorrectLoginError, raise_for_status
 from chris.models.types import ChrisURL, Username, Password
 
 

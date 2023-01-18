@@ -17,7 +17,7 @@ import yarl
 from serde import deserialize
 from serde.json import from_json
 
-from chris.helper._de_connected import deserialize_connected
+from chris.util._de_connected import deserialize_connected
 
 logger = logging.getLogger(__name__)
 

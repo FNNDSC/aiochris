@@ -1,8 +1,8 @@
 from typing import TypeVar, AsyncIterator, Sequence, Iterable
 from chris.models.types import PluginUrl
 from chris.base import AuthenticatedClient
-from chris.helper.search import get_paginated, acollect
-import chris.helper.collection as http
+from chris.util.search import get_paginated, acollect
+import chris.util.collection as http
 from chris._old.types import ComputeResourceName, PfconUrl, Feed
 from chris.models import CubeCollectionLinks, CubePlugin, ComputeResource
 

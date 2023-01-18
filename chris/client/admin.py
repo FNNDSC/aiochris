@@ -5,10 +5,10 @@ from serde import from_dict
 
 from chris.client.authed import AuthenticatedClient
 from chris.client.base import AbstractClient
-from chris.helper import collection
-from chris.helper.search import acollect
+from chris.util import collection
+from chris.util.search import acollect
 from chris.models.collection_links import AdminCollectionLinks, AdminApiCollectionLinks
-from chris.models.res import Plugin, ComputeResource
+from chris.models.public import PublicPlugin, ComputeResource
 from chris.models.types import PluginUrl, ComputeResourceName, PfconUrl
 
 
@@ -31,12 +31,12 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
     @collection.post("admin")
     async def _register_plugin_from_store_raw(
         self, plugin_store_url: str, compute_names: str
-    ) -> Plugin:
+    ) -> PublicPlugin:
         ...
 
     async def register_plugin_from_store(
         self, plugin_store_url: PluginUrl, compute_names: Iterable[ComputeResourceName]
-    ) -> Plugin:
+    ) -> PublicPlugin:
         """
         Register a plugin from a ChRIS Store.
         """

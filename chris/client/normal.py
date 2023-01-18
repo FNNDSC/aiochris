@@ -5,9 +5,9 @@ import aiohttp
 from serde.json import from_json
 
 from chris.client.authed import AuthenticatedClient
-from chris.helper.errors import raise_for_status
+from chris.util.errors import raise_for_status
 from chris.models.collection_links import CollectionLinks
-from chris.models.res import User
+from chris.models.public import User
 from chris.models.types import ChrisURL, Username, Password
 
 

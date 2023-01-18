@@ -2,9 +2,9 @@
 Metaprogramming helper functions.
 """
 import abc
-import collections.abc
+import functools
 import typing
-from typing import Type, Callable, TypeVar, ForwardRef, Optional, AsyncIterator
+from typing import Type, Callable, TypeVar, ForwardRef, Optional
 
 import typing_inspect
 
@@ -18,6 +18,7 @@ def get_return_hint(fn: Callable[[...], _T]) -> Type[_T]:
     return hints["return"]
 
 
+@functools.cache
 def generic_of(c: Type, t: Type[_T], is_subclass=False) -> Optional[Type[_T]]:
     """
     Get the actual class represented by a bound TypeVar of a generic.

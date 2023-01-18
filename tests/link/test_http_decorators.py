@@ -6,20 +6,19 @@ import json
 from dataclasses import dataclass
 import dataclasses
 from typing import AsyncContextManager, Any
-from unittest.mock import Mock, AsyncMock, MagicMock
+from unittest.mock import Mock, AsyncMock
 
 import yarl
 import aiohttp
 import pytest
 from pytest_mock import MockerFixture
 
-from chris.client.base import AbstractClient
-from chris.helper.metaprog import get_return_hint
-from chris.helper.search import Search
+from chris.link.collection_client import CollectionJsonApiClient
+from chris.link import http
+from chris.util.search import Search
 from chris.models.collection_links import AbstractCollectionLinks
 
 from chris.models.types import ApiUrl
-from chris.helper import collection
 
 
 @dataclass(frozen=True)
@@ -28,18 +27,15 @@ class ExampleCollectionLinks(AbstractCollectionLinks):
     another_name: ApiUrl
 
 
-class ExampleClient(AbstractClient[ExampleCollectionLinks]):
-    @collection.post("example_collection_name")
+@dataclass(frozen=True)
+class ExampleClient(CollectionJsonApiClient[ExampleCollectionLinks]):
+    @http.post("example_collection_name")
     async def example_method(self, a_param: str) -> list:
         ...
 
-    @collection.search("another_name")
+    @http.search("another_name")
     def example_search(self, **kwargs) -> Search[str]:
         ...
-
-
-def test_get_return_hint():
-    assert get_return_hint(ExampleClient.example_method) is list
 
 
 @pytest.fixture
@@ -50,9 +46,9 @@ def example_client(mocker: MockerFixture) -> ExampleClient:
         example_collection_name=link, another_name=another_link
     )
     return ExampleClient(
-        url="https://example.com",
         collection_links=links,
         s=mocker.MagicMock(spec_set=aiohttp.ClientSession),
+        max_search_requests=10,
     )
 
 
@@ -104,7 +100,7 @@ async def test_request_to_collection_link(
     res = await example_client.example_method(a_param="hello")
     assert res == [3, 4, 5]
     example_client.s.post.assert_called_once_with(
-        example_client.collection_links.example_collection_name,
+        yarl.URL(example_client.collection_links.example_collection_name),
         json={"a_param": "hello"},
         raise_for_status=mocker.ANY,
     )
@@ -155,16 +151,3 @@ async def test_search(example_client: ExampleClient, mocker: MockerFixture):
     assert await anext(search_iter) == "swordfish"
     assert await anext(search_iter, None) is None
     example_client.s.get.assert_not_called()
-
-
-def test_metaclass_validates_links():
-    expected_msg = (
-        r"Method .+BadClient.bad_method.+ requests collection_link "
-        r"\"a_name_that_dne\" which is not defined in .+ExampleCollectionLinks.*"
-    )
-    with pytest.raises(TypeError, match=expected_msg) as e:
-
-        class BadClient(AbstractClient[ExampleCollectionLinks]):
-            @collection.post("a_name_that_dne")
-            async def bad_method(self, a_param: str) -> list:
-                ...

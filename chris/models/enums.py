@@ -25,3 +25,13 @@ class ParameterTypeName(enum.Enum):
     integer = "integer"
     float = "float"
     boolean = "boolean"
+
+
+class PluginType(enum.Enum):
+    """
+    Plugin type.
+    """
+
+    ds = "ds"
+    fs = "fs"
+    ts = "ts"

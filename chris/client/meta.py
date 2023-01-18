@@ -1,7 +1,7 @@
 import abc
 from typing import Final, Any, Optional, Callable, Type
 
-from chris.helper.metaprog import generic_of
+from chris.link.metaprog import generic_of
 from chris.models.collection_links import AbstractCollectionLinks
 
 
@@ -10,7 +10,7 @@ class CollectionClientMeta(abc.ABCMeta):
     A metaclass for `chris.client.base.AbstractChrisClient`
     which sets the class attribute `collection_links_type`
     and performs validation on any methods decorated by
-    `chris.helper.collection.post` at the time of class definition.
+    `chris.util.collection.post` at the time of class definition.
     """
 
     _DECORATED_METHOD_MARK: Final = "_collection_name"
