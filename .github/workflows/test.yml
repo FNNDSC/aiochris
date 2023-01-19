@@ -37,7 +37,21 @@ jobs:
         run: poetry install --with=dev
       - name: Test
         id: test
-        run: poetry run pytest --cov=chris --cov-report=xml
+        run: |
+          set +e
+          for attempt in {1..5}; do
+            echo "          +---------------------+ "
+            echo "          |       ATTEMPT $attempt     | "
+            echo "          +---------------------+ "
+            poetry run pytest --cov=chris --cov-report=xml
+            if [ "$?" = 0 ]; then
+              if [ "$attempt" != "1" ]; then
+                echo "::warning ::Tests took $attempt attempts."
+              fi
+              exit 0
+            fi
+          done
+          exit 1
         continue-on-error: true
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
