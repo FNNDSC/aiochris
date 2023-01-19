@@ -11,6 +11,16 @@
 [pyserde](https://github.com/yukinarit/pyserde)
 ([dataclasses](https://docs.python.org/3/library/dataclasses.html) deserializer).
 
+## Installation
+
+Requires Python 3.10 or 3.11.
+
+```shell
+pip install aiochris
+# or
+poetry add aiochris
+```
+
 ## Quick Example
 
 ```python
