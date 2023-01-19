@@ -221,15 +221,6 @@ async def test_plugin_instances(
         title="i am a unit test called test_plugin_instances"
     )
     assert changed_inst.id == dircopy_instance.id
-
-    # !!!HACK!!!
-    # tests are running inconsistently in Github Actions
-    # where the plugin instance found by search does not
-    # have the changed title. It's probably because of
-    # CUBE performance issues, so let's sleep a bit here.
-    if os.getenv("CI", "") == "true":
-        await asyncio.sleep(1.0)
-
     found_plinst = await normal_client.plugin_instances(id=changed_inst.id).get_only()
     assert found_plinst.title == changed_inst.title
 
