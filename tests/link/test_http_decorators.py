@@ -103,7 +103,6 @@ async def test_request_to_collection_link(
     example_client.s.post.assert_called_once_with(
         yarl.URL(example_client.collection_links.example_collection_name),
         json={"a_param": "hello"},
-        raise_for_status=mocker.ANY,
     )
 
 

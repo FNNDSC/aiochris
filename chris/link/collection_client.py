@@ -14,6 +14,9 @@ L = TypeVar("L", bound=AbstractCollectionLinks)
 class CollectionJsonApiClient(Generic[L], Linked):
     """
     A class base for HTTP clients which accept "application/json" from a Collection+JSON API.
+
+    The special value "." is recognized as a way to refer to the collection of the base URL.
+    For *CUBE*, it would get the feeds.
     """
 
     url: str
@@ -22,12 +25,14 @@ class CollectionJsonApiClient(Generic[L], Linked):
     """Base API collection links"""
 
     def _get_link(self, name: str) -> yarl.URL:
+        if name == ".":
+            return yarl.URL(self.url)
         link = self.collection_links.get(name)
         return yarl.URL(link)
 
     @classmethod
     def _has_link(cls, name: str) -> bool:
-        return cls._collection_type().has_field(name)
+        return name == "." or cls._collection_type().has_field(name)
 
     @classmethod
     def _collection_type(cls) -> Type[L]:

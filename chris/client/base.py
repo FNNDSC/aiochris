@@ -5,6 +5,7 @@ import aiohttp
 from serde import from_dict
 
 from chris.link.collection_client import L, CollectionJsonApiClient
+from chris.util.errors import raise_for_status
 
 CSelf = TypeVar(
     "CSelf", bound="BaseChrisClient"
@@ -66,17 +67,17 @@ class BaseChrisClient(
         # - content-type: application/vnd.collection+json
         session = aiohttp.ClientSession(
             headers=accept_json,
-            raise_for_status=True,
+            raise_for_status=False,
             connector=connector,
             connector_owner=connector_owner,
         )
         if session_modifier is not None:
             session_modifier(session)
 
-        res = await session.get(url)
-        body = await res.json()
+        async with session.get(url) as res:
+            await raise_for_status(res)
+            body = await res.json()
         links = from_dict(cls._collection_type(), body["collection_links"])
-
         return cls(
             url=url,
             s=session,

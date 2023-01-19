@@ -142,4 +142,14 @@ async def test_everything(
     )
     assert plinst.plugin_id == plugin.id
 
-    # new_compute_resource.name
+    feed = await plinst.get_feed()
+    feed_name = f"aiochris test feed: now_str={now_str}"
+    changed_feed = await feed.set(name=feed_name)
+    assert changed_feed.name == feed_name
+    note = await feed.get_note()
+    note_title = "howdy, partner"
+    note_content = "i reckon this is a good enough test."
+    changed_note = await note.set(title=note_title, content=note_content)
+    assert changed_note.title == note_title
+    assert changed_note.content == note_content
+    assert changed_note.id == note.id

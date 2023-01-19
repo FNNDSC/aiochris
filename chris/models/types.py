@@ -73,6 +73,8 @@ PluginInstanceParamtersUrl = NewType("PluginInstanceParametersUrl", str)
 ComputeResourceUrl = NewType("ComputeResourceUrl", str)
 SplitsUrl = NewType("SplitsUrl", str)
 FeedUrl = NewType("FeedUrl", str)
+NoteId = NewType("NoteId", int)
+"""A feed note's ID number."""
 NoteUrl = NewType("NoteUrl", str)
 """A feed's note."""
 PluginParametersUrl = NewType("PluginParametersUrl", str)

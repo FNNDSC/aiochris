@@ -7,7 +7,7 @@ from serde.json import from_json
 from chris.client.authed import AuthenticatedClient
 from chris.util.errors import raise_for_status
 from chris.models.collection_links import CollectionLinks
-from chris.models.public import User
+from chris.models.data import UserData
 from chris.models.types import ChrisURL, Username, Password
 
 
@@ -24,7 +24,7 @@ class ChrisClient(AuthenticatedClient[CollectionLinks, "ChrisClient"]):
         password: Password | str,
         email: str,
         session: Optional[aiohttp.ClientSession],
-    ) -> User:
+    ) -> UserData:
         payload = {
             "template": {
                 "data": [
@@ -41,7 +41,7 @@ class ChrisClient(AuthenticatedClient[CollectionLinks, "ChrisClient"]):
         async with _optional_session(session) as session:
             res = await session.post(url + "users/", json=payload, headers=headers)
             await raise_for_status(res)
-            return from_json(User, await res.text())
+            return from_json(UserData, await res.text())
 
 
 @asynccontextmanager

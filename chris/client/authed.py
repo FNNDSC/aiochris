@@ -13,8 +13,8 @@ from chris.client.base import L, CSelf
 from chris.client.base import BaseChrisClient
 from chris.link import http
 from chris.link.linked import deserialize_res
-from chris.models.logged_in import Plugin, File
-from chris.models.public import User, ComputeResource
+from chris.models.logged_in import Plugin, File, User
+from chris.models.public import ComputeResource
 from chris.util.errors import IncorrectLoginError, raise_for_status
 from chris.models.types import ChrisURL, Username, Password
 from chris.util.search import Search, acollect

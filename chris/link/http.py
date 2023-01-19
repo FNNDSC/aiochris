@@ -11,7 +11,20 @@ and the response is deserialized according to the method's return type hint.
 import functools
 import logging
 import typing
-from typing import Callable, TypeVar, Type, Any, Optional
+from typing import (
+    Callable,
+    TypeVar,
+    Type,
+    Any,
+    Optional,
+    AsyncContextManager,
+    Tuple,
+    Dict,
+    Awaitable,
+)
+
+import aiohttp
+import yarl
 
 from chris.link.metaprog import get_return_hint
 from chris.util.search import Search
@@ -21,50 +34,82 @@ logger = logging.getLogger(__name__)
 
 _R = TypeVar("_R")
 
+# Some metaprogramming gotchas:
+# The type annotations of a function given to a decorator might not exist
+# at the time of the decorator's execution, in the case of "forward references"
+# (which is where a type is specified as a str instead of a class/type).
+# The return type and the type of `self` can only be checked inside the wrapped
+# function and not in the decorator.
 
-def get(link_name: str):
+AsyncMethod = Callable[[...], Awaitable[_R]]
+"""
+An async method of `chris.link.linked.Linked`.
+"""
+AsyncMethodDecorator = Callable[[AsyncMethod], AsyncMethod]
+"""
+A decorator which accepts `AsyncMethod` and creates a new `AsyncMethod`.
+"""
+
+
+def get(link_name: str) -> AsyncMethodDecorator:
     """
     Creates a decorator for which replaces the given method with one that does a GET request.
     """
-
-    def decorator(fn: Callable[[...], _R]):
-        return_type = get_return_hint(fn)
-
-        @functools.wraps(fn)
-        async def wrapped(self: Linked, *args, **kwargs: str) -> _R:
-            if args:
-                raise TypeError(f"Function {fn} only supports kwargs.")
-
-            url = self._get_link(link_name)
-            logger.debug("GET --> {} : {}", url, kwargs)
-            sent = self.s.get(url, params=kwargs, raise_for_status=False)
-            return await deserialize_res(sent, self, kwargs, return_type)
-
-        LinkedMeta.mark_to_check(wrapped, link_name)
-        return wrapped
-
-    return decorator
+    return _http_method_decorator(
+        link_name=link_name,
+        method_name="GET",
+        request=lambda session, url, query: session.get(url, params=query),
+    )
 
 
 def post(link_name: str):
     """
     Creates a decorator for which replaces the given method with one that does a POST request.
     """
+    return _http_method_decorator(
+        link_name=link_name,
+        method_name="POST",
+        request=lambda session, url, data: session.post(url, json=data),
+    )
+
+
+def put(link_name: str):
+    """
+    Creates a decorator for which replaces the given method with one that does a PUT request.
+    """
+    return _http_method_decorator(
+        link_name=link_name,
+        method_name="PUT",
+        request=lambda session, url, data: session.put(url, json=data),
+    )
+
+
+Request = Callable[
+    [aiohttp.ClientSession, yarl.URL, dict[str, Any]],
+    AsyncContextManager[aiohttp.ClientResponse],
+]
+"""
+A function which does a HTTP request.
+"""
+
+
+def _http_method_decorator(link_name: str, method_name: str, request: Request):
+    """
+    Creates a decorator which transforms a method of a subclass of `chris.link.Linked`
+    to one which makes an HTTP request.
+    """
 
     def decorator(fn: Callable[[...], _R]):
-        return_type = get_return_hint(fn)
-
         @functools.wraps(fn)
-        async def wrapped(self: Linked, *args, **kwargs: dict[str, Any]) -> _R:
+        async def wrapped(self: Linked, *args, **kwargs: str) -> _R:
             if args:
                 raise TypeError(f"Function {fn} only supports kwargs.")
-
-            kwargs = _filter_none(kwargs)
+            return_type = get_return_hint(fn)
             url = self._get_link(link_name)
-            logger.debug("POST --> {} : {}", url, kwargs)
-
-            sent = self.s.post(url, json=kwargs, raise_for_status=False)
-            return await deserialize_res(sent, self, kwargs, return_type)
+            data = _filter_none(kwargs)
+            logger.debug(f"{method_name} --> {url} : {data}")
+            sent = request(self.s, url, data)
+            return await deserialize_res(sent, self, data, return_type)
 
         LinkedMeta.mark_to_check(wrapped, link_name)
         return wrapped
@@ -80,12 +125,11 @@ def search(collection_name: str):
     """
 
     def decorator(fn: Callable[[...], Search[_R]]):
-        return_item_type = _get_search_item_type(fn)
-
         @functools.wraps(fn)
         def wrapped(self: Linked, *args, **kwargs: dict[str, Any]) -> _R:
             if args:
                 raise TypeError(f"Function {fn} only supports kwargs.")
+            return_item_type = _get_search_item_type(fn)
 
             return Search[return_item_type](
                 Item=return_item_type,

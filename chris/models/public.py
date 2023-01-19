@@ -1,26 +1,12 @@
 """
 Read-only models for CUBE resources.
 """
-
 from dataclasses import dataclass
+
 from serde import deserialize
 
 from chris.link.linked import LinkedModel
-from chris.models.types import (
-    UserUrl,
-    UserId,
-    Username,
-    PluginName,
-    ImageTag,
-    PluginVersion,
-    PluginUrl,
-    PluginId,
-    FeedId,
-    ApiUrl,
-    ComputeResourceId,
-    ComputeResourceName,
-    PfconUrl,
-)
+from chris.models.types import *
 
 
 @deserialize
@@ -36,22 +22,6 @@ class PublicPlugin(LinkedModel):
     version: PluginVersion
     dock_image: ImageTag
     public_repo: str
-
-
-@deserialize
-@dataclass(frozen=True)
-class User:
-    url: UserUrl
-    id: UserId
-    username: Username
-    email: str
-
-
-@deserialize
-@dataclass(frozen=True)
-class Feed:
-    id: FeedId
-    name: str
 
 
 @deserialize
