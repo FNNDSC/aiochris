@@ -18,17 +18,15 @@ from typing import (
     Any,
     Optional,
     AsyncContextManager,
-    Tuple,
-    Dict,
-    Awaitable,
+    Coroutine,
 )
 
 import aiohttp
 import yarl
 
+from chris.link.linked import LinkedMeta, Linked, deserialize_res
 from chris.link.metaprog import get_return_hint
 from chris.util.search import Search
-from chris.link.linked import LinkedMeta, Linked, deserialize_res
 
 logger = logging.getLogger(__name__)
 
@@ -41,17 +39,8 @@ _R = TypeVar("_R")
 # The return type and the type of `self` can only be checked inside the wrapped
 # function and not in the decorator.
 
-AsyncMethod = Callable[[...], Awaitable[_R]]
-"""
-An async method of `chris.link.linked.Linked`.
-"""
-AsyncMethodDecorator = Callable[[AsyncMethod], AsyncMethod]
-"""
-A decorator which accepts `AsyncMethod` and creates a new `AsyncMethod`.
-"""
 
-
-def get(link_name: str) -> AsyncMethodDecorator:
+def get(link_name: str):
     """
     Creates a decorator for which replaces the given method with one that does a GET request.
     """
@@ -104,15 +93,21 @@ A function which does a HTTP request.
 """
 
 
-def _http_method_decorator(link_name: str, method_name: str, request: Request):
+def _http_method_decorator(
+    link_name: str, method_name: str, request: Request
+) -> Callable[
+    [Callable[..., Coroutine[None, None, _R]]], Callable[..., Coroutine[None, None, _R]]
+]:
     """
     Creates a decorator which transforms a method of a subclass of `chris.link.Linked`
     to one which makes an HTTP request.
     """
 
-    def decorator(fn: Callable[[...], _R]):
+    def decorator(
+        fn: Callable[..., Coroutine[None, None, _R]]
+    ) -> Callable[..., Coroutine[None, None, _R]]:
         @functools.wraps(fn)
-        async def wrapped(self: Linked, *args, **kwargs: str) -> _R:
+        async def wrapped(self: Linked, *args, **kwargs) -> _R:
             if args:
                 raise TypeError(f"Function {fn} only supports kwargs.")
             return_type = get_return_hint(fn)
@@ -128,16 +123,18 @@ def _http_method_decorator(link_name: str, method_name: str, request: Request):
     return decorator
 
 
-def search(collection_name: str):
+def search(
+    collection_name: str,
+) -> Callable[[Callable[..., Search[_R]]], Callable[..., Search[_R]]]:
     """
     Creates a decorator which searches the collection using GET requests.
 
     (Pagination is handled internally, HTTP requests are made as-needed.)
     """
 
-    def decorator(fn: Callable[[...], Search[_R]]):
+    def decorator(fn: Callable[..., Search[_R]]) -> Callable[..., Search[_R]]:
         @functools.wraps(fn)
-        def wrapped(self: Linked, *args, **kwargs: dict[str, Any]) -> _R:
+        def wrapped(self: Linked, *args, **kwargs) -> Search[_R]:
             if args:
                 raise TypeError(f"Function {fn} only supports kwargs.")
             return_item_type = _get_search_item_type(fn)
@@ -156,7 +153,7 @@ def search(collection_name: str):
     return decorator
 
 
-def _get_search_item_type(fn: Callable[[...], Search[_R]]) -> Type[_R]:
+def _get_search_item_type(fn: Callable[..., Search[_R]]) -> Type[_R]:
     return_type = get_return_hint(fn)
     if typing.get_origin(return_type) is not Search:
         raise TypeError(return_type)

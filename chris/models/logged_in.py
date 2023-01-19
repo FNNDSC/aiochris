@@ -73,7 +73,7 @@ class PluginInstance(PluginInstanceData):
         ...
 
     @http.delete("url")
-    def delete(self) -> None:
+    async def delete(self) -> None:
         """Delete this plugin instance."""
         ...
 
@@ -102,7 +102,7 @@ class Feed(FeedData):
     """
 
     @http.put("url")
-    def set(
+    async def set(
         self, name: Optional[str] = None, owner: Optional[str | Username] = None
     ) -> "Feed":
         """
@@ -118,7 +118,7 @@ class Feed(FeedData):
         ...
 
     @http.get("note")
-    def get_note(self) -> FeedNote:
+    async def get_note(self) -> FeedNote:
         ...
 
 
