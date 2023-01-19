@@ -84,6 +84,17 @@ def put(link_name: str):
     )
 
 
+def delete(link_name: str):
+    """
+    Creates a decorator for which replaces the given method with one that does a DELETE request.
+    """
+    return _http_method_decorator(
+        link_name=link_name,
+        method_name="DELETE",
+        request=lambda session, url, _: session.delete(url),
+    )
+
+
 Request = Callable[
     [aiohttp.ClientSession, yarl.URL, dict[str, Any]],
     AsyncContextManager[aiohttp.ClientResponse],

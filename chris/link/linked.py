@@ -152,5 +152,7 @@ async def deserialize_res(
             await raise_for_status(res)
         except ResponseError as e:
             raise e.__class__(*e.args, f"data={sent_data}")
+        if return_type is type(None):  # noqa
+            return None
         sent_data = await res.json(content_type="application/json")
     return deserialize_linked(client, return_type, sent_data)

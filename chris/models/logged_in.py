@@ -72,6 +72,11 @@ class PluginInstance(PluginInstanceData):
         """
         ...
 
+    @http.delete("url")
+    def delete(self) -> None:
+        """Delete this plugin instance."""
+        ...
+
 
 @deserialize
 @dataclass(frozen=True)

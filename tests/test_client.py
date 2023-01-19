@@ -171,6 +171,15 @@ async def test_plugin_instances(
     assert found_plinst.title == changed_inst.title
 
 
+async def test_delete(
+    normal_client: ChrisClient, dircopy_instance: PluginInstance, simpledsapp: Plugin
+):
+    created_plinst = await simpledsapp.create_instance(previous=dircopy_instance)
+    assert await normal_client.plugin_instances(id=created_plinst.id).count() == 1
+    await created_plinst.delete()
+    assert await normal_client.plugin_instances(id=created_plinst.id).count() == 0
+
+
 async def test_feed(dircopy_instance: PluginInstance):
     feed = await dircopy_instance.get_feed()
     feed_name = f"aiochris test feed: now_str={now_str}"
