@@ -180,7 +180,7 @@ async def test_delete(
     assert await normal_client.plugin_instances(id=created_plinst.id).count() == 0
 
 
-async def test_feed(dircopy_instance: PluginInstance):
+async def test_feed(normal_client: ChrisClient, dircopy_instance: PluginInstance):
     feed = await dircopy_instance.get_feed()
     feed_name = f"aiochris test feed: now_str={now_str}"
     changed_feed = await feed.set(name=feed_name)
@@ -192,6 +192,8 @@ async def test_feed(dircopy_instance: PluginInstance):
     assert changed_note.title == note_title
     assert changed_note.content == note_content
     assert changed_note.id == note.id
+
+    assert await normal_client.search_feeds(name=feed_name).count() == 1
 
 
 async def test_create_instance_checks_previous_type(

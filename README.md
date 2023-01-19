@@ -14,46 +14,27 @@
 ## Quick Example
 
 ```python
+import asyncio
 from chris import ChrisClient
 
 
-async def example():
-    
+async def readme_example():
+    chris = await ChrisClient.from_login(
+        username='chris',
+        password='chris1234',
+        url='https://cube.chrisproject.org/api/v1/'
+    )
+    dircopy = await chris.search_plugins(name_exact='pl-brainmgz', version='2.0.3').get_only()
+    plinst = await dircopy.create_instance(compute_resource_name='host')
+    feed = await plinst.get_feed()
+    await feed.set(name="hello, aiochris!")
+    await chris.close()  # do not forget to clean up!
+
+
+asyncio.run(readme_example())
 ```
 
-## Developing
+## Documentation Links
 
-Requires [Poetry](https://python-poetry.org/) version 1.3.1.
-
-### Setup
-
-```shell
-git clone git@github.com:FNNDSC/aiochris.git
-cd aiochris
-poetry install --with=dev
-```
-
-### Testing
-
-1. Start up [miniCHRIS](https://github.com/FNNDSC/miniChRIS-docker)
-2. `poetry run pytest`
-
-### Code Formatting
-
-```shell
-poetry run pre-commit run --all-files
-```
-
-### Preview Documentation
-
-`pdoc` can run its own HTTP server with hot-reloading:
-
-```shell
-pdoc -p 7777 --no-browser --docformat numpy chris
-```
-
-However it can be buggy, so alternatively build the documentation and use `http.server`:
-
-```shell
-pdoc -o /tmp/pdoc --docformat numpy chris && python -m http.server -d /tmp/pdoc 7777
-```
+- Client documentation: https://fnndsc.github.io/aiochris
+- Developer documentation: https://github.com/FNNDSC/aiochris/wiki

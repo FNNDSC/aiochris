@@ -141,10 +141,25 @@ class Plugin(PublicPlugin):
         """
         Create a plugin instance, i.e. "run" this plugin.
 
+        Parameters common to all plugins are described below.
+        Not all valid parameters are listed, since each plugin's parameters are different.
+        Some plugins have required parameters too.
+        To list all possible parameters, make a GET request to the specific plugin's instances link.
+
         Parameters
         ----------
-        previous
+        previous: chris.models.data.PluginInstanceData
             Previous plugin instance
+        previous_id: int
+            Previous plugin instance ID number (conflicts with `previous`)
+        compute_resource_name: Optional[str]
+            Name of compute resource to use
+        memory_limit: Optional[str]
+            Memory limit. Format is *x*Mi or *x*Gi where x is an integer.
+        cpu_limit: Optional[str]
+            CPU limit. Format is *x*m for *x* is an integer in millicores.
+        gpu_limit: Optional[int]
+            GPU limit.
         """
         if previous is not None:
             if "previous_id" in kwargs:

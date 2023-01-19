@@ -1,15 +1,13 @@
-from typing import Iterable, Sequence
+from typing import Iterable
 
 from async_property import async_cached_property
 from serde import from_dict
 
 from chris.client.authed import AuthenticatedClient
-from chris.link.collection_client import CollectionJsonApiClient
 from chris.link import http
-from chris.models.logged_in import Plugin
-
-from chris.util.search import acollect, Search
+from chris.link.collection_client import CollectionJsonApiClient
 from chris.models.collection_links import AdminCollectionLinks, AdminApiCollectionLinks
+from chris.models.logged_in import Plugin
 from chris.models.public import ComputeResource
 from chris.models.types import PluginUrl, ComputeResourceName, PfconUrl
 

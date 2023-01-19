@@ -1,22 +1,19 @@
 import abc
-import io
 import os
 from pathlib import Path
-from typing import Optional, Generic, Callable, AsyncIterable, Sequence
+from typing import Optional, Generic, Callable, Sequence
 
 import aiohttp
-import aiofiles
-import serde.json
 from async_property import async_cached_property
 
-from chris.client.base import L, CSelf
 from chris.client.base import BaseChrisClient
+from chris.client.base import L, CSelf
 from chris.link import http
 from chris.link.linked import deserialize_res
-from chris.models.logged_in import Plugin, File, User, PluginInstance
+from chris.models.logged_in import Plugin, File, User, PluginInstance, Feed
 from chris.models.public import ComputeResource
-from chris.util.errors import IncorrectLoginError, raise_for_status
 from chris.models.types import ChrisURL, Username, Password
+from chris.util.errors import IncorrectLoginError, raise_for_status
 from chris.util.search import Search, acollect
 
 
@@ -113,6 +110,13 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
     # ============================================================
     # CUBE API methods
     # ============================================================
+
+    @http.search(".")
+    def search_feeds(self, **query) -> Search[Feed]:
+        """
+        Search for feeds.
+        """
+        ...
 
     @http.search("plugins")
     def search_plugins(self, **query) -> Search[Plugin]:

@@ -40,9 +40,12 @@ class _Paginated:
 @dataclass
 class Search(Generic[T], AsyncIterable[T]):
     """
-    A helper class which is returned by methods that call search endpoints of the *CUBE* API.
+    Abstraction over paginated collection responses from *CUBE*.
+    `Search` objects are returned by methods for search endpoints of the *CUBE* API.
     It is an [asynchronous iterable](https://docs.python.org/3/glossary.html#term-asynchronous-iterable)
     which produces items from responses that return multiple results.
+    HTTP requests are fired as-neede, they happen in the background during iteration.
+    No request is made before the first time a `Search` object is called.
 
     .. note:: Pagination is handled internally and automatically.
              The query parameters `limit` and `offset` can be explicitly given, but they shouldn't.
@@ -50,14 +53,12 @@ class Search(Generic[T], AsyncIterable[T]):
     Examples
     --------
 
-    Use with an `async for` loop:
-
-    TODO example with plugin instances
+    Use an `async for` loop to print the name of every feed:
 
     ```python
-    finished_freesurfer: Search = chris.plugin_instances(plugin_name_exact='pl-fshack', status='finishedSuccessfully')
-    async for p in chris.plugin_instances(
-
+    all_feeds = chris.get_feeds()  # returns a Search[Feed]
+    async for feed in all_feeds:
+        print(feed.name)
     ```
     """
 
