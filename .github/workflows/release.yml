@@ -1,15 +1,16 @@
 name: Publish
 
 on:
-  release:
-    types: [ created ]
+  push:
+    tags:
+      - "v?[0-9]+.[0-9]+.[0-9]+*"
 
 env:
   logo: https://github.com/FNNDSC/cube-design/blob/master/_common-assets/ChRISlogo-color.svg.png?raw=true
 
 jobs:
-  pypi:
-    name: Upload to PyPI
+  release:
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,7 +28,7 @@ jobs:
         if: steps.cached-poetry.outputs.cache-hit != 'true'
         uses: jennydaman/install-poetry@83b32fe109e39af733e68ef8544a6f665c470a16
         with:
-          version: '1.3.1'
+          version: '1.3.2'
 
       - name: Install
         run: poetry install
@@ -47,3 +48,17 @@ jobs:
         with:
           branch: gh-pages
           folder: pdoc
+          clean: true
+          clean-exclude: 'v*.*.*/'
+          target-folder: "${{ github.ref_name }}"
+      - name: Deploy docs (latest)
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: gh-pages
+          folder: pdoc
+          clean: false
+      - name: Github Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          body: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.ref_name }}"
