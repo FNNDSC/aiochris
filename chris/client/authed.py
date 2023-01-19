@@ -13,7 +13,7 @@ from chris.client.base import L, CSelf
 from chris.client.base import BaseChrisClient
 from chris.link import http
 from chris.link.linked import deserialize_res
-from chris.models.logged_in import Plugin, File, User
+from chris.models.logged_in import Plugin, File, User, PluginInstance
 from chris.models.public import ComputeResource
 from chris.util.errors import IncorrectLoginError, raise_for_status
 from chris.models.types import ChrisURL, Username, Password
@@ -118,6 +118,13 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
     def search_plugins(self, **query) -> Search[Plugin]:
         """
         Search for plugins.
+        """
+        ...
+
+    @http.search("plugin_instances")
+    def plugin_instances(self, **query) -> Search[PluginInstance]:
+        """
+        Search for plugin instances.
         """
         ...
 

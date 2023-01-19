@@ -7,6 +7,7 @@ import pytest
 from aiohttp.client_exceptions import ClientConnectorError
 
 from chris import AnonChrisClient, ChrisClient, ChrisAdminClient
+from chris.models.logged_in import Plugin, PluginInstance, Feed
 from chris.models.public import ComputeResource
 from chris.models.types import Username, Password
 from chris.util.errors import IncorrectLoginError
@@ -131,26 +132,47 @@ async def test_search_only_wrong(anon_client: AnonChrisClient):
         await anon_client.search_plugins(name_exact="dne").get_only()
 
 
-async def test_everything(
-    normal_client: ChrisClient,
-    tmp_path: Path,
-    now_str: str,
-    new_compute_resource: ComputeResource,
-):
-    example_file_path = tmp_path / "hello_aiochris.txt"
+@pytest.fixture(scope="session")
+async def dircopy(normal_client: ChrisClient):
+    return await normal_client.search_plugins(name_exact="pl-dircopy").first()
+
+
+@pytest.fixture(scope="session")
+async def simpledsapp(normal_client: ChrisClient):
+    return await normal_client.search_plugins(name_exact="pl-simpledsapp").first()
+
+
+@pytest.fixture(scope="session")
+async def dircopy_instance(
+    dircopy: Plugin, normal_client: ChrisClient, tmp_path_factory
+) -> PluginInstance:
+    example_file_path = tmp_path_factory.mktemp("aiochris-test") / "hello_aiochris.txt"
     example_file_path.write_text("testing is good fun")
 
     upload_subpath = f"aiochris-test-upload-{now_str}/hello_aiochris.txt"
     uploaded_file = await normal_client.upload_file(example_file_path, upload_subpath)
     assert uploaded_file.fname.endswith("hello_aiochris.txt")
 
-    plugin = await normal_client.search_plugins(name_exact="pl-dircopy").get_first()
-    plinst = await plugin.create_instance(
+    plinst = await dircopy.create_instance(
         dir=uploaded_file.parent, compute_resource_name="host"
     )
-    assert plinst.plugin_id == plugin.id
+    assert plinst.plugin_id == dircopy.id
+    return plinst
 
-    feed = await plinst.get_feed()
+
+async def test_plugin_instances(
+    normal_client: ChrisClient, dircopy_instance: PluginInstance
+):
+    changed_inst = await dircopy_instance.set(
+        title="i am a unit test called test_plugin_instances"
+    )
+    assert changed_inst.id == dircopy_instance.id
+    found_plinst = await normal_client.plugin_instances(id=changed_inst.id).get_only()
+    assert found_plinst.title == changed_inst.title
+
+
+async def test_feed(dircopy_instance: PluginInstance):
+    feed = await dircopy_instance.get_feed()
     feed_name = f"aiochris test feed: now_str={now_str}"
     changed_feed = await feed.set(name=feed_name)
     assert changed_feed.name == feed_name
@@ -161,3 +183,18 @@ async def test_everything(
     assert changed_note.title == note_title
     assert changed_note.content == note_content
     assert changed_note.id == note.id
+
+
+async def test_create_instance_checks_previous_type(
+    dircopy: Plugin, simpledsapp: Plugin, dircopy_instance: PluginInstance
+):
+    with pytest.raises(TypeError, match="4 is not a PluginInstance"):
+        await simpledsapp.create_instance(previous=4)  # type: ignore
+    with pytest.raises(ValueError, match="Cannot give both previous and previous_id."):
+        await simpledsapp.create_instance(previous=dircopy_instance, previous_id=4)
+    e = "Cannot create plugin instance of a fs-type plugin with a previous plugin instance."
+    with pytest.raises(ValueError, match=e):
+        await dircopy.create_instance(previous=dircopy_instance)
+    e = 'Plugin type is "ds" so previous is a required parameter.'
+    with pytest.raises(ValueError, match=e):
+        await simpledsapp.create_instance()

@@ -11,6 +11,7 @@ from serde import deserialize
 from chris.link import http
 from chris.link.linked import LinkedModel
 from chris.models.data import PluginInstanceData, FeedData, UserData, FeedNoteData
+from chris.models.enums import PluginType
 from chris.models.public import PublicPlugin
 from chris.models.types import *
 
@@ -60,6 +61,15 @@ class PluginInstance(PluginInstanceData):
     @http.get("feed")
     async def get_feed(self) -> "Feed":
         """Get the feed this plugin instance belongs to."""
+        ...
+
+    @http.put("url")
+    async def set(
+        self, title: Optional[str] = None, status: Optional[str] = None
+    ) -> "PluginInstance":
+        """
+        Set the title or status of this plugin instance.
+        """
         ...
 
 
@@ -117,5 +127,33 @@ class Plugin(PublicPlugin):
     instances: ApiUrl
 
     @http.post("instances")
-    async def create_instance(self, **kwargs) -> PluginInstance:
+    async def _create_instance_raw(self, **kwargs) -> PluginInstance:
         ...
+
+    async def create_instance(
+        self, previous: Optional[PluginInstance] = None, **kwargs
+    ) -> PluginInstance:
+        """
+        Create a plugin instance, i.e. "run" this plugin.
+
+        Parameters
+        ----------
+        previous
+            Previous plugin instance
+        """
+        if previous is not None:
+            if "previous_id" in kwargs:
+                raise ValueError("Cannot give both previous and previous_id.")
+            if not isinstance(previous, PluginInstance):
+                raise TypeError(f"{previous} is not a PluginInstance")
+            kwargs["previous_id"] = previous.id
+        if self.plugin_type is PluginType.fs:
+            if "previous_id" in kwargs:
+                raise ValueError(
+                    "Cannot create plugin instance of a fs-type plugin with a previous plugin instance."
+                )
+        elif "previous_id" not in kwargs:
+            raise ValueError(
+                f'Plugin type is "{self.plugin_type.value}" so previous is a required parameter.'
+            )
+        return await self._create_instance_raw(**kwargs)
