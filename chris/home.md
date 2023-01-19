@@ -134,3 +134,9 @@ It simplifies how we interact with paginated collection responses from *CUBE*.
 When performing batch operations, use
 [`asyncio.gather`](https://docs.python.org/3/library/asyncio-task.html#running-tasks-concurrently)
 to run async functions concurrently.
+
+`aiochris` uses many generic types, so it is recommended you use an IDE
+with good support for type hints, such as
+[PyCharm](https://www.jetbrains.com/pycharm/download/)
+or [VSCodium](https://vscodium.com) with
+[Pylance](https://github.com/microsoft/pylance-release/issues/483) configured.
