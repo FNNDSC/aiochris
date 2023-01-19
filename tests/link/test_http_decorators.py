@@ -15,6 +15,7 @@ from pytest_mock import MockerFixture
 
 from chris.link.collection_client import CollectionJsonApiClient
 from chris.link import http
+from chris.util.errors import NonsenseResponseError
 from chris.util.search import Search
 from chris.models.collection_links import AbstractCollectionLinks
 
@@ -104,6 +105,21 @@ async def test_request_to_collection_link(
         yarl.URL(example_client.collection_links.example_collection_name),
         json={"a_param": "hello"},
     )
+
+
+async def test_get_only_nonsense_response(
+    example_client: ExampleClient, mocker: MockerFixture
+):
+    res = {
+        "count": 1,
+        "next": "https://example.com/something/search/?limit=3&offset=3",
+        "previous": None,
+        "results": [],
+    }
+    example_client.s.get = MockRequest.using(mocker, res)
+    search = example_client.example_search(whatever="does not matter")
+    with pytest.raises(NonsenseResponseError):
+        await search.get_only()
 
 
 async def test_search(example_client: ExampleClient, mocker: MockerFixture):

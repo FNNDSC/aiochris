@@ -10,6 +10,7 @@ from chris import AnonChrisClient, ChrisClient, ChrisAdminClient
 from chris.models.public import ComputeResource
 from chris.models.types import Username, Password
 from chris.util.errors import IncorrectLoginError
+from chris.util.search import ManySearchError, NoneSearchError
 from tests.conftest import UserCredentials
 
 
@@ -123,6 +124,13 @@ async def new_compute_resource(
     return created_compute_resource
 
 
+async def test_search_only_wrong(anon_client: AnonChrisClient):
+    with pytest.raises(ManySearchError):
+        await anon_client.search_plugins(name="pl-").get_only()
+    with pytest.raises(NoneSearchError):
+        await anon_client.search_plugins(name_exact="dne").get_only()
+
+
 async def test_everything(
     normal_client: ChrisClient,
     tmp_path: Path,
@@ -136,7 +144,7 @@ async def test_everything(
     uploaded_file = await normal_client.upload_file(example_file_path, upload_subpath)
     assert uploaded_file.fname.endswith("hello_aiochris.txt")
 
-    plugin = await normal_client.search_plugins(name_exact="pl-dircopy").first()
+    plugin = await normal_client.search_plugins(name_exact="pl-dircopy").get_first()
     plinst = await plugin.create_instance(
         dir=uploaded_file.parent, compute_resource_name="host"
     )

@@ -11,6 +11,16 @@
 [pyserde](https://github.com/yukinarit/pyserde)
 ([dataclasses](https://docs.python.org/3/library/dataclasses.html) deserializer).
 
+## Quick Example
+
+```python
+from chris import ChrisClient
+
+
+async def example():
+    
+```
+
 ## Developing
 
 Requires [Poetry](https://python-poetry.org/) version 1.3.1.

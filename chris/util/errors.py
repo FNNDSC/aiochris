@@ -32,13 +32,7 @@ class IncorrectLoginError(BaseClientError):
     pass
 
 
-class DeserializationError(BaseClientError):
-    pass
+class NonsenseResponseError(ResponseError):
+    """CUBE returned data which does not make sense."""
 
-
-class EmptySearchError(BaseClientError):
-    pass
-
-
-class PluralResultsError(BaseClientError):
     pass

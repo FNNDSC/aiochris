@@ -18,6 +18,7 @@ from serde import deserialize
 from serde.json import from_json
 
 from chris.link.linked import deserialize_linked, Linked
+from chris.util.errors import BaseClientError, raise_for_status, NonsenseResponseError
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +40,12 @@ class _Paginated:
 @dataclass
 class Search(Generic[T], AsyncIterable[T]):
     """
-    Search result.
+    A helper class which is returned by methods that call search endpoints of the *CUBE* API.
+    It is an [asynchronous iterable](https://docs.python.org/3/glossary.html#term-asynchronous-iterable)
+    which produces items from responses that return multiple results.
+
+    .. note:: Pagination is handled internally and automatically.
+             The query parameters `limit` and `offset` can be explicitly given, but they shouldn't.
 
     Examples
     --------
@@ -68,15 +74,54 @@ class Search(Generic[T], AsyncIterable[T]):
         """
         Get the first item.
 
+        See also
+        --------
+        `get_only` : similar use, but more strict
+        """
+        return await anext(self._first_aiter(), None)
+
+    async def get_only(self, allow_multiple=False) -> T:
+        """
+        Get the *only* item from a search with one result.
+
         Examples
         --------
 
-        This function is commonly used to "get one thing" from CUBE.
+        This method is very commonly used for getting "one thing" from CUBE.
 
         ```python
-        await chris.search_plugins(name_exact="pl-dircopy").first()
+        await chris.search_plugins(name_exact="pl-dircopy", version="2.1.1").get_only()
+        ```
+
+        In the example above, a search for plugins given (`name_exact`, `version`)
+        is guaranteed to return either 0 or 1 result.
+
+        Raises
+        ------
+        chris.util.search.NoneSearchError
+            If this search is empty.
+        chris.util.search.ManySearchError
+            If this search has more than one item and `allow_multiple` is `False`
+
+        See also
+        --------
+        `first` : does the same thing but without checks.
+
+        Parameters
+        ----------
+        allow_multiple: bool
+            if `True`, do not raise `ManySearchError` if `count > 1`
         """
-        return await anext(self._first_aiter(), None)
+        one = await self._get_one()
+        if one.count == 0:
+            raise NoneSearchError(self.url)
+        if not allow_multiple and one.count > 1:
+            raise ManySearchError(self.url)
+        if len(one.results) < 1:
+            raise NonsenseResponseError(
+                f"Response has count={one.count} but the results are empty.", one
+            )
+        return deserialize_linked(self.client, self.Item, one.results[0])
 
     async def count(self) -> int:
         """
@@ -87,9 +132,13 @@ class Search(Generic[T], AsyncIterable[T]):
 
         `count` is useful for rendering a progress bar. TODO example with files
         """
+        one = await self._get_one()
+        return one.count
+
+    async def _get_one(self) -> _Paginated:
         async with self.client.s.get(self._first_url) as res:
-            data: _Paginated = from_json(_Paginated, await res.text())
-        return data.count
+            await raise_for_status(res)
+            return from_json(_Paginated, await res.text())
 
     def _paginate(self, url: yarl.URL) -> AsyncIterator[T]:
         return _get_paginated(
@@ -160,7 +209,25 @@ async def acollect(async_iterable: AsyncIterable[T]) -> list[T]:
     return [e async for e in async_iterable]
 
 
-class TooMuchPaginationError(Exception):
-    """ """
+class TooMuchPaginationError(BaseClientError):
+    """Specified maximum number of requests exceeded while retrieving results from a paginated resource."""
+
+    pass
+
+
+class GetOnlyError(BaseClientError):
+    """Search does not have exactly one result."""
+
+    pass
+
+
+class NoneSearchError(GetOnlyError):
+    """A search expected to have at least one element, has none."""
+
+    pass
+
+
+class ManySearchError(GetOnlyError):
+    """A search expected to have only one result, has several."""
 
     pass
