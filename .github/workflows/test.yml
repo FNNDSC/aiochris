@@ -57,6 +57,6 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           files: ./coverage.xml
-          env_vars: '$python-{{ matrix.python-version }}'
+          env_vars: 'python-${{ matrix.python-version }}'
       - name: End test
         run: '[ "${{ steps.test.outcome }}" = "success" ]'
