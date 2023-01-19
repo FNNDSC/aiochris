@@ -71,3 +71,13 @@ search = chris.plugin_instances(title="delete me")
 plugin_instances = await acollect(search)
 await asyncio.gather(*(p.delete() for p in plugin_instances))
 ```
+
+#### Enable Debug Logging
+
+A log message will be printed to stderr before every HTTP request is sent.
+
+```python
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+```
