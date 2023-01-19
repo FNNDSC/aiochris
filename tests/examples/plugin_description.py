@@ -1,5 +1,8 @@
 pl_nums2mask = r"""
 {
+  "name": "pl-nums2mask",
+  "dock_image": "localhost/fnndsc/pl-nums2mask:dne",
+  "public_repo": "https://github.com/FNNDSC/pl-nums2mask",
   "type": "ds",
   "parameters": [
     {

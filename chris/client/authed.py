@@ -34,6 +34,8 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
     ) -> CSelf:
         """
         Get authentication token using username and password, then construct the client.
+
+        See `chris.client.base.BaseChrisClient.new` for parameter documentation.
         """
         async with aiohttp.ClientSession(
             connector=connector, connector_owner=False
@@ -91,6 +93,8 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
     ) -> CSelf:
         """
         Construct an authenticated client using the given token.
+
+        See `chris.client.base.BaseChrisClient.new` for parameter documentation.
         """
         return await cls.new(
             url=url,
@@ -247,6 +251,10 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
     def search_compute_resources(self, **query) -> Search[ComputeResource]:
         """
         Search for existing compute resources.
+
+        See also
+        --------
+        `get_all_compute_resources` :
         """
         ...
 
@@ -256,6 +264,10 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
 
         This method exists for convenience.
         The number of compute resources of a CUBE is typically small so it's ok.
+
+        See also
+        --------
+        `search_compute_resources` :
         """
         return await acollect(self.search_compute_resources())
 

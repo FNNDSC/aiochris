@@ -26,7 +26,7 @@ class AnonChrisClient(BaseChrisClient[AnonymousCollectionLinks, "AnonChrisClient
         """
         Create an anonymous client.
 
-        See `chris.base.BaseChrisClient.new` for parameter documentation.
+        See `chris.client.base.BaseChrisClient.new` for parameter documentation.
         """
         return await cls.new(
             url=url,

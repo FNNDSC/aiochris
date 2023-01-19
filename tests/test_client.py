@@ -1,13 +1,15 @@
 import functools
+import json
 import time
-from pathlib import Path
 from typing import Callable, Awaitable
 
 import pytest
 from aiohttp.client_exceptions import ClientConnectorError
 
+import tests.examples.plugin_description as example_descriptions
 from chris import AnonChrisClient, ChrisClient, ChrisAdminClient
-from chris.models.logged_in import Plugin, PluginInstance, Feed
+from chris.client.admin import _serialize_crs  # noqa
+from chris.models.logged_in import Plugin, PluginInstance
 from chris.models.public import ComputeResource
 from chris.models.types import Username, Password
 from chris.util.errors import IncorrectLoginError
@@ -93,6 +95,56 @@ async def normal_client(session, new_user_info) -> ChrisClient:
 async def test_get_plugin(anon_client: AnonChrisClient):
     p = await anon_client.search_plugins(name_exact="pl-dircopy").first()
     assert p.name == "pl-dircopy"
+
+
+@pytest.fixture(scope="session")
+def example_plugin_description(now_str: str) -> dict:
+    data = json.loads(example_descriptions.pl_nums2mask)
+    data["name"] = f"example-{now_str}"
+    data["dock_repo"] = f"localhost/fnndsc/aiochris-test-example:{now_str}"
+    return data
+
+
+@pytest.fixture(scope="session")
+async def added_plugin(
+    admin_client: ChrisAdminClient,
+    normal_client: ChrisClient,
+    new_compute_resource: ComputeResource,
+    example_plugin_description: dict,
+) -> Plugin:
+    plugin = await admin_client.add_plugin(
+        plugin_description=example_plugin_description,
+        compute_resources=new_compute_resource,
+    )
+    return await normal_client.search_plugins(id=plugin.id).get_only()
+
+
+async def test_added_plugin(
+    added_plugin: Plugin,
+    dircopy_instance: PluginInstance,
+    new_compute_resource: ComputeResource,
+):
+    plinst = await added_plugin.create_instance(
+        previous=dircopy_instance,
+        compute_resource_name=new_compute_resource.name,
+        value="whatever",  # required parameter of example plugin
+    )
+    assert plinst.plugin_name == added_plugin.name
+    assert plinst.compute_resource_name == new_compute_resource.name
+
+
+async def test_add_plugin_compute_resources_serialization(
+    new_compute_resource: ComputeResource,
+):
+    assert _serialize_crs("hello") == "hello"
+    assert _serialize_crs(new_compute_resource) == new_compute_resource.name
+    assert (
+        _serialize_crs(["hello", new_compute_resource])
+        == f"hello,{new_compute_resource.name}"
+    )
+
+    with pytest.raises(TypeError, match="compute_resources must be str or Iterable"):
+        _serialize_crs(45)  # type: ignore
 
 
 async def test_username(normal_client: ChrisClient, new_user_info):
