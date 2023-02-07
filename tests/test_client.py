@@ -54,6 +54,7 @@ def new_user_info(now_str, admin_credentials) -> UserCredentials:
 
 
 @pytest.fixture(scope="session")
+@skip_if_not_connected
 async def admin_client(session, admin_credentials) -> ChrisAdminClient:
     return await ChrisAdminClient.from_login(
         url=admin_credentials.url,
