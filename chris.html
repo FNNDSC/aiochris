@@ -148,7 +148,7 @@
     </ul>
 
 
-            <footer>Version v0.1.1</footer>
+            <footer>Version v0.1.2</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -252,7 +252,7 @@ be sure to call <code><a href="#ChrisClient.close">ChrisClient.close</a></code> 
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="k">async</span> <span class="k">with</span> <span class="p">(</span><span class="k">await</span> <span class="n"><a href="#ChrisClient.from_login">ChrisClient.from_login</a></span><span class="p">(</span><span class="o">...</span><span class="p">))</span> <span class="k">as</span> <span class="n">chris</span><span class="p">:</span>
-    <span class="n">chris</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="s1">&#39;./something.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;something.dat&#39;</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">chris</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="s1">&#39;./something.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;something.dat&#39;</span><span class="p">)</span>
     <span class="o">...</span>
 </code></pre>
 </div>
@@ -317,7 +317,7 @@ or <a href="https://vscodium.com">VSCodium</a> with
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="kn">from</span> <span class="nn">chris</span> <span class="kn">import</span> <span class="n">ChrisClient</span>
 
-<span class="n">chris</span> <span class="o">=</span> <span class="n"><a href="#ChrisClient.from_login">ChrisClient.from_login</a></span><span class="p">(</span>
+<span class="n">chris</span> <span class="o">=</span> <span class="k">await</span> <span class="n"><a href="#ChrisClient.from_login">ChrisClient.from_login</a></span><span class="p">(</span>
     <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://cube.chrisproject.org/api/v1/&#39;</span><span class="p">,</span>
     <span class="n">username</span><span class="o">=</span><span class="s1">&#39;chris&#39;</span><span class="p">,</span>
     <span class="n">password</span><span class="o">=</span><span class="s1">&#39;chris1234&#39;</span>
@@ -329,10 +329,10 @@ or <a href="https://vscodium.com">VSCodium</a> with
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="c1"># it&#39;s recommended to specify plugin version</span>
-<span class="n">plugin</span> <span class="o">=</span> <span class="n">chris</span><span class="o">.</span><span class="n">search_plugins</span><span class="p">(</span><span class="n">name_exact</span><span class="o">=</span><span class="s2">&quot;pl-dcm2niix&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.1.0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_only</span><span class="p">()</span>
+<span class="n">plugin</span> <span class="o">=</span> <span class="k">await</span> <span class="n">chris</span><span class="o">.</span><span class="n">search_plugins</span><span class="p">(</span><span class="n">name_exact</span><span class="o">=</span><span class="s2">&quot;pl-dcm2niix&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.1.0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_only</span><span class="p">()</span>
 
 <span class="c1"># but if you don&#39;t care about plugin version...</span>
-<span class="n">plugin</span> <span class="o">=</span> <span class="n">chris</span><span class="o">.</span><span class="n">search_plugins</span><span class="p">(</span><span class="n">name_exact</span><span class="o">=</span><span class="s2">&quot;pl-dcm2niix&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="n">plugin</span> <span class="o">=</span> <span class="k">await</span> <span class="n">chris</span><span class="o">.</span><span class="n">search_plugins</span><span class="p">(</span><span class="n">name_exact</span><span class="o">=</span><span class="s2">&quot;pl-dcm2niix&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
 </code></pre>
 </div>
 
@@ -351,7 +351,7 @@ or <a href="https://vscodium.com">VSCodium</a> with
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="c1"># search for plugin to run</span>
-<span class="n">plugin</span> <span class="o">=</span> <span class="n">chris</span><span class="o">.</span><span class="n">search_plugins</span><span class="p">(</span><span class="n">name_exact</span><span class="o">=</span><span class="s2">&quot;pl-dcm2niix&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.1.0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_only</span><span class="p">()</span>
+<span class="n">plugin</span> <span class="o">=</span> <span class="k">await</span> <span class="n">chris</span><span class="o">.</span><span class="n">search_plugins</span><span class="p">(</span><span class="n">name_exact</span><span class="o">=</span><span class="s2">&quot;pl-dcm2niix&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.1.0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_only</span><span class="p">()</span>
 
 <span class="c1"># search for parent node </span>
 <span class="n">previous</span> <span class="o">=</span> <span class="k">await</span> <span class="n">chris</span><span class="o">.</span><span class="n">plugin_instances</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">44</span><span class="p">)</span><span class="o">.</span><span class="n">get_only</span><span class="p">()</span>
@@ -637,7 +637,7 @@ such as being able to search for plugins.</p>
                     <div class="decorator">@classmethod</div>
 
         <span class="def">async def</span>
-        <span class="name">create_user</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">cls</span>,</span><span class="param">	<span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">chris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ChrisURL</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">username</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">chris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ChrisUsername</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">password</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">chris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ChrisPassword</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">email</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n"><a href="chris/models/data.html#UserData">chris.models.data.UserData</a></span>:</span></span>
+        <span class="name">create_user</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">cls</span>,</span><span class="param">	<span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n"><a href="chris/models/types.html#ChrisURL">chris.models.types.ChrisURL</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">username</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n"><a href="chris/models/types.html#Username">chris.models.types.Username</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">password</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n"><a href="chris/models/types.html#Password">chris.models.types.Password</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">email</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n"><a href="chris/models/data.html#UserData">chris.models.data.UserData</a></span>:</span></span>
 
                 <label class="view-source-button" for="ChrisClient.create_user-view-source"><span>View Source</span></label>
 
@@ -854,7 +854,7 @@ add new compute resources.</p>
 <div class="attr function">
             
         <span class="def">async def</span>
-        <span class="name">register_plugin_from_store</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">plugin_store_url</span><span class="p">:</span> <span class="n">chris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PluginUrl</span>,</span><span class="param">	<span class="n">compute_names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">chris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ComputeResourceName</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n"><a href="chris/models/logged_in.html#Plugin">chris.models.logged_in.Plugin</a></span>:</span></span>
+        <span class="name">register_plugin_from_store</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">plugin_store_url</span><span class="p">:</span> <span class="n"><a href="chris/models/types.html#PluginUrl">chris.models.types.PluginUrl</a></span>,</span><span class="param">	<span class="n">compute_names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">chris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ComputeResourceName</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n"><a href="chris/models/logged_in.html#Plugin">chris.models.logged_in.Plugin</a></span>:</span></span>
 
                 <label class="view-source-button" for="ChrisAdminClient.register_plugin_from_store-view-source"><span>View Source</span></label>
 
@@ -1106,7 +1106,7 @@ File name to send along in the multi-part POST request. Not important.</li>
 </span><span id="Search-57"><a href="#Search-57"><span class="linenos"> 57</span></a><span class="sd">    Use an `async for` loop to print the name of every feed:</span>
 </span><span id="Search-58"><a href="#Search-58"><span class="linenos"> 58</span></a>
 </span><span id="Search-59"><a href="#Search-59"><span class="linenos"> 59</span></a><span class="sd">    ```python</span>
-</span><span id="Search-60"><a href="#Search-60"><span class="linenos"> 60</span></a><span class="sd">    all_feeds = chris.get_feeds()  # returns a Search[Feed]</span>
+</span><span id="Search-60"><a href="#Search-60"><span class="linenos"> 60</span></a><span class="sd">    all_feeds = chris.search_feeds()  # returns a Search[Feed]</span>
 </span><span id="Search-61"><a href="#Search-61"><span class="linenos"> 61</span></a><span class="sd">    async for feed in all_feeds:</span>
 </span><span id="Search-62"><a href="#Search-62"><span class="linenos"> 62</span></a><span class="sd">        print(feed.name)</span>
 </span><span id="Search-63"><a href="#Search-63"><span class="linenos"> 63</span></a><span class="sd">    ```</span>
@@ -1242,7 +1242,7 @@ No request is made before the first time a <code><a href="#Search">Search</a></c
 <p>Use an <code>async for</code> loop to print the name of every feed:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="n">all_feeds</span> <span class="o">=</span> <span class="n">chris</span><span class="o">.</span><span class="n">get_feeds</span><span class="p">()</span>  <span class="c1"># returns a Search[Feed]</span>
+<pre><span></span><code><span class="n">all_feeds</span> <span class="o">=</span> <span class="n">chris</span><span class="o">.</span><span class="n">search_feeds</span><span class="p">()</span>  <span class="c1"># returns a Search[Feed]</span>
 <span class="k">async</span> <span class="k">for</span> <span class="n">feed</span> <span class="ow">in</span> <span class="n">all_feeds</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">feed</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 </code></pre>

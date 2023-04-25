@@ -32,10 +32,31 @@
         <h2>API Documentation</h2>
             <ul class="memberlist">
             <li>
+                    <a class="variable" href="#Username">Username</a>
+            </li>
+            <li>
+                    <a class="variable" href="#Password">Password</a>
+            </li>
+            <li>
+                    <a class="variable" href="#ChrisURL">ChrisURL</a>
+            </li>
+            <li>
                     <a class="variable" href="#ApiUrl">ApiUrl</a>
             </li>
             <li>
                     <a class="variable" href="#ResourceId">ResourceId</a>
+            </li>
+            <li>
+                    <a class="variable" href="#PluginName">PluginName</a>
+            </li>
+            <li>
+                    <a class="variable" href="#ImageTag">ImageTag</a>
+            </li>
+            <li>
+                    <a class="variable" href="#PluginVersion">PluginVersion</a>
+            </li>
+            <li>
+                    <a class="variable" href="#PluginUrl">PluginUrl</a>
             </li>
             <li>
                     <a class="variable" href="#AdminUrl">AdminUrl</a>
@@ -49,7 +70,7 @@
     </ul>
 
 
-            <footer>Version v0.1.1</footer>
+            <footer>Version v0.1.2</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -70,93 +91,152 @@
 
                         <label class="view-source-button" for="mod-types-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">NewTypes for ChRIS models.</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span><span class="p">,</span> <span class="n">Union</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="n">Username</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ChrisUsername&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="n">Password</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ChrisPassword&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="n">ChrisURL</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ChrisURL&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="n">ApiUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ApiUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">&quot;&quot;&quot;URL which I am too lazy to be more specific about.&quot;&quot;&quot;</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="n">ResourceId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ResourceId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">&quot;&quot;&quot;ID number which I am too lazy to be more specific about.&quot;&quot;&quot;</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="n">PluginName</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginName&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="n">ImageTag</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ImageTag&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="n">PluginVersion</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginVersion&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="n">PluginUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="n">PluginSearchUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginSearchUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="n">PluginId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="n">UserUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;UserUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="n">UserId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;UserId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="n">AdminUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;AdminUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">&quot;&quot;&quot;A admin resource URL ending with `/chris-admin/api/v1/`&quot;&quot;&quot;</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="n">ComputeResourceName</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ComputeResourceName&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="n">ComputeResourceId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ComputeResourceId&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="n">PfconUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PfconUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="n">FeedId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FeedId&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="n">CubeFilePath</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;CubeFilePath&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="n">CUBEErrorCode</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;CUBEErrorCode&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="n">ContainerImageTag</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ContainerImageTag&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="n">PipingId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipingId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="n">PipelineId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipelineId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="n">ParameterName</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ParameterName&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="n">ParameterType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="n">PipelineParameterId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ParameterLocalId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="n">PluginParameterId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ParameterGlobalId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="n">PluginInstanceId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginInstanceId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="n">FileFname</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FileFname&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="n">FileResourceName</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FileResourceName&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="n">FileId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FileId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="n">FilesUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FilesUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="n">FileResourceUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FileResourceUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="n">PipelineUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipelineUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="n">PipingsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipingsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="n">PipelinePluginsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipelinePluginsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="n">PipelineDefaultParametersUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipelineDefaultParametersUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a><span class="n">PipingUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipingUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="n">PipelineParameterUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipingParameterUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="n">PluginInstanceUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginInstanceUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="n">PluginInstancesUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginInstancesUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="n">DescendantsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;DescendantsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a><span class="n">PipelineInstancesUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipelineInstancesUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a><span class="n">PluginInstanceParamtersUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginInstanceParametersUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="n">ComputeResourceUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ComputeResourceUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a><span class="n">SplitsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;SplitsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a><span class="n">FeedUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FeedUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a><span class="n">NoteId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;NoteId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a><span class="sd">&quot;&quot;&quot;A feed note&#39;s ID number.&quot;&quot;&quot;</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a><span class="n">NoteUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;NoteUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a><span class="sd">&quot;&quot;&quot;A feed&#39;s note.&quot;&quot;&quot;</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a><span class="n">PluginParametersUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginParametersUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a><span class="n">TagsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;TagsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a><span class="n">TaggingsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;TaggingsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a><span class="n">CommentsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;CommentsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="sd">NewTypes for ChRIS models.</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span><span class="p">,</span> <span class="n">Union</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a>
+</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="n">Username</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;Username&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="sd">&quot;&quot;&quot;ChRIS user account username&quot;&quot;&quot;</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="n">Password</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="sd">&quot;&quot;&quot;ChRIS user account password&quot;&quot;&quot;</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="n">ChrisURL</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ChrisURL&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="sd">&quot;&quot;&quot;ChRIS backend API base URL&quot;&quot;&quot;</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="n">ApiUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ApiUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="sd">&quot;&quot;&quot;Any CUBE URL which I am too lazy to be more specific about.&quot;&quot;&quot;</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="n">ResourceId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ResourceId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="sd">&quot;&quot;&quot;ID number which I am too lazy to be more specific about.&quot;&quot;&quot;</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="n">PluginName</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginName&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="sd">&quot;&quot;&quot;Name of a ChRIS plugin&quot;&quot;&quot;</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="n">ImageTag</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ImageTag&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a><span class="sd">&quot;&quot;&quot;OCI image tag (informally, a Docker Image name)&quot;&quot;&quot;</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="n">PluginVersion</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginVersion&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="sd">&quot;&quot;&quot;Version string of a ChRIS plugin&quot;&quot;&quot;</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>
+</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a><span class="n">PluginUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="sd">URL of a ChRIS plugin.</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="sd">## Examples</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>
+</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a><span class="sd">- https://chrisstore.co/api/v1/plugins/5/</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a><span class="sd">- https://cube.chrisproject.org/api/v1/plugins/6/</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="n">PluginSearchUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginSearchUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a><span class="n">PluginId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a><span class="n">UserUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;UserUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a><span class="n">UserId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;UserId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a><span class="n">AdminUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;AdminUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="sd">&quot;&quot;&quot;A admin resource URL ending with `/chris-admin/api/v1/`&quot;&quot;&quot;</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="n">ComputeResourceName</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ComputeResourceName&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="n">ComputeResourceId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ComputeResourceId&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="n">PfconUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PfconUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="n">FeedId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FeedId&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="n">CubeFilePath</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;CubeFilePath&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="n">CUBEErrorCode</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;CUBEErrorCode&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="n">ContainerImageTag</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ContainerImageTag&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a><span class="n">PipingId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipingId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="n">PipelineId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipelineId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="n">ParameterName</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ParameterName&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="n">ParameterType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a><span class="n">PipelineParameterId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ParameterLocalId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="n">PluginParameterId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ParameterGlobalId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a><span class="n">PluginInstanceId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginInstanceId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="n">FileFname</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FileFname&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="n">FileResourceName</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FileResourceName&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="n">FileId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FileId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="n">FilesUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FilesUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="n">FileResourceUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FileResourceUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="n">PipelineUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipelineUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="n">PipingsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipingsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="n">PipelinePluginsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipelinePluginsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="n">PipelineDefaultParametersUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipelineDefaultParametersUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="n">PipingUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipingUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="n">PipelineParameterUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipingParameterUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="n">PluginInstanceUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginInstanceUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="n">PluginInstancesUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginInstancesUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="n">DescendantsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;DescendantsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="n">PipelineInstancesUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PipelineInstancesUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="n">PluginInstanceParamtersUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginInstanceParametersUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="n">ComputeResourceUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;ComputeResourceUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="n">SplitsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;SplitsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="n">FeedUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;FeedUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="n">NoteId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;NoteId&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">&quot;&quot;&quot;A feed note&#39;s ID number.&quot;&quot;&quot;</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="n">NoteUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;NoteUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="sd">A feed&#39;s note URL.</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="sd">## Examples</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="sd">- https://cube.chrisproject.org/api/v1/note4/</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="n">PluginParametersUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;PluginParametersUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="n">TagsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;TagsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="n">TaggingsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;TaggingsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="n">CommentsUrl</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;CommentsUrl&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
 </span></pre></div>
 
 
             </section>
+                <section id="Username">
+                    <div class="attr variable">
+            <span class="name">Username</span><span class="default_value"> = <a href="#Username">chris.models.types.Username</a></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Username"></a>
+    
+            <div class="docstring"><p>ChRIS user account username</p>
+</div>
+
+
+                </section>
+                <section id="Password">
+                    <div class="attr variable">
+            <span class="name">Password</span><span class="default_value"> = <a href="#Password">chris.models.types.Password</a></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Password"></a>
+    
+            <div class="docstring"><p>ChRIS user account password</p>
+</div>
+
+
+                </section>
+                <section id="ChrisURL">
+                    <div class="attr variable">
+            <span class="name">ChrisURL</span><span class="default_value"> = <a href="#ChrisURL">chris.models.types.ChrisURL</a></span>
+
+        
+    </div>
+    <a class="headerlink" href="#ChrisURL"></a>
+    
+            <div class="docstring"><p>ChRIS backend API base URL</p>
+</div>
+
+
+                </section>
                 <section id="ApiUrl">
                     <div class="attr variable">
             <span class="name">ApiUrl</span><span class="default_value"> = <a href="#ApiUrl">chris.models.types.ApiUrl</a></span>
@@ -165,7 +245,7 @@
     </div>
     <a class="headerlink" href="#ApiUrl"></a>
     
-            <div class="docstring"><p>URL which I am too lazy to be more specific about.</p>
+            <div class="docstring"><p>Any CUBE URL which I am too lazy to be more specific about.</p>
 </div>
 
 
@@ -179,6 +259,65 @@
     <a class="headerlink" href="#ResourceId"></a>
     
             <div class="docstring"><p>ID number which I am too lazy to be more specific about.</p>
+</div>
+
+
+                </section>
+                <section id="PluginName">
+                    <div class="attr variable">
+            <span class="name">PluginName</span><span class="default_value"> = <a href="#PluginName">chris.models.types.PluginName</a></span>
+
+        
+    </div>
+    <a class="headerlink" href="#PluginName"></a>
+    
+            <div class="docstring"><p>Name of a ChRIS plugin</p>
+</div>
+
+
+                </section>
+                <section id="ImageTag">
+                    <div class="attr variable">
+            <span class="name">ImageTag</span><span class="default_value"> = <a href="#ImageTag">chris.models.types.ImageTag</a></span>
+
+        
+    </div>
+    <a class="headerlink" href="#ImageTag"></a>
+    
+            <div class="docstring"><p>OCI image tag (informally, a Docker Image name)</p>
+</div>
+
+
+                </section>
+                <section id="PluginVersion">
+                    <div class="attr variable">
+            <span class="name">PluginVersion</span><span class="default_value"> = <a href="#PluginVersion">chris.models.types.PluginVersion</a></span>
+
+        
+    </div>
+    <a class="headerlink" href="#PluginVersion"></a>
+    
+            <div class="docstring"><p>Version string of a ChRIS plugin</p>
+</div>
+
+
+                </section>
+                <section id="PluginUrl">
+                    <div class="attr variable">
+            <span class="name">PluginUrl</span><span class="default_value"> = <a href="#PluginUrl">chris.models.types.PluginUrl</a></span>
+
+        
+    </div>
+    <a class="headerlink" href="#PluginUrl"></a>
+    
+            <div class="docstring"><p>URL of a ChRIS plugin.</p>
+
+<h2 id="examples">Examples</h2>
+
+<ul>
+<li><a href="https://chrisstore.co/api/v1/plugins/5/">https://chrisstore.co/api/v1/plugins/5/</a></li>
+<li><a href="https://cube.chrisproject.org/api/v1/plugins/6/">https://cube.chrisproject.org/api/v1/plugins/6/</a></li>
+</ul>
 </div>
 
 
@@ -217,7 +356,13 @@
     </div>
     <a class="headerlink" href="#NoteUrl"></a>
     
-            <div class="docstring"><p>A feed's note.</p>
+            <div class="docstring"><p>A feed's note URL.</p>
+
+<h2 id="examples">Examples</h2>
+
+<ul>
+<li><a href="https://cube.chrisproject.org/api/v1/note4/">https://cube.chrisproject.org/api/v1/note4/</a></li>
+</ul>
 </div>
 
 

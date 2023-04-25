@@ -79,7 +79,7 @@
     </ul>
 
 
-            <footer>Version v0.1.1</footer>
+            <footer>Version v0.1.2</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -156,7 +156,7 @@
 </span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="sd">    Use an `async for` loop to print the name of every feed:</span>
 </span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>
 </span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a><span class="sd">    ```python</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">    all_feeds = chris.get_feeds()  # returns a Search[Feed]</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">    all_feeds = chris.search_feeds()  # returns a Search[Feed]</span>
 </span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a><span class="sd">    async for feed in all_feeds:</span>
 </span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a><span class="sd">        print(feed.name)</span>
 </span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="sd">    ```</span>
@@ -367,7 +367,7 @@
 </span><span id="Search-57"><a href="#Search-57"><span class="linenos"> 57</span></a><span class="sd">    Use an `async for` loop to print the name of every feed:</span>
 </span><span id="Search-58"><a href="#Search-58"><span class="linenos"> 58</span></a>
 </span><span id="Search-59"><a href="#Search-59"><span class="linenos"> 59</span></a><span class="sd">    ```python</span>
-</span><span id="Search-60"><a href="#Search-60"><span class="linenos"> 60</span></a><span class="sd">    all_feeds = chris.get_feeds()  # returns a Search[Feed]</span>
+</span><span id="Search-60"><a href="#Search-60"><span class="linenos"> 60</span></a><span class="sd">    all_feeds = chris.search_feeds()  # returns a Search[Feed]</span>
 </span><span id="Search-61"><a href="#Search-61"><span class="linenos"> 61</span></a><span class="sd">    async for feed in all_feeds:</span>
 </span><span id="Search-62"><a href="#Search-62"><span class="linenos"> 62</span></a><span class="sd">        print(feed.name)</span>
 </span><span id="Search-63"><a href="#Search-63"><span class="linenos"> 63</span></a><span class="sd">    ```</span>
@@ -503,7 +503,7 @@ No request is made before the first time a <code><a href="#Search">Search</a></c
 <p>Use an <code>async for</code> loop to print the name of every feed:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="n">all_feeds</span> <span class="o">=</span> <span class="n">chris</span><span class="o">.</span><span class="n">get_feeds</span><span class="p">()</span>  <span class="c1"># returns a Search[Feed]</span>
+<pre><span></span><code><span class="n">all_feeds</span> <span class="o">=</span> <span class="n">chris</span><span class="o">.</span><span class="n">search_feeds</span><span class="p">()</span>  <span class="c1"># returns a Search[Feed]</span>
 <span class="k">async</span> <span class="k">for</span> <span class="n">feed</span> <span class="ow">in</span> <span class="n">all_feeds</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">feed</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 </code></pre>
