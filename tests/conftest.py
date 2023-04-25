@@ -32,7 +32,7 @@ class UserCredentials:
 @pytest.fixture(scope="session")
 def admin_credentials() -> UserCredentials:
     return UserCredentials(
-        username=Username("aiochris"),
+        username=Username("chris"),
         password=Password("chris1234"),
         url=ChrisURL("http://localhost:8000/api/v1/"),
     )

@@ -154,7 +154,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
 
         ```python
         aiochris = await ChrisClient.from_login(
-            username='aiochris',
+            username='chris',
             password='chris1234',
             url='https://cube.chrisproject.org/api/v1/'
         )
