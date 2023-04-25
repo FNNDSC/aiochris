@@ -1,6 +1,6 @@
 """
-Subclasses of classes from `chris.models.data` which are returned
-from an `chris.client.authed.AuthenticatedClient`.
+Subclasses of classes from `aiochris.models.data` which are returned
+from an `aiochris.client.authed.AuthenticatedClient`.
 These classes may have read-write functionality on the *ChRIS* API.
 """
 from dataclasses import dataclass
@@ -8,12 +8,12 @@ from typing import Optional
 
 from serde import deserialize
 
-from chris.link import http
-from chris.link.linked import LinkedModel
-from chris.models.data import PluginInstanceData, FeedData, UserData, FeedNoteData
-from chris.models.enums import PluginType
-from chris.models.public import PublicPlugin
-from chris.models.types import *
+from aiochris.link import http
+from aiochris.link.linked import LinkedModel
+from aiochris.models.data import PluginInstanceData, FeedData, UserData, FeedNoteData
+from aiochris.models.enums import PluginType
+from aiochris.models.public import PublicPlugin
+from aiochris.models.types import *
 
 
 @deserialize

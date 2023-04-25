@@ -5,7 +5,7 @@ from typing import Iterator
 
 from serde import deserialize
 
-from chris.models.types import ApiUrl, UserUrl, AdminUrl
+from aiochris.models.types import ApiUrl, UserUrl, AdminUrl
 
 
 @deserialize

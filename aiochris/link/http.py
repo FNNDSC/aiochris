@@ -24,9 +24,9 @@ from typing import (
 import aiohttp
 import yarl
 
-from chris.link.linked import LinkedMeta, Linked, deserialize_res
-from chris.link.metaprog import get_return_hint
-from chris.util.search import Search
+from aiochris.link.linked import LinkedMeta, Linked, deserialize_res
+from aiochris.link.metaprog import get_return_hint
+from aiochris.util.search import Search
 
 logger = logging.getLogger(__name__)
 
@@ -99,7 +99,7 @@ def _http_method_decorator(
     [Callable[..., Coroutine[None, None, _R]]], Callable[..., Coroutine[None, None, _R]]
 ]:
     """
-    Creates a decorator which transforms a method of a subclass of `chris.link.Linked`
+    Creates a decorator which transforms a method of a subclass of `aiochris.link.Linked`
     to one which makes an HTTP request.
     """
 

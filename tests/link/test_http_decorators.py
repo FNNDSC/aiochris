@@ -13,13 +13,13 @@ import aiohttp
 import pytest
 from pytest_mock import MockerFixture
 
-from chris.link.collection_client import CollectionJsonApiClient
-from chris.link import http
-from chris.util.errors import NonsenseResponseError
-from chris.util.search import Search
-from chris.models.collection_links import AbstractCollectionLinks
+from aiochris.link.collection_client import CollectionJsonApiClient
+from aiochris.link import http
+from aiochris.util.errors import NonsenseResponseError
+from aiochris.util.search import Search
+from aiochris.models.collection_links import AbstractCollectionLinks
 
-from chris.models.types import ApiUrl
+from aiochris.models.types import ApiUrl
 
 
 @dataclass(frozen=True)

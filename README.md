@@ -25,7 +25,7 @@ poetry add aiochris
 
 ```python
 import asyncio
-from chris import ChrisClient
+from aiochris import ChrisClient
 
 
 async def readme_example():

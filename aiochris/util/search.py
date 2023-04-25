@@ -17,8 +17,12 @@ import yarl
 from serde import deserialize
 from serde.json import from_json
 
-from chris.link.linked import deserialize_linked, Linked
-from chris.util.errors import BaseClientError, raise_for_status, NonsenseResponseError
+from aiochris.link.linked import deserialize_linked, Linked
+from aiochris.util.errors import (
+    BaseClientError,
+    raise_for_status,
+    NonsenseResponseError,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -99,9 +103,9 @@ class Search(Generic[T], AsyncIterable[T]):
 
         Raises
         ------
-        chris.util.search.NoneSearchError
+        aiochris.util.search.NoneSearchError
             If this search is empty.
-        chris.util.search.ManySearchError
+        aiochris.util.search.ManySearchError
             If this search has more than one item and `allow_multiple` is `False`
 
         See also

@@ -1,8 +1,8 @@
 import pytest
 import yarl
 
-from chris.link.linked import Linked
-from chris.link import http
+from aiochris.link.linked import Linked
+from aiochris.link import http
 
 
 def test_metaclass_validates_links():

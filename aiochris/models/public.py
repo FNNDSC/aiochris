@@ -6,9 +6,9 @@ from dataclasses import dataclass
 import serde
 from serde import deserialize
 
-from chris.link.linked import LinkedModel
-from chris.models.enums import PluginType
-from chris.models.types import *
+from aiochris.link.linked import LinkedModel
+from aiochris.models.enums import PluginType
+from aiochris.models.types import *
 
 
 @deserialize

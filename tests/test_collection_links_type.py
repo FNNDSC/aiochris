@@ -1,8 +1,8 @@
 """
 Assert metaprogramming helpers work on the public classes of this package.
 """
-from chris import AnonChrisClient, ChrisClient, ChrisAdminClient
-from chris.models.collection_links import (
+from aiochris import AnonChrisClient, ChrisClient, ChrisAdminClient
+from aiochris.models.collection_links import (
     AnonymousCollectionLinks,
     CollectionLinks,
     AdminCollectionLinks,

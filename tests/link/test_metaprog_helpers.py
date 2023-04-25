@@ -1,4 +1,4 @@
-from chris.link.metaprog import get_return_hint
+from aiochris.link.metaprog import get_return_hint
 
 
 class ExampleClient:

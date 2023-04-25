@@ -2,11 +2,11 @@ from typing import Optional
 
 import aiohttp
 
-from chris.client.base import BaseChrisClient
-from chris.link import http
-from chris.models.collection_links import AnonymousCollectionLinks
-from chris.models.public import PublicPlugin
-from chris.util.search import Search
+from aiochris.client.base import BaseChrisClient
+from aiochris.link import http
+from aiochris.models.collection_links import AnonymousCollectionLinks
+from aiochris.models.public import PublicPlugin
+from aiochris.util.search import Search
 
 
 class AnonChrisClient(BaseChrisClient[AnonymousCollectionLinks, "AnonChrisClient"]):
@@ -26,7 +26,7 @@ class AnonChrisClient(BaseChrisClient[AnonymousCollectionLinks, "AnonChrisClient
         """
         Create an anonymous client.
 
-        See `chris.client.base.BaseChrisClient.new` for parameter documentation.
+        See `aiochris.client.base.BaseChrisClient.new` for parameter documentation.
         """
         return await cls.new(
             url=url,

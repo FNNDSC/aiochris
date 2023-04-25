@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 import pytest
 import aiohttp
-from chris.models.types import ChrisURL, Username, Password
+from aiochris.models.types import ChrisURL, Username, Password
 
 
 @pytest.fixture(scope="session")
@@ -32,7 +32,7 @@ class UserCredentials:
 @pytest.fixture(scope="session")
 def admin_credentials() -> UserCredentials:
     return UserCredentials(
-        username=Username("chris"),
+        username=Username("aiochris"),
         password=Password("chris1234"),
         url=ChrisURL("http://localhost:8000/api/v1/"),
     )

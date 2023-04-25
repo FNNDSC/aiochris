@@ -18,7 +18,7 @@ poetry add aiochris
 ## Brief Example
 
 ```python
-from chris import ChrisClient
+from aiochris import ChrisClient
 
 chris = await ChrisClient.from_login(
     username='chris',
@@ -102,7 +102,7 @@ including all `aiochris` clients and other `aiohttp` clients.
 
 ```python
 import aiohttp
-from chris import ChrisClient
+from aiochris import ChrisClient
 
 with aiohttp.TCPConnector() as connector:
     chris_client1 = await ChrisClient.from_login(

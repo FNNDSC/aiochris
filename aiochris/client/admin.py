@@ -6,15 +6,18 @@ import aiohttp
 from async_property import async_cached_property
 from serde import from_dict
 
-from chris.client.authed import AuthenticatedClient
-from chris.link import http
-from chris.link.collection_client import CollectionJsonApiClient
-from chris.link.linked import deserialize_linked
-from chris.models.collection_links import AdminCollectionLinks, AdminApiCollectionLinks
-from chris.models.logged_in import Plugin
-from chris.models.public import ComputeResource
-from chris.models.types import PluginUrl, ComputeResourceName, PfconUrl
-from chris.util.errors import raise_for_status
+from aiochris.client.authed import AuthenticatedClient
+from aiochris.link import http
+from aiochris.link.collection_client import CollectionJsonApiClient
+from aiochris.link.linked import deserialize_linked
+from aiochris.models.collection_links import (
+    AdminCollectionLinks,
+    AdminApiCollectionLinks,
+)
+from aiochris.models.logged_in import Plugin
+from aiochris.models.public import ComputeResource
+from aiochris.models.types import PluginUrl, ComputeResourceName, PfconUrl
+from aiochris.util.errors import raise_for_status
 
 
 class _AdminApiClient(CollectionJsonApiClient[AdminApiCollectionLinks]):
@@ -79,8 +82,8 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
         - Calls blocking function `subprocess.check_output` in asynchronous context
         - It is preferred to use a versioned string for `dock_image`
         - `host` compute environment is not guaranteed to exist. Instead, you could
-          call `chris.client.authed.AuthenticatedClient.search_compute_resources`
-          or `chris.client.authed.AuthenticatedClient.get_all_compute_resources`:
+          call `aiochris.client.authed.AuthenticatedClient.search_compute_resources`
+          or `aiochris.client.authed.AuthenticatedClient.get_all_compute_resources`:
 
         ```python
         all_computes = await chris_admin.get_all_compute_resources()
@@ -94,7 +97,7 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
             [spec](https://github.com/FNNDSC/CHRIS_docs/blob/5078aaf934bdbe313e85367f88aff7c14730a1d4/specs/ChRIS_Plugins.adoc#descriptor_file)
         compute_resources
             Compute resources to register the plugin to. Value can be either a comma-separated `str` of names,
-            a `chris.models.public.ComputeResource`, a sequence of `chris.models.public.ComputeResource`,
+            a `aiochris.models.public.ComputeResource`, a sequence of `aiochris.models.public.ComputeResource`,
             or a sequence of compute resource names as `str`.
         fname: str
             File name to send along in the multi-part POST request. Not important.

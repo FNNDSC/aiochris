@@ -4,8 +4,8 @@ from typing import AsyncContextManager, Generic, Optional, Callable, TypeVar
 import aiohttp
 from serde import from_dict
 
-from chris.link.collection_client import L, CollectionJsonApiClient
-from chris.util.errors import raise_for_status
+from aiochris.link.collection_client import L, CollectionJsonApiClient
+from aiochris.util.errors import raise_for_status
 
 CSelf = TypeVar(
     "CSelf", bound="BaseChrisClient"
@@ -42,7 +42,7 @@ class BaseChrisClient(
             ChRIS backend url, e.g. "https://cube.chrisproject.org/api/v1/"
         max_search_requests
             Maximum number of HTTP requests to make while retrieving items from a
-            paginated endpoint before raising `chris.util.search.TooMuchPaginationError`.
+            paginated endpoint before raising `aiochris.util.search.TooMuchPaginationError`.
             Use `max_search_requests=-1` to allow for "infinite" pagination
             (well, you're still limited by Python's stack).
         connector

@@ -3,9 +3,9 @@ from typing import TypeVar, Generic, Type
 
 import yarl
 
-from chris.link.linked import Linked
-from chris.link.metaprog import generic_of
-from chris.models.collection_links import AbstractCollectionLinks
+from aiochris.link.linked import Linked
+from aiochris.link.metaprog import generic_of
+from aiochris.models.collection_links import AbstractCollectionLinks
 
 L = TypeVar("L", bound=AbstractCollectionLinks)
 

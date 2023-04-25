@@ -3,7 +3,7 @@
 #### Create a client given username and password
 
 ```python
-from chris import ChrisClient
+from aiochris import ChrisClient
 
 chris = await ChrisClient.from_login(
     url='https://cube.chrisproject.org/api/v1/',
@@ -65,8 +65,9 @@ async for p in finished_freesurfers:
 
 ```python
 import asyncio
-from chris import acollect
+from aiochris import ChrisClient, acollect
 
+chris = ChrisClient.from_login(...)
 search = chris.plugin_instances(title="delete me")
 plugin_instances = await acollect(search)
 await asyncio.gather(*(p.delete() for p in plugin_instances))

@@ -4,11 +4,11 @@ from typing import Optional
 import aiohttp
 from serde.json import from_json
 
-from chris.client.authed import AuthenticatedClient
-from chris.util.errors import raise_for_status
-from chris.models.collection_links import CollectionLinks
-from chris.models.data import UserData
-from chris.models.types import ChrisURL, Username, Password
+from aiochris.client.authed import AuthenticatedClient
+from aiochris.util.errors import raise_for_status
+from aiochris.models.collection_links import CollectionLinks
+from aiochris.models.data import UserData
+from aiochris.models.types import ChrisURL, Username, Password
 
 
 class ChrisClient(AuthenticatedClient[CollectionLinks, "ChrisClient"]):

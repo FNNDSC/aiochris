@@ -5,7 +5,7 @@ import pytest
 import serde
 import yarl
 
-from chris.link.linked import Linked, LinkedModel, deserialize_linked
+from aiochris.link.linked import Linked, LinkedModel, deserialize_linked
 
 
 @serde.deserialize

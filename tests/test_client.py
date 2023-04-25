@@ -7,13 +7,13 @@ import pytest
 from aiohttp.client_exceptions import ClientConnectorError
 
 import tests.examples.plugin_description as example_descriptions
-from chris import AnonChrisClient, ChrisClient, ChrisAdminClient
-from chris.client.admin import _serialize_crs  # noqa
-from chris.models.logged_in import Plugin, PluginInstance
-from chris.models.public import ComputeResource
-from chris.models.types import Username, Password
-from chris.util.errors import IncorrectLoginError
-from chris.util.search import ManySearchError, NoneSearchError
+from aiochris import AnonChrisClient, ChrisClient, ChrisAdminClient
+from aiochris.client.admin import _serialize_crs  # noqa
+from aiochris.models.logged_in import Plugin, PluginInstance
+from aiochris.models.public import ComputeResource
+from aiochris.models.types import Username, Password
+from aiochris.util.errors import IncorrectLoginError
+from aiochris.util.search import ManySearchError, NoneSearchError
 from tests.conftest import UserCredentials
 
 

@@ -6,15 +6,15 @@ from typing import Optional, Generic, Callable, Sequence
 import aiohttp
 from async_property import async_cached_property
 
-from chris.client.base import BaseChrisClient
-from chris.client.base import L, CSelf
-from chris.link import http
-from chris.link.linked import deserialize_res
-from chris.models.logged_in import Plugin, File, User, PluginInstance, Feed
-from chris.models.public import ComputeResource
-from chris.models.types import ChrisURL, Username, Password
-from chris.util.errors import IncorrectLoginError, raise_for_status
-from chris.util.search import Search, acollect
+from aiochris.client.base import BaseChrisClient
+from aiochris.client.base import L, CSelf
+from aiochris.link import http
+from aiochris.link.linked import deserialize_res
+from aiochris.models.logged_in import Plugin, File, User, PluginInstance, Feed
+from aiochris.models.public import ComputeResource
+from aiochris.models.types import ChrisURL, Username, Password
+from aiochris.util.errors import IncorrectLoginError, raise_for_status
+from aiochris.util.search import Search, acollect
 
 
 class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC):
@@ -35,7 +35,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         """
         Get authentication token using username and password, then construct the client.
 
-        See `chris.client.base.BaseChrisClient.new` for parameter documentation.
+        See `aiochris.client.base.BaseChrisClient.new` for parameter documentation.
         """
         async with aiohttp.ClientSession(
             connector=connector, connector_owner=False
@@ -94,7 +94,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         """
         Construct an authenticated client using the given token.
 
-        See `chris.client.base.BaseChrisClient.new` for parameter documentation.
+        See `aiochris.client.base.BaseChrisClient.new` for parameter documentation.
         """
         return await cls.new(
             url=url,
@@ -153,21 +153,21 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         Upload a single file:
 
         ```python
-        chris = await ChrisClient.from_login(
-            username='chris',
+        aiochris = await ChrisClient.from_login(
+            username='aiochris',
             password='chris1234',
             url='https://cube.chrisproject.org/api/v1/'
         )
-        file = await chris.upload_file("./my_data.dat", 'dir/my_data.dat')
-        assert file.fname == 'chris/uploads/dir/my_data.dat'
+        file = await aiochris.upload_file("./my_data.dat", 'dir/my_data.dat')
+        assert file.fname == 'aiochris/uploads/dir/my_data.dat'
         ```
 
         Upload (in parallel) all `*.txt` files in a directory
-        `'incoming'` to `chris/uploads/big_folder`:
+        `'incoming'` to `aiochris/uploads/big_folder`:
 
         ```python
         upload_jobs = (
-            chris.upload_file(p, f'big_folder/{p}')
+            aiochris.upload_file(p, f'big_folder/{p}')
             for p in Path('incoming')
         )
         await asyncio.gather(upload_jobs)

@@ -1,8 +1,8 @@
 """
 Dataclasses describing objects returned from CUBE.
 
-These classes are extended in the modules `chris.models.logged_in`
-and `chris.models.public` with methods to get objects from links.
+These classes are extended in the modules `aiochris.models.logged_in`
+and `aiochris.models.public` with methods to get objects from links.
 """
 
 from dataclasses import dataclass
@@ -11,9 +11,9 @@ from typing import Optional
 
 from serde import deserialize
 
-from chris.link.linked import LinkedModel
-from chris.models.enums import PluginType, Status
-from chris.models.types import *
+from aiochris.link.linked import LinkedModel
+from aiochris.models.enums import PluginType, Status
+from aiochris.models.types import *
 
 
 @deserialize

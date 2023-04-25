@@ -15,7 +15,7 @@ import aiohttp
 import serde
 import yarl
 
-from chris.util.errors import raise_for_status, ResponseError
+from aiochris.util.errors import raise_for_status, ResponseError
 
 T = TypeVar("T")
 
@@ -52,7 +52,7 @@ class LinkedMeta(abc.ABCMeta):
         """
         Check that every method marked by `mark_to_check` was given a collection name
         which exists as a field in the class's associated
-        `chris.models.collection_links.AbstractCollectionLinks` type.
+        `aiochris.models.collection_links.AbstractCollectionLinks` type.
         """
         marked_methods = filter(None, map(mcs._get_marked, dct.values()))
         for collection_name, method in marked_methods:
@@ -131,7 +131,7 @@ class LinkedModel(Linked, abc.ABC):
 def deserialize_linked(client: Linked, t: Type[T], o: dict) -> T:
     """
     Wraps `serde.from_dict`.
-    If `t` is a subclass of `chris.models.connected.Connected`, its session is set.
+    If `t` is a subclass of `aiochris.models.connected.Connected`, its session is set.
 
     Side effect: o is mutated
     """
