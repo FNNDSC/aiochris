@@ -5,7 +5,7 @@
 ```python
 from chris import ChrisClient
 
-chris = ChrisClient.from_login(
+chris = await ChrisClient.from_login(
     url='https://cube.chrisproject.org/api/v1/',
     username='chris',
     password='chris1234'
@@ -16,10 +16,10 @@ chris = ChrisClient.from_login(
 
 ```python
 # it's recommended to specify plugin version
-plugin = chris.search_plugins(name_exact="pl-dcm2niix", version="0.1.0").get_only()
+plugin = await chris.search_plugins(name_exact="pl-dcm2niix", version="0.1.0").get_only()
 
 # but if you don't care about plugin version...
-plugin = chris.search_plugins(name_exact="pl-dcm2niix").first()
+plugin = await chris.search_plugins(name_exact="pl-dcm2niix").first()
 ```
 
 #### Create a feed by uploading a file
@@ -36,7 +36,7 @@ await feed.set(name="An experiment on uploaded file brain.nii")
 
 ```python
 # search for plugin to run
-plugin = chris.search_plugins(name_exact="pl-dcm2niix", version="0.1.0").get_only()
+plugin = await chris.search_plugins(name_exact="pl-dcm2niix", version="0.1.0").get_only()
 
 # search for parent node 
 previous = await chris.plugin_instances(id=44).get_only()

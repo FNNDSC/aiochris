@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aiochris"
-version = "0.1.1"
+version = "0.1.2"
 description = "ChRIS client built on aiohttp"
 authors = ["FNNDSC <dev@babyMRI.org>"]
 readme = "README.md"

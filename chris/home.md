@@ -85,7 +85,7 @@ You can also use an
 
 ```python
 async with (await ChrisClient.from_login(...)) as chris:
-    chris.upload_file('./something.dat', 'something.dat')
+    await chris.upload_file('./something.dat', 'something.dat')
     ...
 ```
 

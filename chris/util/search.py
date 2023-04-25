@@ -56,7 +56,7 @@ class Search(Generic[T], AsyncIterable[T]):
     Use an `async for` loop to print the name of every feed:
 
     ```python
-    all_feeds = chris.get_feeds()  # returns a Search[Feed]
+    all_feeds = chris.search_feeds()  # returns a Search[Feed]
     async for feed in all_feeds:
         print(feed.name)
     ```

@@ -4,19 +4,33 @@ NewTypes for ChRIS models.
 
 from typing import NewType, Union
 
-Username = NewType("ChrisUsername", str)
-Password = NewType("ChrisPassword", str)
+Username = NewType("Username", str)
+"""ChRIS user account username"""
+Password = NewType("Password", str)
+"""ChRIS user account password"""
 ChrisURL = NewType("ChrisURL", str)
+"""ChRIS backend API base URL"""
 
 ApiUrl = NewType("ApiUrl", str)
-"""URL which I am too lazy to be more specific about."""
+"""Any CUBE URL which I am too lazy to be more specific about."""
 ResourceId = NewType("ResourceId", int)
 """ID number which I am too lazy to be more specific about."""
 PluginName = NewType("PluginName", str)
+"""Name of a ChRIS plugin"""
 ImageTag = NewType("ImageTag", str)
+"""OCI image tag (informally, a Docker Image name)"""
 PluginVersion = NewType("PluginVersion", str)
+"""Version string of a ChRIS plugin"""
 
 PluginUrl = NewType("PluginUrl", str)
+"""
+URL of a ChRIS plugin.
+
+## Examples
+
+- https://chrisstore.co/api/v1/plugins/5/
+- https://cube.chrisproject.org/api/v1/plugins/6/
+"""
 PluginSearchUrl = NewType("PluginSearchUrl", str)
 
 PluginId = NewType("PluginId", int)
@@ -76,7 +90,13 @@ FeedUrl = NewType("FeedUrl", str)
 NoteId = NewType("NoteId", int)
 """A feed note's ID number."""
 NoteUrl = NewType("NoteUrl", str)
-"""A feed's note."""
+"""
+A feed's note URL.
+
+## Examples
+
+- https://cube.chrisproject.org/api/v1/note4/
+"""
 PluginParametersUrl = NewType("PluginParametersUrl", str)
 TagsUrl = NewType("TagsUrl", str)
 TaggingsUrl = NewType("TaggingsUrl", str)
