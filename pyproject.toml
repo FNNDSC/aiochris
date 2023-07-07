@@ -12,7 +12,9 @@ aiohttp = "^3.8.3"
 
 pyserde = "^0.11.1"
 async-property = "^0.2.1"
-yarl = "^1.8.2"
+# bug in yarl v1.9
+# https://github.com/aio-libs/yarl/issues/862
+yarl = "1.8.2"
 aiofiles = "^23.1.0"
 
 [tool.poetry.group.dev.dependencies]
