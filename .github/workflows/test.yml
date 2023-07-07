@@ -43,7 +43,7 @@ jobs:
             echo "          +---------------------+ "
             echo "          |       ATTEMPT $attempt     | "
             echo "          +---------------------+ "
-            poetry run pytest --cov=chris --cov-report=xml
+            poetry run pytest --cov=aiochris --cov-report=xml
             if [ "$?" = 0 ]; then
               if [ "$attempt" != "1" ]; then
                 echo "::warning ::Tests took $attempt attempts."
