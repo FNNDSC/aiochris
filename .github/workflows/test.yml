@@ -26,9 +26,9 @@ jobs:
           key: poetry-0  # increment to reset cache
       - name: Install Python Poetry
         if: steps.cached-poetry.outputs.cache-hit != 'true'
-        uses: jennydaman/install-poetry@83b32fe109e39af733e68ef8544a6f665c470a16
+        uses: snok/install-poetry@c9e8b50048357a728ac0409bae3d7c0a1685118a
         with:
-          version: '1.3.2'
+          version: '1.5.1'
 
       - name: miniChRIS
         uses: FNNDSC/miniChRIS-docker@master

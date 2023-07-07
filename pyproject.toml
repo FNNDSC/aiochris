@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aiochris"
-version = "0.2.0"
+version = "0.2.1"
 description = "ChRIS client built on aiohttp"
 authors = ["FNNDSC <dev@babyMRI.org>"]
 readme = "README.md"
@@ -10,8 +10,7 @@ license = "MIT"
 python = "^3.10"
 aiohttp = "^3.8.3"
 
-# https://github.com/yukinarit/pyserde/issues/292
-pyserde = "^0.10.0"
+pyserde = "^0.11.1"
 async-property = "^0.2.1"
 yarl = "^1.8.2"
 aiofiles = "^23.1.0"
