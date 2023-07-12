@@ -5,10 +5,10 @@ import aiohttp
 from serde.json import from_json
 
 from aiochris.client.authed import AuthenticatedClient
-from aiochris.util.errors import raise_for_status
+from aiochris.errors import raise_for_status
 from aiochris.models.collection_links import CollectionLinks
 from aiochris.models.data import UserData
-from aiochris.models.types import ChrisURL, Username, Password
+from aiochris.types import ChrisURL, Username, Password
 
 
 class ChrisClient(AuthenticatedClient[CollectionLinks, "ChrisClient"]):

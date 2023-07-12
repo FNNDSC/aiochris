@@ -12,13 +12,12 @@ from typing import (
     AsyncIterator,
 )
 
-import aiohttp
 import yarl
 from serde import deserialize
 from serde.json import from_json
 
 from aiochris.link.linked import deserialize_linked, Linked
-from aiochris.util.errors import (
+from aiochris.errors import (
     BaseClientError,
     raise_for_status,
     NonsenseResponseError,

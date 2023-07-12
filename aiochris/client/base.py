@@ -7,7 +7,7 @@ from serde import from_dict
 from aiochris import Search
 from aiochris.link.collection_client import L, CollectionJsonApiClient
 from aiochris.models.public import PublicPlugin
-from aiochris.util.errors import raise_for_status
+from aiochris.errors import raise_for_status
 
 CSelf = TypeVar(
     "CSelf", bound="BaseChrisClient"

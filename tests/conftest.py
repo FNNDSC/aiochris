@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 import pytest
 import aiohttp
-from aiochris.models.types import ChrisURL, Username, Password
+from aiochris.types import ChrisURL, Username, Password
 
 
 @pytest.fixture(scope="session")

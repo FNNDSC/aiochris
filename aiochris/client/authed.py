@@ -12,8 +12,8 @@ from aiochris.link import http
 from aiochris.link.linked import deserialize_res
 from aiochris.models.logged_in import Plugin, File, User, PluginInstance, Feed
 from aiochris.models.public import ComputeResource
-from aiochris.models.types import ChrisURL, Username, Password
-from aiochris.util.errors import IncorrectLoginError, raise_for_status
+from aiochris.types import ChrisURL, Username, Password
+from aiochris.errors import IncorrectLoginError, raise_for_status
 from aiochris.util.search import Search, acollect
 
 

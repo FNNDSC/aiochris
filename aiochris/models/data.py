@@ -12,8 +12,8 @@ from typing import Optional
 from serde import deserialize
 
 from aiochris.link.linked import LinkedModel
-from aiochris.models.enums import PluginType, Status
-from aiochris.models.types import *
+from aiochris.enums import PluginType, Status
+from aiochris.types import *
 
 
 @deserialize

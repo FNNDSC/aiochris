@@ -11,8 +11,8 @@ from aiochris import AnonChrisClient, ChrisClient, ChrisAdminClient
 from aiochris.client.admin import _serialize_crs  # noqa
 from aiochris.models.logged_in import Plugin, PluginInstance
 from aiochris.models.public import ComputeResource
-from aiochris.models.types import Username, Password
-from aiochris.util.errors import IncorrectLoginError
+from aiochris.types import Username, Password
+from aiochris.errors import IncorrectLoginError
 from aiochris.util.search import ManySearchError, NoneSearchError, acollect
 from tests.conftest import UserCredentials
 

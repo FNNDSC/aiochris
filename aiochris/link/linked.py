@@ -15,7 +15,7 @@ import aiohttp
 import serde
 import yarl
 
-from aiochris.util.errors import raise_for_status, ResponseError
+from aiochris.errors import raise_for_status, ResponseError
 
 T = TypeVar("T")
 

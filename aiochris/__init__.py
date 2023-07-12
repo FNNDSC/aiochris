@@ -11,7 +11,7 @@ from aiochris.util.search import Search, acollect
 from aiochris.client.normal import ChrisClient
 from aiochris.client.anon import AnonChrisClient
 from aiochris.client.admin import ChrisAdminClient
-from aiochris.models.enums import Status, ParameterTypeName
+from aiochris.enums import Status, ParameterTypeName
 
 __all__ = [
     "AnonChrisClient",
@@ -24,4 +24,6 @@ __all__ = [
     "client",
     "models",
     "util",
+    "errors",
+    "types",
 ]

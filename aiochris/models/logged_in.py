@@ -11,9 +11,9 @@ from serde import deserialize
 from aiochris.link import http
 from aiochris.link.linked import LinkedModel
 from aiochris.models.data import PluginInstanceData, FeedData, UserData, FeedNoteData
-from aiochris.models.enums import PluginType
+from aiochris.enums import PluginType
 from aiochris.models.public import PublicPlugin
-from aiochris.models.types import *
+from aiochris.types import *
 
 
 @deserialize

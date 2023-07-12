@@ -8,8 +8,8 @@ from serde import deserialize
 
 from aiochris.link import http
 from aiochris.link.linked import LinkedModel
-from aiochris.models.enums import PluginType
-from aiochris.models.types import *
+from aiochris.enums import PluginType
+from aiochris.types import *
 from aiochris.util.search import Search
 
 

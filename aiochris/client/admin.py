@@ -16,8 +16,8 @@ from aiochris.models.collection_links import (
 )
 from aiochris.models.logged_in import Plugin
 from aiochris.models.public import ComputeResource
-from aiochris.models.types import PluginUrl, ComputeResourceName, PfconUrl
-from aiochris.util.errors import raise_for_status
+from aiochris.types import PluginUrl, ComputeResourceName, PfconUrl
+from aiochris.errors import raise_for_status
 
 
 class _AdminApiClient(CollectionJsonApiClient[AdminApiCollectionLinks]):

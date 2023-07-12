@@ -15,11 +15,11 @@ from pytest_mock import MockerFixture
 
 from aiochris.link.collection_client import CollectionJsonApiClient
 from aiochris.link import http
-from aiochris.util.errors import NonsenseResponseError
+from aiochris.errors import NonsenseResponseError
 from aiochris.util.search import Search
 from aiochris.models.collection_links import AbstractCollectionLinks
 
-from aiochris.models.types import ApiUrl
+from aiochris.types import ApiUrl
 
 
 @dataclass(frozen=True)
