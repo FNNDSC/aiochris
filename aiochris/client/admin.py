@@ -58,7 +58,6 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
         compute_resources: str
         | ComputeResource
         | Iterable[ComputeResource | ComputeResourceName],
-        fname: str = "Plugin.json",
     ) -> Plugin:
         """
         Add a plugin to *CUBE*.
@@ -99,14 +98,16 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
             Compute resources to register the plugin to. Value can be either a comma-separated `str` of names,
             a `aiochris.models.public.ComputeResource`, a sequence of `aiochris.models.public.ComputeResource`,
             or a sequence of compute resource names as `str`.
-        fname: str
-            File name to send along in the multi-part POST request. Not important.
         """
         compute_names = _serialize_crs(compute_resources)
         if not isinstance(plugin_description, str):
             plugin_description = json.dumps(plugin_description)
         data = aiohttp.FormData()
-        data.add_field("fname", io.StringIO(plugin_description), filename=fname)
+        data.add_field(
+            "fname",
+            io.StringIO(plugin_description),
+            filename="aiochris_add_plugin.json",
+        )
         data.add_field("compute_names", compute_names)
         async with self.s.post(self.collection_links.admin, data=data) as res:
             await raise_for_status(res)
