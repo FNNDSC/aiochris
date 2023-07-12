@@ -36,6 +36,8 @@
                 <li><a href="aiochris/client.html">client</a></li>
                 <li><a href="aiochris/models.html">models</a></li>
                 <li><a href="aiochris/util.html">util</a></li>
+                <li><a href="aiochris/errors.html">errors</a></li>
+                <li><a href="aiochris/types.html">types</a></li>
         </ul>
 
         <h2>API Documentation</h2>
@@ -148,7 +150,7 @@
     </ul>
 
 
-            <footer>Version v0.2.2</footer>
+            <footer>Version v0.3.0rc1</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -420,7 +422,7 @@ or <a href="https://vscodium.com">VSCodium</a> with
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span> <span class="nn">aiochris.client.normal</span> <span class="kn">import</span> <span class="n">ChrisClient</span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span> <span class="nn">aiochris.client.anon</span> <span class="kn">import</span> <span class="n">AnonChrisClient</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="kn">from</span> <span class="nn">aiochris.client.admin</span> <span class="kn">import</span> <span class="n">ChrisAdminClient</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="kn">from</span> <span class="nn">aiochris.models.enums</span> <span class="kn">import</span> <span class="n">Status</span><span class="p">,</span> <span class="n">ParameterTypeName</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="kn">from</span> <span class="nn">aiochris.enums</span> <span class="kn">import</span> <span class="n">Status</span><span class="p">,</span> <span class="n">ParameterTypeName</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
 </span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
 </span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="s2">&quot;AnonChrisClient&quot;</span><span class="p">,</span>
@@ -433,7 +435,9 @@ or <a href="https://vscodium.com">VSCodium</a> with
 </span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="s2">&quot;client&quot;</span><span class="p">,</span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="s2">&quot;models&quot;</span><span class="p">,</span>
 </span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>    <span class="s2">&quot;util&quot;</span><span class="p">,</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="p">]</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="s2">&quot;errors&quot;</span><span class="p">,</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="s2">&quot;types&quot;</span><span class="p">,</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="p">]</span>
 </span></pre></div>
 
 
@@ -638,7 +642,7 @@ such as being able to search for plugins.</p>
                     <div class="decorator">@classmethod</div>
 
         <span class="def">async def</span>
-        <span class="name">create_user</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">cls</span>,</span><span class="param">	<span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n"><a href="aiochris/models/types.html#ChrisURL">aiochris.models.types.ChrisURL</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">username</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n"><a href="aiochris/models/types.html#Username">aiochris.models.types.Username</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">password</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n"><a href="aiochris/models/types.html#Password">aiochris.models.types.Password</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">email</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n"><a href="aiochris/models/data.html#UserData">aiochris.models.data.UserData</a></span>:</span></span>
+        <span class="name">create_user</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">cls</span>,</span><span class="param">	<span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n"><a href="aiochris/types.html#ChrisURL">aiochris.types.ChrisURL</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">username</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n"><a href="aiochris/types.html#Username">aiochris.types.Username</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">password</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n"><a href="aiochris/types.html#Password">aiochris.types.Password</a></span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>,</span><span class="param">	<span class="n">email</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n"><a href="aiochris/models/data.html#UserData">aiochris.models.data.UserData</a></span>:</span></span>
 
                 <label class="view-source-button" for="ChrisClient.create_user-view-source"><span>View Source</span></label>
 
@@ -856,7 +860,7 @@ add new compute resources.</p>
 <div class="attr function">
             
         <span class="def">async def</span>
-        <span class="name">register_plugin_from_store</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">plugin_store_url</span><span class="p">:</span> <span class="n"><a href="aiochris/models/types.html#PluginUrl">aiochris.models.types.PluginUrl</a></span>,</span><span class="param">	<span class="n">compute_names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">aiochris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ComputeResourceName</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n"><a href="aiochris/models/logged_in.html#Plugin">aiochris.models.logged_in.Plugin</a></span>:</span></span>
+        <span class="name">register_plugin_from_store</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">plugin_store_url</span><span class="p">:</span> <span class="n"><a href="aiochris/types.html#PluginUrl">aiochris.types.PluginUrl</a></span>,</span><span class="param">	<span class="n">compute_names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">aiochris</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ComputeResourceName</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n"><a href="aiochris/models/logged_in.html#Plugin">aiochris.models.logged_in.Plugin</a></span>:</span></span>
 
                 <label class="view-source-button" for="ChrisAdminClient.register_plugin_from_store-view-source"><span>View Source</span></label>
 
@@ -884,7 +888,7 @@ add new compute resources.</p>
 <div class="attr function">
             
         <span class="def">async def</span>
-        <span class="name">add_plugin</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">plugin_description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">dict</span>,</span><span class="param">	<span class="n">compute_resources</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n"><a href="aiochris/models/public.html#ComputeResource">aiochris.models.public.ComputeResource</a></span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n"><a href="aiochris/models/public.html#ComputeResource">aiochris.models.public.ComputeResource</a></span><span class="p">,</span> <span class="n">aiochris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ComputeResourceName</span><span class="p">]]]</span></span><span class="return-annotation">) -> <span class="n"><a href="aiochris/models/logged_in.html#Plugin">aiochris.models.logged_in.Plugin</a></span>:</span></span>
+        <span class="name">add_plugin</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">plugin_description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">dict</span>,</span><span class="param">	<span class="n">compute_resources</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n"><a href="aiochris/models/public.html#ComputeResource">aiochris.models.public.ComputeResource</a></span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n"><a href="aiochris/models/public.html#ComputeResource">aiochris.models.public.ComputeResource</a></span><span class="p">,</span> <span class="n">aiochris</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ComputeResourceName</span><span class="p">]]]</span></span><span class="return-annotation">) -> <span class="n"><a href="aiochris/models/logged_in.html#Plugin">aiochris.models.logged_in.Plugin</a></span>:</span></span>
 
                 <label class="view-source-button" for="ChrisAdminClient.add_plugin-view-source"><span>View Source</span></label>
 
@@ -1004,7 +1008,7 @@ or a sequence of compute resource names as <code>str</code>.</li>
 <div class="attr function">
             
         <span class="def">async def</span>
-        <span class="name">create_compute_resource</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">aiochris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ComputeResourceName</span><span class="p">]</span>,</span><span class="param">	<span class="n">compute_url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">aiochris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PfconUrl</span><span class="p">]</span>,</span><span class="param">	<span class="n">compute_user</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">compute_password</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">compute_auth_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">compute_auth_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">max_job_exec_seconds</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n"><a href="aiochris/models/public.html#ComputeResource">aiochris.models.public.ComputeResource</a></span>:</span></span>
+        <span class="name">create_compute_resource</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">aiochris</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ComputeResourceName</span><span class="p">]</span>,</span><span class="param">	<span class="n">compute_url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">aiochris</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PfconUrl</span><span class="p">]</span>,</span><span class="param">	<span class="n">compute_user</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">compute_password</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">compute_auth_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">compute_auth_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">max_job_exec_seconds</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n"><a href="aiochris/models/public.html#ComputeResource">aiochris.models.public.ComputeResource</a></span>:</span></span>
 
                 <label class="view-source-button" for="ChrisAdminClient.create_compute_resource-view-source"><span>View Source</span></label>
 
@@ -1088,138 +1092,138 @@ or a sequence of compute resource names as <code>str</code>.</li>
 
     </div>
     <a class="headerlink" href="#Search"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Search-45"><a href="#Search-45"><span class="linenos"> 45</span></a><span class="nd">@dataclass</span>
-</span><span id="Search-46"><a href="#Search-46"><span class="linenos"> 46</span></a><span class="k">class</span> <span class="nc">Search</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">AsyncIterable</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
-</span><span id="Search-47"><a href="#Search-47"><span class="linenos"> 47</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Search-48"><a href="#Search-48"><span class="linenos"> 48</span></a><span class="sd">    Abstraction over paginated collection responses from *CUBE*.</span>
-</span><span id="Search-49"><a href="#Search-49"><span class="linenos"> 49</span></a><span class="sd">    `Search` objects are returned by methods for search endpoints of the *CUBE* API.</span>
-</span><span id="Search-50"><a href="#Search-50"><span class="linenos"> 50</span></a><span class="sd">    It is an [asynchronous iterable](https://docs.python.org/3/glossary.html#term-asynchronous-iterable)</span>
-</span><span id="Search-51"><a href="#Search-51"><span class="linenos"> 51</span></a><span class="sd">    which produces items from responses that return multiple results.</span>
-</span><span id="Search-52"><a href="#Search-52"><span class="linenos"> 52</span></a><span class="sd">    HTTP requests are fired as-neede, they happen in the background during iteration.</span>
-</span><span id="Search-53"><a href="#Search-53"><span class="linenos"> 53</span></a><span class="sd">    No request is made before the first time a `Search` object is called.</span>
-</span><span id="Search-54"><a href="#Search-54"><span class="linenos"> 54</span></a>
-</span><span id="Search-55"><a href="#Search-55"><span class="linenos"> 55</span></a><span class="sd">    .. note:: Pagination is handled internally and automatically.</span>
-</span><span id="Search-56"><a href="#Search-56"><span class="linenos"> 56</span></a><span class="sd">             The query parameters `limit` and `offset` can be explicitly given, but they shouldn&#39;t.</span>
-</span><span id="Search-57"><a href="#Search-57"><span class="linenos"> 57</span></a>
-</span><span id="Search-58"><a href="#Search-58"><span class="linenos"> 58</span></a><span class="sd">    Examples</span>
-</span><span id="Search-59"><a href="#Search-59"><span class="linenos"> 59</span></a><span class="sd">    --------</span>
-</span><span id="Search-60"><a href="#Search-60"><span class="linenos"> 60</span></a>
-</span><span id="Search-61"><a href="#Search-61"><span class="linenos"> 61</span></a><span class="sd">    Use an `async for` loop to print the name of every feed:</span>
-</span><span id="Search-62"><a href="#Search-62"><span class="linenos"> 62</span></a>
-</span><span id="Search-63"><a href="#Search-63"><span class="linenos"> 63</span></a><span class="sd">    ```python</span>
-</span><span id="Search-64"><a href="#Search-64"><span class="linenos"> 64</span></a><span class="sd">    all_feeds = chris.search_feeds()  # returns a Search[Feed]</span>
-</span><span id="Search-65"><a href="#Search-65"><span class="linenos"> 65</span></a><span class="sd">    async for feed in all_feeds:</span>
-</span><span id="Search-66"><a href="#Search-66"><span class="linenos"> 66</span></a><span class="sd">        print(feed.name)</span>
-</span><span id="Search-67"><a href="#Search-67"><span class="linenos"> 67</span></a><span class="sd">    ```</span>
-</span><span id="Search-68"><a href="#Search-68"><span class="linenos"> 68</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Search-69"><a href="#Search-69"><span class="linenos"> 69</span></a>
-</span><span id="Search-70"><a href="#Search-70"><span class="linenos"> 70</span></a>    <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="Search-71"><a href="#Search-71"><span class="linenos"> 71</span></a>    <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
-</span><span id="Search-72"><a href="#Search-72"><span class="linenos"> 72</span></a>    <span class="n">client</span><span class="p">:</span> <span class="n">Linked</span>
-</span><span id="Search-73"><a href="#Search-73"><span class="linenos"> 73</span></a>    <span class="n">Item</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
-</span><span id="Search-74"><a href="#Search-74"><span class="linenos"> 74</span></a>    <span class="n">max_requests</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
-</span><span id="Search-75"><a href="#Search-75"><span class="linenos"> 75</span></a>
-</span><span id="Search-76"><a href="#Search-76"><span class="linenos"> 76</span></a>    <span class="k">def</span> <span class="fm">__aiter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-</span><span id="Search-77"><a href="#Search-77"><span class="linenos"> 77</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
-</span><span id="Search-78"><a href="#Search-78"><span class="linenos"> 78</span></a>
-</span><span id="Search-79"><a href="#Search-79"><span class="linenos"> 79</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-</span><span id="Search-80"><a href="#Search-80"><span class="linenos"> 80</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Search-81"><a href="#Search-81"><span class="linenos"> 81</span></a><span class="sd">        Get the first item.</span>
-</span><span id="Search-82"><a href="#Search-82"><span class="linenos"> 82</span></a>
-</span><span id="Search-83"><a href="#Search-83"><span class="linenos"> 83</span></a><span class="sd">        See also</span>
-</span><span id="Search-84"><a href="#Search-84"><span class="linenos"> 84</span></a><span class="sd">        --------</span>
-</span><span id="Search-85"><a href="#Search-85"><span class="linenos"> 85</span></a><span class="sd">        `get_only` : similar use, but more strict</span>
-</span><span id="Search-86"><a href="#Search-86"><span class="linenos"> 86</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Search-87"><a href="#Search-87"><span class="linenos"> 87</span></a>        <span class="k">return</span> <span class="k">await</span> <span class="n">anext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_aiter</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
-</span><span id="Search-88"><a href="#Search-88"><span class="linenos"> 88</span></a>
-</span><span id="Search-89"><a href="#Search-89"><span class="linenos"> 89</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_only</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allow_multiple</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="Search-90"><a href="#Search-90"><span class="linenos"> 90</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Search-91"><a href="#Search-91"><span class="linenos"> 91</span></a><span class="sd">        Get the *only* item from a search with one result.</span>
-</span><span id="Search-92"><a href="#Search-92"><span class="linenos"> 92</span></a>
-</span><span id="Search-93"><a href="#Search-93"><span class="linenos"> 93</span></a><span class="sd">        Examples</span>
-</span><span id="Search-94"><a href="#Search-94"><span class="linenos"> 94</span></a><span class="sd">        --------</span>
-</span><span id="Search-95"><a href="#Search-95"><span class="linenos"> 95</span></a>
-</span><span id="Search-96"><a href="#Search-96"><span class="linenos"> 96</span></a><span class="sd">        This method is very commonly used for getting &quot;one thing&quot; from CUBE.</span>
-</span><span id="Search-97"><a href="#Search-97"><span class="linenos"> 97</span></a>
-</span><span id="Search-98"><a href="#Search-98"><span class="linenos"> 98</span></a><span class="sd">        ```python</span>
-</span><span id="Search-99"><a href="#Search-99"><span class="linenos"> 99</span></a><span class="sd">        await chris.search_plugins(name_exact=&quot;pl-dircopy&quot;, version=&quot;2.1.1&quot;).get_only()</span>
-</span><span id="Search-100"><a href="#Search-100"><span class="linenos">100</span></a><span class="sd">        ```</span>
-</span><span id="Search-101"><a href="#Search-101"><span class="linenos">101</span></a>
-</span><span id="Search-102"><a href="#Search-102"><span class="linenos">102</span></a><span class="sd">        In the example above, a search for plugins given (`name_exact`, `version`)</span>
-</span><span id="Search-103"><a href="#Search-103"><span class="linenos">103</span></a><span class="sd">        is guaranteed to return either 0 or 1 result.</span>
-</span><span id="Search-104"><a href="#Search-104"><span class="linenos">104</span></a>
-</span><span id="Search-105"><a href="#Search-105"><span class="linenos">105</span></a><span class="sd">        Raises</span>
-</span><span id="Search-106"><a href="#Search-106"><span class="linenos">106</span></a><span class="sd">        ------</span>
-</span><span id="Search-107"><a href="#Search-107"><span class="linenos">107</span></a><span class="sd">        aiochris.util.search.NoneSearchError</span>
-</span><span id="Search-108"><a href="#Search-108"><span class="linenos">108</span></a><span class="sd">            If this search is empty.</span>
-</span><span id="Search-109"><a href="#Search-109"><span class="linenos">109</span></a><span class="sd">        aiochris.util.search.ManySearchError</span>
-</span><span id="Search-110"><a href="#Search-110"><span class="linenos">110</span></a><span class="sd">            If this search has more than one item and `allow_multiple` is `False`</span>
-</span><span id="Search-111"><a href="#Search-111"><span class="linenos">111</span></a>
-</span><span id="Search-112"><a href="#Search-112"><span class="linenos">112</span></a><span class="sd">        See also</span>
-</span><span id="Search-113"><a href="#Search-113"><span class="linenos">113</span></a><span class="sd">        --------</span>
-</span><span id="Search-114"><a href="#Search-114"><span class="linenos">114</span></a><span class="sd">        `first` : does the same thing but without checks.</span>
-</span><span id="Search-115"><a href="#Search-115"><span class="linenos">115</span></a>
-</span><span id="Search-116"><a href="#Search-116"><span class="linenos">116</span></a><span class="sd">        Parameters</span>
-</span><span id="Search-117"><a href="#Search-117"><span class="linenos">117</span></a><span class="sd">        ----------</span>
-</span><span id="Search-118"><a href="#Search-118"><span class="linenos">118</span></a><span class="sd">        allow_multiple: bool</span>
-</span><span id="Search-119"><a href="#Search-119"><span class="linenos">119</span></a><span class="sd">            if `True`, do not raise `ManySearchError` if `count &gt; 1`</span>
-</span><span id="Search-120"><a href="#Search-120"><span class="linenos">120</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Search-121"><a href="#Search-121"><span class="linenos">121</span></a>        <span class="n">one</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_one</span><span class="p">()</span>
-</span><span id="Search-122"><a href="#Search-122"><span class="linenos">122</span></a>        <span class="k">if</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="Search-123"><a href="#Search-123"><span class="linenos">123</span></a>            <span class="k">raise</span> <span class="n">NoneSearchError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
-</span><span id="Search-124"><a href="#Search-124"><span class="linenos">124</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_multiple</span> <span class="ow">and</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Search-125"><a href="#Search-125"><span class="linenos">125</span></a>            <span class="k">raise</span> <span class="n">ManySearchError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
-</span><span id="Search-126"><a href="#Search-126"><span class="linenos">126</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">one</span><span class="o">.</span><span class="n">results</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Search-127"><a href="#Search-127"><span class="linenos">127</span></a>            <span class="k">raise</span> <span class="n">NonsenseResponseError</span><span class="p">(</span>
-</span><span id="Search-128"><a href="#Search-128"><span class="linenos">128</span></a>                <span class="sa">f</span><span class="s2">&quot;Response has count=</span><span class="si">{</span><span class="n">one</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2"> but the results are empty.&quot;</span><span class="p">,</span> <span class="n">one</span>
-</span><span id="Search-129"><a href="#Search-129"><span class="linenos">129</span></a>            <span class="p">)</span>
-</span><span id="Search-130"><a href="#Search-130"><span class="linenos">130</span></a>        <span class="k">return</span> <span class="n">deserialize_linked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Item</span><span class="p">,</span> <span class="n">one</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span id="Search-131"><a href="#Search-131"><span class="linenos">131</span></a>
-</span><span id="Search-132"><a href="#Search-132"><span class="linenos">132</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="Search-133"><a href="#Search-133"><span class="linenos">133</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Search-134"><a href="#Search-134"><span class="linenos">134</span></a><span class="sd">        Get the number of items in this collection search.</span>
-</span><span id="Search-135"><a href="#Search-135"><span class="linenos">135</span></a>
-</span><span id="Search-136"><a href="#Search-136"><span class="linenos">136</span></a><span class="sd">        Examples</span>
-</span><span id="Search-137"><a href="#Search-137"><span class="linenos">137</span></a><span class="sd">        --------</span>
-</span><span id="Search-138"><a href="#Search-138"><span class="linenos">138</span></a>
-</span><span id="Search-139"><a href="#Search-139"><span class="linenos">139</span></a><span class="sd">        `count` is useful for rendering a progress bar. TODO example with files</span>
-</span><span id="Search-140"><a href="#Search-140"><span class="linenos">140</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Search-141"><a href="#Search-141"><span class="linenos">141</span></a>        <span class="n">one</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_one</span><span class="p">()</span>
-</span><span id="Search-142"><a href="#Search-142"><span class="linenos">142</span></a>        <span class="k">return</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span>
-</span><span id="Search-143"><a href="#Search-143"><span class="linenos">143</span></a>
-</span><span id="Search-144"><a href="#Search-144"><span class="linenos">144</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">_get_one</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Paginated</span><span class="p">:</span>
-</span><span id="Search-145"><a href="#Search-145"><span class="linenos">145</span></a>        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_url</span><span class="p">)</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
-</span><span id="Search-146"><a href="#Search-146"><span class="linenos">146</span></a>            <span class="k">await</span> <span class="n">raise_for_status</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</span><span id="Search-147"><a href="#Search-147"><span class="linenos">147</span></a>            <span class="k">return</span> <span class="n">from_json</span><span class="p">(</span><span class="n">_Paginated</span><span class="p">,</span> <span class="k">await</span> <span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
-</span><span id="Search-148"><a href="#Search-148"><span class="linenos">148</span></a>
-</span><span id="Search-149"><a href="#Search-149"><span class="linenos">149</span></a>    <span class="k">def</span> <span class="nf">_paginate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-</span><span id="Search-150"><a href="#Search-150"><span class="linenos">150</span></a>        <span class="k">return</span> <span class="n">_get_paginated</span><span class="p">(</span>
-</span><span id="Search-151"><a href="#Search-151"><span class="linenos">151</span></a>            <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span>
-</span><span id="Search-152"><a href="#Search-152"><span class="linenos">152</span></a>            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
-</span><span id="Search-153"><a href="#Search-153"><span class="linenos">153</span></a>            <span class="n">item_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Item</span><span class="p">,</span>
-</span><span id="Search-154"><a href="#Search-154"><span class="linenos">154</span></a>            <span class="n">max_requests</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_requests</span><span class="p">,</span>
-</span><span id="Search-155"><a href="#Search-155"><span class="linenos">155</span></a>        <span class="p">)</span>
-</span><span id="Search-156"><a href="#Search-156"><span class="linenos">156</span></a>
-</span><span id="Search-157"><a href="#Search-157"><span class="linenos">157</span></a>    <span class="nd">@property</span>
-</span><span id="Search-158"><a href="#Search-158"><span class="linenos">158</span></a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">:</span>
-</span><span id="Search-159"><a href="#Search-159"><span class="linenos">159</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_url_with</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
-</span><span id="Search-160"><a href="#Search-160"><span class="linenos">160</span></a>
-</span><span id="Search-161"><a href="#Search-161"><span class="linenos">161</span></a>    <span class="k">def</span> <span class="nf">_first_aiter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-</span><span id="Search-162"><a href="#Search-162"><span class="linenos">162</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_url</span><span class="p">)</span>
-</span><span id="Search-163"><a href="#Search-163"><span class="linenos">163</span></a>
-</span><span id="Search-164"><a href="#Search-164"><span class="linenos">164</span></a>    <span class="nd">@property</span>
-</span><span id="Search-165"><a href="#Search-165"><span class="linenos">165</span></a>    <span class="k">def</span> <span class="nf">_first_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">:</span>
-</span><span id="Search-166"><a href="#Search-166"><span class="linenos">166</span></a>        <span class="n">params</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
-</span><span id="Search-167"><a href="#Search-167"><span class="linenos">167</span></a>        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Search-168"><a href="#Search-168"><span class="linenos">168</span></a>        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Search-169"><a href="#Search-169"><span class="linenos">169</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_url_with</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-</span><span id="Search-170"><a href="#Search-170"><span class="linenos">170</span></a>
-</span><span id="Search-171"><a href="#Search-171"><span class="linenos">171</span></a>    <span class="nd">@property</span>
-</span><span id="Search-172"><a href="#Search-172"><span class="linenos">172</span></a>    <span class="k">def</span> <span class="nf">_search_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">:</span>
-</span><span id="Search-173"><a href="#Search-173"><span class="linenos">173</span></a>        <span class="k">return</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;search/&quot;</span>
-</span><span id="Search-174"><a href="#Search-174"><span class="linenos">174</span></a>
-</span><span id="Search-175"><a href="#Search-175"><span class="linenos">175</span></a>    <span class="k">def</span> <span class="nf">_search_url_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
-</span><span id="Search-176"><a href="#Search-176"><span class="linenos">176</span></a>        <span class="k">return</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_url</span><span class="p">)</span><span class="o">.</span><span class="n">with_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Search-44"><a href="#Search-44"><span class="linenos"> 44</span></a><span class="nd">@dataclass</span>
+</span><span id="Search-45"><a href="#Search-45"><span class="linenos"> 45</span></a><span class="k">class</span> <span class="nc">Search</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">AsyncIterable</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+</span><span id="Search-46"><a href="#Search-46"><span class="linenos"> 46</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Search-47"><a href="#Search-47"><span class="linenos"> 47</span></a><span class="sd">    Abstraction over paginated collection responses from *CUBE*.</span>
+</span><span id="Search-48"><a href="#Search-48"><span class="linenos"> 48</span></a><span class="sd">    `Search` objects are returned by methods for search endpoints of the *CUBE* API.</span>
+</span><span id="Search-49"><a href="#Search-49"><span class="linenos"> 49</span></a><span class="sd">    It is an [asynchronous iterable](https://docs.python.org/3/glossary.html#term-asynchronous-iterable)</span>
+</span><span id="Search-50"><a href="#Search-50"><span class="linenos"> 50</span></a><span class="sd">    which produces items from responses that return multiple results.</span>
+</span><span id="Search-51"><a href="#Search-51"><span class="linenos"> 51</span></a><span class="sd">    HTTP requests are fired as-neede, they happen in the background during iteration.</span>
+</span><span id="Search-52"><a href="#Search-52"><span class="linenos"> 52</span></a><span class="sd">    No request is made before the first time a `Search` object is called.</span>
+</span><span id="Search-53"><a href="#Search-53"><span class="linenos"> 53</span></a>
+</span><span id="Search-54"><a href="#Search-54"><span class="linenos"> 54</span></a><span class="sd">    .. note:: Pagination is handled internally and automatically.</span>
+</span><span id="Search-55"><a href="#Search-55"><span class="linenos"> 55</span></a><span class="sd">             The query parameters `limit` and `offset` can be explicitly given, but they shouldn&#39;t.</span>
+</span><span id="Search-56"><a href="#Search-56"><span class="linenos"> 56</span></a>
+</span><span id="Search-57"><a href="#Search-57"><span class="linenos"> 57</span></a><span class="sd">    Examples</span>
+</span><span id="Search-58"><a href="#Search-58"><span class="linenos"> 58</span></a><span class="sd">    --------</span>
+</span><span id="Search-59"><a href="#Search-59"><span class="linenos"> 59</span></a>
+</span><span id="Search-60"><a href="#Search-60"><span class="linenos"> 60</span></a><span class="sd">    Use an `async for` loop to print the name of every feed:</span>
+</span><span id="Search-61"><a href="#Search-61"><span class="linenos"> 61</span></a>
+</span><span id="Search-62"><a href="#Search-62"><span class="linenos"> 62</span></a><span class="sd">    ```python</span>
+</span><span id="Search-63"><a href="#Search-63"><span class="linenos"> 63</span></a><span class="sd">    all_feeds = chris.search_feeds()  # returns a Search[Feed]</span>
+</span><span id="Search-64"><a href="#Search-64"><span class="linenos"> 64</span></a><span class="sd">    async for feed in all_feeds:</span>
+</span><span id="Search-65"><a href="#Search-65"><span class="linenos"> 65</span></a><span class="sd">        print(feed.name)</span>
+</span><span id="Search-66"><a href="#Search-66"><span class="linenos"> 66</span></a><span class="sd">    ```</span>
+</span><span id="Search-67"><a href="#Search-67"><span class="linenos"> 67</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Search-68"><a href="#Search-68"><span class="linenos"> 68</span></a>
+</span><span id="Search-69"><a href="#Search-69"><span class="linenos"> 69</span></a>    <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="Search-70"><a href="#Search-70"><span class="linenos"> 70</span></a>    <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+</span><span id="Search-71"><a href="#Search-71"><span class="linenos"> 71</span></a>    <span class="n">client</span><span class="p">:</span> <span class="n">Linked</span>
+</span><span id="Search-72"><a href="#Search-72"><span class="linenos"> 72</span></a>    <span class="n">Item</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+</span><span id="Search-73"><a href="#Search-73"><span class="linenos"> 73</span></a>    <span class="n">max_requests</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+</span><span id="Search-74"><a href="#Search-74"><span class="linenos"> 74</span></a>
+</span><span id="Search-75"><a href="#Search-75"><span class="linenos"> 75</span></a>    <span class="k">def</span> <span class="fm">__aiter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="Search-76"><a href="#Search-76"><span class="linenos"> 76</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="Search-77"><a href="#Search-77"><span class="linenos"> 77</span></a>
+</span><span id="Search-78"><a href="#Search-78"><span class="linenos"> 78</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="Search-79"><a href="#Search-79"><span class="linenos"> 79</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Search-80"><a href="#Search-80"><span class="linenos"> 80</span></a><span class="sd">        Get the first item.</span>
+</span><span id="Search-81"><a href="#Search-81"><span class="linenos"> 81</span></a>
+</span><span id="Search-82"><a href="#Search-82"><span class="linenos"> 82</span></a><span class="sd">        See also</span>
+</span><span id="Search-83"><a href="#Search-83"><span class="linenos"> 83</span></a><span class="sd">        --------</span>
+</span><span id="Search-84"><a href="#Search-84"><span class="linenos"> 84</span></a><span class="sd">        `get_only` : similar use, but more strict</span>
+</span><span id="Search-85"><a href="#Search-85"><span class="linenos"> 85</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Search-86"><a href="#Search-86"><span class="linenos"> 86</span></a>        <span class="k">return</span> <span class="k">await</span> <span class="n">anext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_aiter</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+</span><span id="Search-87"><a href="#Search-87"><span class="linenos"> 87</span></a>
+</span><span id="Search-88"><a href="#Search-88"><span class="linenos"> 88</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_only</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allow_multiple</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="Search-89"><a href="#Search-89"><span class="linenos"> 89</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Search-90"><a href="#Search-90"><span class="linenos"> 90</span></a><span class="sd">        Get the *only* item from a search with one result.</span>
+</span><span id="Search-91"><a href="#Search-91"><span class="linenos"> 91</span></a>
+</span><span id="Search-92"><a href="#Search-92"><span class="linenos"> 92</span></a><span class="sd">        Examples</span>
+</span><span id="Search-93"><a href="#Search-93"><span class="linenos"> 93</span></a><span class="sd">        --------</span>
+</span><span id="Search-94"><a href="#Search-94"><span class="linenos"> 94</span></a>
+</span><span id="Search-95"><a href="#Search-95"><span class="linenos"> 95</span></a><span class="sd">        This method is very commonly used for getting &quot;one thing&quot; from CUBE.</span>
+</span><span id="Search-96"><a href="#Search-96"><span class="linenos"> 96</span></a>
+</span><span id="Search-97"><a href="#Search-97"><span class="linenos"> 97</span></a><span class="sd">        ```python</span>
+</span><span id="Search-98"><a href="#Search-98"><span class="linenos"> 98</span></a><span class="sd">        await chris.search_plugins(name_exact=&quot;pl-dircopy&quot;, version=&quot;2.1.1&quot;).get_only()</span>
+</span><span id="Search-99"><a href="#Search-99"><span class="linenos"> 99</span></a><span class="sd">        ```</span>
+</span><span id="Search-100"><a href="#Search-100"><span class="linenos">100</span></a>
+</span><span id="Search-101"><a href="#Search-101"><span class="linenos">101</span></a><span class="sd">        In the example above, a search for plugins given (`name_exact`, `version`)</span>
+</span><span id="Search-102"><a href="#Search-102"><span class="linenos">102</span></a><span class="sd">        is guaranteed to return either 0 or 1 result.</span>
+</span><span id="Search-103"><a href="#Search-103"><span class="linenos">103</span></a>
+</span><span id="Search-104"><a href="#Search-104"><span class="linenos">104</span></a><span class="sd">        Raises</span>
+</span><span id="Search-105"><a href="#Search-105"><span class="linenos">105</span></a><span class="sd">        ------</span>
+</span><span id="Search-106"><a href="#Search-106"><span class="linenos">106</span></a><span class="sd">        aiochris.util.search.NoneSearchError</span>
+</span><span id="Search-107"><a href="#Search-107"><span class="linenos">107</span></a><span class="sd">            If this search is empty.</span>
+</span><span id="Search-108"><a href="#Search-108"><span class="linenos">108</span></a><span class="sd">        aiochris.util.search.ManySearchError</span>
+</span><span id="Search-109"><a href="#Search-109"><span class="linenos">109</span></a><span class="sd">            If this search has more than one item and `allow_multiple` is `False`</span>
+</span><span id="Search-110"><a href="#Search-110"><span class="linenos">110</span></a>
+</span><span id="Search-111"><a href="#Search-111"><span class="linenos">111</span></a><span class="sd">        See also</span>
+</span><span id="Search-112"><a href="#Search-112"><span class="linenos">112</span></a><span class="sd">        --------</span>
+</span><span id="Search-113"><a href="#Search-113"><span class="linenos">113</span></a><span class="sd">        `first` : does the same thing but without checks.</span>
+</span><span id="Search-114"><a href="#Search-114"><span class="linenos">114</span></a>
+</span><span id="Search-115"><a href="#Search-115"><span class="linenos">115</span></a><span class="sd">        Parameters</span>
+</span><span id="Search-116"><a href="#Search-116"><span class="linenos">116</span></a><span class="sd">        ----------</span>
+</span><span id="Search-117"><a href="#Search-117"><span class="linenos">117</span></a><span class="sd">        allow_multiple: bool</span>
+</span><span id="Search-118"><a href="#Search-118"><span class="linenos">118</span></a><span class="sd">            if `True`, do not raise `ManySearchError` if `count &gt; 1`</span>
+</span><span id="Search-119"><a href="#Search-119"><span class="linenos">119</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Search-120"><a href="#Search-120"><span class="linenos">120</span></a>        <span class="n">one</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_one</span><span class="p">()</span>
+</span><span id="Search-121"><a href="#Search-121"><span class="linenos">121</span></a>        <span class="k">if</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="Search-122"><a href="#Search-122"><span class="linenos">122</span></a>            <span class="k">raise</span> <span class="n">NoneSearchError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="Search-123"><a href="#Search-123"><span class="linenos">123</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_multiple</span> <span class="ow">and</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Search-124"><a href="#Search-124"><span class="linenos">124</span></a>            <span class="k">raise</span> <span class="n">ManySearchError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="Search-125"><a href="#Search-125"><span class="linenos">125</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">one</span><span class="o">.</span><span class="n">results</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Search-126"><a href="#Search-126"><span class="linenos">126</span></a>            <span class="k">raise</span> <span class="n">NonsenseResponseError</span><span class="p">(</span>
+</span><span id="Search-127"><a href="#Search-127"><span class="linenos">127</span></a>                <span class="sa">f</span><span class="s2">&quot;Response has count=</span><span class="si">{</span><span class="n">one</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2"> but the results are empty.&quot;</span><span class="p">,</span> <span class="n">one</span>
+</span><span id="Search-128"><a href="#Search-128"><span class="linenos">128</span></a>            <span class="p">)</span>
+</span><span id="Search-129"><a href="#Search-129"><span class="linenos">129</span></a>        <span class="k">return</span> <span class="n">deserialize_linked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Item</span><span class="p">,</span> <span class="n">one</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="Search-130"><a href="#Search-130"><span class="linenos">130</span></a>
+</span><span id="Search-131"><a href="#Search-131"><span class="linenos">131</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="Search-132"><a href="#Search-132"><span class="linenos">132</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Search-133"><a href="#Search-133"><span class="linenos">133</span></a><span class="sd">        Get the number of items in this collection search.</span>
+</span><span id="Search-134"><a href="#Search-134"><span class="linenos">134</span></a>
+</span><span id="Search-135"><a href="#Search-135"><span class="linenos">135</span></a><span class="sd">        Examples</span>
+</span><span id="Search-136"><a href="#Search-136"><span class="linenos">136</span></a><span class="sd">        --------</span>
+</span><span id="Search-137"><a href="#Search-137"><span class="linenos">137</span></a>
+</span><span id="Search-138"><a href="#Search-138"><span class="linenos">138</span></a><span class="sd">        `count` is useful for rendering a progress bar. TODO example with files</span>
+</span><span id="Search-139"><a href="#Search-139"><span class="linenos">139</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Search-140"><a href="#Search-140"><span class="linenos">140</span></a>        <span class="n">one</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_one</span><span class="p">()</span>
+</span><span id="Search-141"><a href="#Search-141"><span class="linenos">141</span></a>        <span class="k">return</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span>
+</span><span id="Search-142"><a href="#Search-142"><span class="linenos">142</span></a>
+</span><span id="Search-143"><a href="#Search-143"><span class="linenos">143</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">_get_one</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Paginated</span><span class="p">:</span>
+</span><span id="Search-144"><a href="#Search-144"><span class="linenos">144</span></a>        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_url</span><span class="p">)</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
+</span><span id="Search-145"><a href="#Search-145"><span class="linenos">145</span></a>            <span class="k">await</span> <span class="n">raise_for_status</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</span><span id="Search-146"><a href="#Search-146"><span class="linenos">146</span></a>            <span class="k">return</span> <span class="n">from_json</span><span class="p">(</span><span class="n">_Paginated</span><span class="p">,</span> <span class="k">await</span> <span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+</span><span id="Search-147"><a href="#Search-147"><span class="linenos">147</span></a>
+</span><span id="Search-148"><a href="#Search-148"><span class="linenos">148</span></a>    <span class="k">def</span> <span class="nf">_paginate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="Search-149"><a href="#Search-149"><span class="linenos">149</span></a>        <span class="k">return</span> <span class="n">_get_paginated</span><span class="p">(</span>
+</span><span id="Search-150"><a href="#Search-150"><span class="linenos">150</span></a>            <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span>
+</span><span id="Search-151"><a href="#Search-151"><span class="linenos">151</span></a>            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+</span><span id="Search-152"><a href="#Search-152"><span class="linenos">152</span></a>            <span class="n">item_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Item</span><span class="p">,</span>
+</span><span id="Search-153"><a href="#Search-153"><span class="linenos">153</span></a>            <span class="n">max_requests</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_requests</span><span class="p">,</span>
+</span><span id="Search-154"><a href="#Search-154"><span class="linenos">154</span></a>        <span class="p">)</span>
+</span><span id="Search-155"><a href="#Search-155"><span class="linenos">155</span></a>
+</span><span id="Search-156"><a href="#Search-156"><span class="linenos">156</span></a>    <span class="nd">@property</span>
+</span><span id="Search-157"><a href="#Search-157"><span class="linenos">157</span></a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">:</span>
+</span><span id="Search-158"><a href="#Search-158"><span class="linenos">158</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_url_with</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+</span><span id="Search-159"><a href="#Search-159"><span class="linenos">159</span></a>
+</span><span id="Search-160"><a href="#Search-160"><span class="linenos">160</span></a>    <span class="k">def</span> <span class="nf">_first_aiter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="Search-161"><a href="#Search-161"><span class="linenos">161</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paginate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_url</span><span class="p">)</span>
+</span><span id="Search-162"><a href="#Search-162"><span class="linenos">162</span></a>
+</span><span id="Search-163"><a href="#Search-163"><span class="linenos">163</span></a>    <span class="nd">@property</span>
+</span><span id="Search-164"><a href="#Search-164"><span class="linenos">164</span></a>    <span class="k">def</span> <span class="nf">_first_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">:</span>
+</span><span id="Search-165"><a href="#Search-165"><span class="linenos">165</span></a>        <span class="n">params</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+</span><span id="Search-166"><a href="#Search-166"><span class="linenos">166</span></a>        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Search-167"><a href="#Search-167"><span class="linenos">167</span></a>        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Search-168"><a href="#Search-168"><span class="linenos">168</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_url_with</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</span><span id="Search-169"><a href="#Search-169"><span class="linenos">169</span></a>
+</span><span id="Search-170"><a href="#Search-170"><span class="linenos">170</span></a>    <span class="nd">@property</span>
+</span><span id="Search-171"><a href="#Search-171"><span class="linenos">171</span></a>    <span class="k">def</span> <span class="nf">_search_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">:</span>
+</span><span id="Search-172"><a href="#Search-172"><span class="linenos">172</span></a>        <span class="k">return</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;search/&quot;</span>
+</span><span id="Search-173"><a href="#Search-173"><span class="linenos">173</span></a>
+</span><span id="Search-174"><a href="#Search-174"><span class="linenos">174</span></a>    <span class="k">def</span> <span class="nf">_search_url_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+</span><span id="Search-175"><a href="#Search-175"><span class="linenos">175</span></a>        <span class="k">return</span> <span class="n">yarl</span><span class="o">.</span><span class="n">URL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_url</span><span class="p">)</span><span class="o">.</span><span class="n">with_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -1274,15 +1278,15 @@ No request is made before the first time a <code><a href="#Search">Search</a></c
 
     </div>
     <a class="headerlink" href="#Search.first"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Search.first-79"><a href="#Search.first-79"><span class="linenos">79</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-</span><span id="Search.first-80"><a href="#Search.first-80"><span class="linenos">80</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Search.first-81"><a href="#Search.first-81"><span class="linenos">81</span></a><span class="sd">        Get the first item.</span>
-</span><span id="Search.first-82"><a href="#Search.first-82"><span class="linenos">82</span></a>
-</span><span id="Search.first-83"><a href="#Search.first-83"><span class="linenos">83</span></a><span class="sd">        See also</span>
-</span><span id="Search.first-84"><a href="#Search.first-84"><span class="linenos">84</span></a><span class="sd">        --------</span>
-</span><span id="Search.first-85"><a href="#Search.first-85"><span class="linenos">85</span></a><span class="sd">        `get_only` : similar use, but more strict</span>
-</span><span id="Search.first-86"><a href="#Search.first-86"><span class="linenos">86</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Search.first-87"><a href="#Search.first-87"><span class="linenos">87</span></a>        <span class="k">return</span> <span class="k">await</span> <span class="n">anext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_aiter</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Search.first-78"><a href="#Search.first-78"><span class="linenos">78</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="Search.first-79"><a href="#Search.first-79"><span class="linenos">79</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Search.first-80"><a href="#Search.first-80"><span class="linenos">80</span></a><span class="sd">        Get the first item.</span>
+</span><span id="Search.first-81"><a href="#Search.first-81"><span class="linenos">81</span></a>
+</span><span id="Search.first-82"><a href="#Search.first-82"><span class="linenos">82</span></a><span class="sd">        See also</span>
+</span><span id="Search.first-83"><a href="#Search.first-83"><span class="linenos">83</span></a><span class="sd">        --------</span>
+</span><span id="Search.first-84"><a href="#Search.first-84"><span class="linenos">84</span></a><span class="sd">        `get_only` : similar use, but more strict</span>
+</span><span id="Search.first-85"><a href="#Search.first-85"><span class="linenos">85</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Search.first-86"><a href="#Search.first-86"><span class="linenos">86</span></a>        <span class="k">return</span> <span class="k">await</span> <span class="n">anext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_aiter</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -1306,48 +1310,48 @@ No request is made before the first time a <code><a href="#Search">Search</a></c
 
     </div>
     <a class="headerlink" href="#Search.get_only"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Search.get_only-89"><a href="#Search.get_only-89"><span class="linenos"> 89</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_only</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allow_multiple</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-</span><span id="Search.get_only-90"><a href="#Search.get_only-90"><span class="linenos"> 90</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Search.get_only-91"><a href="#Search.get_only-91"><span class="linenos"> 91</span></a><span class="sd">        Get the *only* item from a search with one result.</span>
-</span><span id="Search.get_only-92"><a href="#Search.get_only-92"><span class="linenos"> 92</span></a>
-</span><span id="Search.get_only-93"><a href="#Search.get_only-93"><span class="linenos"> 93</span></a><span class="sd">        Examples</span>
-</span><span id="Search.get_only-94"><a href="#Search.get_only-94"><span class="linenos"> 94</span></a><span class="sd">        --------</span>
-</span><span id="Search.get_only-95"><a href="#Search.get_only-95"><span class="linenos"> 95</span></a>
-</span><span id="Search.get_only-96"><a href="#Search.get_only-96"><span class="linenos"> 96</span></a><span class="sd">        This method is very commonly used for getting &quot;one thing&quot; from CUBE.</span>
-</span><span id="Search.get_only-97"><a href="#Search.get_only-97"><span class="linenos"> 97</span></a>
-</span><span id="Search.get_only-98"><a href="#Search.get_only-98"><span class="linenos"> 98</span></a><span class="sd">        ```python</span>
-</span><span id="Search.get_only-99"><a href="#Search.get_only-99"><span class="linenos"> 99</span></a><span class="sd">        await chris.search_plugins(name_exact=&quot;pl-dircopy&quot;, version=&quot;2.1.1&quot;).get_only()</span>
-</span><span id="Search.get_only-100"><a href="#Search.get_only-100"><span class="linenos">100</span></a><span class="sd">        ```</span>
-</span><span id="Search.get_only-101"><a href="#Search.get_only-101"><span class="linenos">101</span></a>
-</span><span id="Search.get_only-102"><a href="#Search.get_only-102"><span class="linenos">102</span></a><span class="sd">        In the example above, a search for plugins given (`name_exact`, `version`)</span>
-</span><span id="Search.get_only-103"><a href="#Search.get_only-103"><span class="linenos">103</span></a><span class="sd">        is guaranteed to return either 0 or 1 result.</span>
-</span><span id="Search.get_only-104"><a href="#Search.get_only-104"><span class="linenos">104</span></a>
-</span><span id="Search.get_only-105"><a href="#Search.get_only-105"><span class="linenos">105</span></a><span class="sd">        Raises</span>
-</span><span id="Search.get_only-106"><a href="#Search.get_only-106"><span class="linenos">106</span></a><span class="sd">        ------</span>
-</span><span id="Search.get_only-107"><a href="#Search.get_only-107"><span class="linenos">107</span></a><span class="sd">        aiochris.util.search.NoneSearchError</span>
-</span><span id="Search.get_only-108"><a href="#Search.get_only-108"><span class="linenos">108</span></a><span class="sd">            If this search is empty.</span>
-</span><span id="Search.get_only-109"><a href="#Search.get_only-109"><span class="linenos">109</span></a><span class="sd">        aiochris.util.search.ManySearchError</span>
-</span><span id="Search.get_only-110"><a href="#Search.get_only-110"><span class="linenos">110</span></a><span class="sd">            If this search has more than one item and `allow_multiple` is `False`</span>
-</span><span id="Search.get_only-111"><a href="#Search.get_only-111"><span class="linenos">111</span></a>
-</span><span id="Search.get_only-112"><a href="#Search.get_only-112"><span class="linenos">112</span></a><span class="sd">        See also</span>
-</span><span id="Search.get_only-113"><a href="#Search.get_only-113"><span class="linenos">113</span></a><span class="sd">        --------</span>
-</span><span id="Search.get_only-114"><a href="#Search.get_only-114"><span class="linenos">114</span></a><span class="sd">        `first` : does the same thing but without checks.</span>
-</span><span id="Search.get_only-115"><a href="#Search.get_only-115"><span class="linenos">115</span></a>
-</span><span id="Search.get_only-116"><a href="#Search.get_only-116"><span class="linenos">116</span></a><span class="sd">        Parameters</span>
-</span><span id="Search.get_only-117"><a href="#Search.get_only-117"><span class="linenos">117</span></a><span class="sd">        ----------</span>
-</span><span id="Search.get_only-118"><a href="#Search.get_only-118"><span class="linenos">118</span></a><span class="sd">        allow_multiple: bool</span>
-</span><span id="Search.get_only-119"><a href="#Search.get_only-119"><span class="linenos">119</span></a><span class="sd">            if `True`, do not raise `ManySearchError` if `count &gt; 1`</span>
-</span><span id="Search.get_only-120"><a href="#Search.get_only-120"><span class="linenos">120</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Search.get_only-121"><a href="#Search.get_only-121"><span class="linenos">121</span></a>        <span class="n">one</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_one</span><span class="p">()</span>
-</span><span id="Search.get_only-122"><a href="#Search.get_only-122"><span class="linenos">122</span></a>        <span class="k">if</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="Search.get_only-123"><a href="#Search.get_only-123"><span class="linenos">123</span></a>            <span class="k">raise</span> <span class="n">NoneSearchError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
-</span><span id="Search.get_only-124"><a href="#Search.get_only-124"><span class="linenos">124</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_multiple</span> <span class="ow">and</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Search.get_only-125"><a href="#Search.get_only-125"><span class="linenos">125</span></a>            <span class="k">raise</span> <span class="n">ManySearchError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
-</span><span id="Search.get_only-126"><a href="#Search.get_only-126"><span class="linenos">126</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">one</span><span class="o">.</span><span class="n">results</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Search.get_only-127"><a href="#Search.get_only-127"><span class="linenos">127</span></a>            <span class="k">raise</span> <span class="n">NonsenseResponseError</span><span class="p">(</span>
-</span><span id="Search.get_only-128"><a href="#Search.get_only-128"><span class="linenos">128</span></a>                <span class="sa">f</span><span class="s2">&quot;Response has count=</span><span class="si">{</span><span class="n">one</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2"> but the results are empty.&quot;</span><span class="p">,</span> <span class="n">one</span>
-</span><span id="Search.get_only-129"><a href="#Search.get_only-129"><span class="linenos">129</span></a>            <span class="p">)</span>
-</span><span id="Search.get_only-130"><a href="#Search.get_only-130"><span class="linenos">130</span></a>        <span class="k">return</span> <span class="n">deserialize_linked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Item</span><span class="p">,</span> <span class="n">one</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Search.get_only-88"><a href="#Search.get_only-88"><span class="linenos"> 88</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_only</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allow_multiple</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+</span><span id="Search.get_only-89"><a href="#Search.get_only-89"><span class="linenos"> 89</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Search.get_only-90"><a href="#Search.get_only-90"><span class="linenos"> 90</span></a><span class="sd">        Get the *only* item from a search with one result.</span>
+</span><span id="Search.get_only-91"><a href="#Search.get_only-91"><span class="linenos"> 91</span></a>
+</span><span id="Search.get_only-92"><a href="#Search.get_only-92"><span class="linenos"> 92</span></a><span class="sd">        Examples</span>
+</span><span id="Search.get_only-93"><a href="#Search.get_only-93"><span class="linenos"> 93</span></a><span class="sd">        --------</span>
+</span><span id="Search.get_only-94"><a href="#Search.get_only-94"><span class="linenos"> 94</span></a>
+</span><span id="Search.get_only-95"><a href="#Search.get_only-95"><span class="linenos"> 95</span></a><span class="sd">        This method is very commonly used for getting &quot;one thing&quot; from CUBE.</span>
+</span><span id="Search.get_only-96"><a href="#Search.get_only-96"><span class="linenos"> 96</span></a>
+</span><span id="Search.get_only-97"><a href="#Search.get_only-97"><span class="linenos"> 97</span></a><span class="sd">        ```python</span>
+</span><span id="Search.get_only-98"><a href="#Search.get_only-98"><span class="linenos"> 98</span></a><span class="sd">        await chris.search_plugins(name_exact=&quot;pl-dircopy&quot;, version=&quot;2.1.1&quot;).get_only()</span>
+</span><span id="Search.get_only-99"><a href="#Search.get_only-99"><span class="linenos"> 99</span></a><span class="sd">        ```</span>
+</span><span id="Search.get_only-100"><a href="#Search.get_only-100"><span class="linenos">100</span></a>
+</span><span id="Search.get_only-101"><a href="#Search.get_only-101"><span class="linenos">101</span></a><span class="sd">        In the example above, a search for plugins given (`name_exact`, `version`)</span>
+</span><span id="Search.get_only-102"><a href="#Search.get_only-102"><span class="linenos">102</span></a><span class="sd">        is guaranteed to return either 0 or 1 result.</span>
+</span><span id="Search.get_only-103"><a href="#Search.get_only-103"><span class="linenos">103</span></a>
+</span><span id="Search.get_only-104"><a href="#Search.get_only-104"><span class="linenos">104</span></a><span class="sd">        Raises</span>
+</span><span id="Search.get_only-105"><a href="#Search.get_only-105"><span class="linenos">105</span></a><span class="sd">        ------</span>
+</span><span id="Search.get_only-106"><a href="#Search.get_only-106"><span class="linenos">106</span></a><span class="sd">        aiochris.util.search.NoneSearchError</span>
+</span><span id="Search.get_only-107"><a href="#Search.get_only-107"><span class="linenos">107</span></a><span class="sd">            If this search is empty.</span>
+</span><span id="Search.get_only-108"><a href="#Search.get_only-108"><span class="linenos">108</span></a><span class="sd">        aiochris.util.search.ManySearchError</span>
+</span><span id="Search.get_only-109"><a href="#Search.get_only-109"><span class="linenos">109</span></a><span class="sd">            If this search has more than one item and `allow_multiple` is `False`</span>
+</span><span id="Search.get_only-110"><a href="#Search.get_only-110"><span class="linenos">110</span></a>
+</span><span id="Search.get_only-111"><a href="#Search.get_only-111"><span class="linenos">111</span></a><span class="sd">        See also</span>
+</span><span id="Search.get_only-112"><a href="#Search.get_only-112"><span class="linenos">112</span></a><span class="sd">        --------</span>
+</span><span id="Search.get_only-113"><a href="#Search.get_only-113"><span class="linenos">113</span></a><span class="sd">        `first` : does the same thing but without checks.</span>
+</span><span id="Search.get_only-114"><a href="#Search.get_only-114"><span class="linenos">114</span></a>
+</span><span id="Search.get_only-115"><a href="#Search.get_only-115"><span class="linenos">115</span></a><span class="sd">        Parameters</span>
+</span><span id="Search.get_only-116"><a href="#Search.get_only-116"><span class="linenos">116</span></a><span class="sd">        ----------</span>
+</span><span id="Search.get_only-117"><a href="#Search.get_only-117"><span class="linenos">117</span></a><span class="sd">        allow_multiple: bool</span>
+</span><span id="Search.get_only-118"><a href="#Search.get_only-118"><span class="linenos">118</span></a><span class="sd">            if `True`, do not raise `ManySearchError` if `count &gt; 1`</span>
+</span><span id="Search.get_only-119"><a href="#Search.get_only-119"><span class="linenos">119</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Search.get_only-120"><a href="#Search.get_only-120"><span class="linenos">120</span></a>        <span class="n">one</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_one</span><span class="p">()</span>
+</span><span id="Search.get_only-121"><a href="#Search.get_only-121"><span class="linenos">121</span></a>        <span class="k">if</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="Search.get_only-122"><a href="#Search.get_only-122"><span class="linenos">122</span></a>            <span class="k">raise</span> <span class="n">NoneSearchError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="Search.get_only-123"><a href="#Search.get_only-123"><span class="linenos">123</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_multiple</span> <span class="ow">and</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Search.get_only-124"><a href="#Search.get_only-124"><span class="linenos">124</span></a>            <span class="k">raise</span> <span class="n">ManySearchError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="Search.get_only-125"><a href="#Search.get_only-125"><span class="linenos">125</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">one</span><span class="o">.</span><span class="n">results</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Search.get_only-126"><a href="#Search.get_only-126"><span class="linenos">126</span></a>            <span class="k">raise</span> <span class="n">NonsenseResponseError</span><span class="p">(</span>
+</span><span id="Search.get_only-127"><a href="#Search.get_only-127"><span class="linenos">127</span></a>                <span class="sa">f</span><span class="s2">&quot;Response has count=</span><span class="si">{</span><span class="n">one</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2"> but the results are empty.&quot;</span><span class="p">,</span> <span class="n">one</span>
+</span><span id="Search.get_only-128"><a href="#Search.get_only-128"><span class="linenos">128</span></a>            <span class="p">)</span>
+</span><span id="Search.get_only-129"><a href="#Search.get_only-129"><span class="linenos">129</span></a>        <span class="k">return</span> <span class="n">deserialize_linked</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Item</span><span class="p">,</span> <span class="n">one</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </span></pre></div>
 
 
@@ -1397,17 +1401,17 @@ if <code>True</code>, do not raise <code>ManySearchError</code> if <code>count &
 
     </div>
     <a class="headerlink" href="#Search.count"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Search.count-132"><a href="#Search.count-132"><span class="linenos">132</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="Search.count-133"><a href="#Search.count-133"><span class="linenos">133</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Search.count-134"><a href="#Search.count-134"><span class="linenos">134</span></a><span class="sd">        Get the number of items in this collection search.</span>
-</span><span id="Search.count-135"><a href="#Search.count-135"><span class="linenos">135</span></a>
-</span><span id="Search.count-136"><a href="#Search.count-136"><span class="linenos">136</span></a><span class="sd">        Examples</span>
-</span><span id="Search.count-137"><a href="#Search.count-137"><span class="linenos">137</span></a><span class="sd">        --------</span>
-</span><span id="Search.count-138"><a href="#Search.count-138"><span class="linenos">138</span></a>
-</span><span id="Search.count-139"><a href="#Search.count-139"><span class="linenos">139</span></a><span class="sd">        `count` is useful for rendering a progress bar. TODO example with files</span>
-</span><span id="Search.count-140"><a href="#Search.count-140"><span class="linenos">140</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Search.count-141"><a href="#Search.count-141"><span class="linenos">141</span></a>        <span class="n">one</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_one</span><span class="p">()</span>
-</span><span id="Search.count-142"><a href="#Search.count-142"><span class="linenos">142</span></a>        <span class="k">return</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Search.count-131"><a href="#Search.count-131"><span class="linenos">131</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="Search.count-132"><a href="#Search.count-132"><span class="linenos">132</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Search.count-133"><a href="#Search.count-133"><span class="linenos">133</span></a><span class="sd">        Get the number of items in this collection search.</span>
+</span><span id="Search.count-134"><a href="#Search.count-134"><span class="linenos">134</span></a>
+</span><span id="Search.count-135"><a href="#Search.count-135"><span class="linenos">135</span></a><span class="sd">        Examples</span>
+</span><span id="Search.count-136"><a href="#Search.count-136"><span class="linenos">136</span></a><span class="sd">        --------</span>
+</span><span id="Search.count-137"><a href="#Search.count-137"><span class="linenos">137</span></a>
+</span><span id="Search.count-138"><a href="#Search.count-138"><span class="linenos">138</span></a><span class="sd">        `count` is useful for rendering a progress bar. TODO example with files</span>
+</span><span id="Search.count-139"><a href="#Search.count-139"><span class="linenos">139</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Search.count-140"><a href="#Search.count-140"><span class="linenos">140</span></a>        <span class="n">one</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_one</span><span class="p">()</span>
+</span><span id="Search.count-141"><a href="#Search.count-141"><span class="linenos">141</span></a>        <span class="k">return</span> <span class="n">one</span><span class="o">.</span><span class="n">count</span>
 </span></pre></div>
 
 
@@ -1432,16 +1436,16 @@ if <code>True</code>, do not raise <code>ManySearchError</code> if <code>count &
 
     </div>
     <a class="headerlink" href="#acollect"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="acollect-206"><a href="#acollect-206"><span class="linenos">206</span></a><span class="k">async</span> <span class="k">def</span> <span class="nf">acollect</span><span class="p">(</span><span class="n">async_iterable</span><span class="p">:</span> <span class="n">AsyncIterable</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-</span><span id="acollect-207"><a href="#acollect-207"><span class="linenos">207</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="acollect-208"><a href="#acollect-208"><span class="linenos">208</span></a><span class="sd">    Simple helper to convert a `Search` to a [`list`](https://docs.python.org/3/library/stdtypes.html#list).</span>
-</span><span id="acollect-209"><a href="#acollect-209"><span class="linenos">209</span></a>
-</span><span id="acollect-210"><a href="#acollect-210"><span class="linenos">210</span></a><span class="sd">    Using this function is not recommended unless you can assume the collection is small.</span>
-</span><span id="acollect-211"><a href="#acollect-211"><span class="linenos">211</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="acollect-212"><a href="#acollect-212"><span class="linenos">212</span></a>    <span class="c1"># nb: using tuple here causes</span>
-</span><span id="acollect-213"><a href="#acollect-213"><span class="linenos">213</span></a>    <span class="c1">#     TypeError: &#39;async_generator&#39; object is not iterable</span>
-</span><span id="acollect-214"><a href="#acollect-214"><span class="linenos">214</span></a>    <span class="c1"># return tuple(e async for e in async_iterable)</span>
-</span><span id="acollect-215"><a href="#acollect-215"><span class="linenos">215</span></a>    <span class="k">return</span> <span class="p">[</span><span class="n">e</span> <span class="k">async</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">async_iterable</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="acollect-205"><a href="#acollect-205"><span class="linenos">205</span></a><span class="k">async</span> <span class="k">def</span> <span class="nf">acollect</span><span class="p">(</span><span class="n">async_iterable</span><span class="p">:</span> <span class="n">AsyncIterable</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+</span><span id="acollect-206"><a href="#acollect-206"><span class="linenos">206</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="acollect-207"><a href="#acollect-207"><span class="linenos">207</span></a><span class="sd">    Simple helper to convert a `Search` to a [`list`](https://docs.python.org/3/library/stdtypes.html#list).</span>
+</span><span id="acollect-208"><a href="#acollect-208"><span class="linenos">208</span></a>
+</span><span id="acollect-209"><a href="#acollect-209"><span class="linenos">209</span></a><span class="sd">    Using this function is not recommended unless you can assume the collection is small.</span>
+</span><span id="acollect-210"><a href="#acollect-210"><span class="linenos">210</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="acollect-211"><a href="#acollect-211"><span class="linenos">211</span></a>    <span class="c1"># nb: using tuple here causes</span>
+</span><span id="acollect-212"><a href="#acollect-212"><span class="linenos">212</span></a>    <span class="c1">#     TypeError: &#39;async_generator&#39; object is not iterable</span>
+</span><span id="acollect-213"><a href="#acollect-213"><span class="linenos">213</span></a>    <span class="c1"># return tuple(e async for e in async_iterable)</span>
+</span><span id="acollect-214"><a href="#acollect-214"><span class="linenos">214</span></a>    <span class="k">return</span> <span class="p">[</span><span class="n">e</span> <span class="k">async</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">async_iterable</span><span class="p">]</span>
 </span></pre></div>
 
 

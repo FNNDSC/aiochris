@@ -49,7 +49,7 @@
     </ul>
 
 
-            <footer>Version v0.2.2</footer>
+            <footer>Version v0.3.0rc1</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -77,7 +77,7 @@
 </span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="kn">from</span> <span class="nn">aiochris</span> <span class="kn">import</span> <span class="n">Search</span>
 </span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">from</span> <span class="nn">aiochris.link.collection_client</span> <span class="kn">import</span> <span class="n">L</span><span class="p">,</span> <span class="n">CollectionJsonApiClient</span>
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">from</span> <span class="nn">aiochris.models.public</span> <span class="kn">import</span> <span class="n">PublicPlugin</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">from</span> <span class="nn">aiochris.util.errors</span> <span class="kn">import</span> <span class="n">raise_for_status</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">from</span> <span class="nn">aiochris.errors</span> <span class="kn">import</span> <span class="n">raise_for_status</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a>
 </span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="n">CSelf</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>    <span class="s2">&quot;CSelf&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;BaseChrisClient&quot;</span>
