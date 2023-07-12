@@ -55,7 +55,7 @@
     </ul>
 
 
-            <footer>Version v0.3.0rc1</footer>
+            <footer>Version v0.3.0rc2</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -121,7 +121,7 @@
 </span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>    <span class="n">compute_resources</span><span class="p">:</span> <span class="n">ComputeResourceUrl</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="n">plugin_type</span><span class="p">:</span> <span class="n">PluginType</span> <span class="o">=</span> <span class="n">serde</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">rename</span><span class="o">=</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>    <span class="nd">@http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compute_resources&quot;</span><span class="p">)</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>    <span class="nd">@http</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;compute_resources&quot;</span><span class="p">,</span> <span class="n">subpath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>    <span class="k">def</span> <span class="nf">get_compute_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">ComputeResource</span><span class="p">]:</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the compute resources this plugin is registered to.&quot;&quot;&quot;</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>        <span class="o">...</span>
@@ -201,7 +201,7 @@
 </span><span id="PublicPlugin-44"><a href="#PublicPlugin-44"><span class="linenos">44</span></a>    <span class="n">compute_resources</span><span class="p">:</span> <span class="n">ComputeResourceUrl</span>
 </span><span id="PublicPlugin-45"><a href="#PublicPlugin-45"><span class="linenos">45</span></a>    <span class="n">plugin_type</span><span class="p">:</span> <span class="n">PluginType</span> <span class="o">=</span> <span class="n">serde</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">rename</span><span class="o">=</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
 </span><span id="PublicPlugin-46"><a href="#PublicPlugin-46"><span class="linenos">46</span></a>
-</span><span id="PublicPlugin-47"><a href="#PublicPlugin-47"><span class="linenos">47</span></a>    <span class="nd">@http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compute_resources&quot;</span><span class="p">)</span>
+</span><span id="PublicPlugin-47"><a href="#PublicPlugin-47"><span class="linenos">47</span></a>    <span class="nd">@http</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;compute_resources&quot;</span><span class="p">,</span> <span class="n">subpath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </span><span id="PublicPlugin-48"><a href="#PublicPlugin-48"><span class="linenos">48</span></a>    <span class="k">def</span> <span class="nf">get_compute_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">ComputeResource</span><span class="p">]:</span>
 </span><span id="PublicPlugin-49"><a href="#PublicPlugin-49"><span class="linenos">49</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the compute resources this plugin is registered to.&quot;&quot;&quot;</span>
 </span><span id="PublicPlugin-50"><a href="#PublicPlugin-50"><span class="linenos">50</span></a>        <span class="o">...</span>
@@ -227,16 +227,16 @@
                             <div id="PublicPlugin.get_compute_resources" class="classattr">
                                         <input id="PublicPlugin.get_compute_resources-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
-                    <div class="decorator">@http.get(&#39;compute_resources&#39;)</div>
+                    <div class="decorator">@http.search(&#39;compute_resources&#39;, subpath=&#39;&#39;)</div>
 
-        <span class="def">async def</span>
+        <span class="def">def</span>
         <span class="name">get_compute_resources</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span></span><span class="return-annotation">) -> <span class="n"><a href="../util/search.html#Search">aiochris.util.search.Search</a></span><span class="p">[</span><span class="n"><a href="#ComputeResource">aiochris.models.public.ComputeResource</a></span><span class="p">]</span>:</span></span>
 
                 <label class="view-source-button" for="PublicPlugin.get_compute_resources-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#PublicPlugin.get_compute_resources"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PublicPlugin.get_compute_resources-47"><a href="#PublicPlugin.get_compute_resources-47"><span class="linenos">47</span></a>    <span class="nd">@http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compute_resources&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PublicPlugin.get_compute_resources-47"><a href="#PublicPlugin.get_compute_resources-47"><span class="linenos">47</span></a>    <span class="nd">@http</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;compute_resources&quot;</span><span class="p">,</span> <span class="n">subpath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </span><span id="PublicPlugin.get_compute_resources-48"><a href="#PublicPlugin.get_compute_resources-48"><span class="linenos">48</span></a>    <span class="k">def</span> <span class="nf">get_compute_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">ComputeResource</span><span class="p">]:</span>
 </span><span id="PublicPlugin.get_compute_resources-49"><a href="#PublicPlugin.get_compute_resources-49"><span class="linenos">49</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the compute resources this plugin is registered to.&quot;&quot;&quot;</span>
 </span><span id="PublicPlugin.get_compute_resources-50"><a href="#PublicPlugin.get_compute_resources-50"><span class="linenos">50</span></a>        <span class="o">...</span>
