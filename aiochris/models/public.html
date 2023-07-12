@@ -32,15 +32,6 @@
         <h2>API Documentation</h2>
             <ul class="memberlist">
             <li>
-                    <a class="class" href="#PublicPlugin">PublicPlugin</a>
-                            <ul class="memberlist">
-                        <li>
-                                <a class="function" href="#PublicPlugin.__init__">PublicPlugin</a>
-                        </li>
-                </ul>
-
-            </li>
-            <li>
                     <a class="class" href="#ComputeResource">ComputeResource</a>
                             <ul class="memberlist">
                         <li>
@@ -49,10 +40,22 @@
                 </ul>
 
             </li>
+            <li>
+                    <a class="class" href="#PublicPlugin">PublicPlugin</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#PublicPlugin.__init__">PublicPlugin</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#PublicPlugin.get_compute_resources">get_compute_resources</a>
+                        </li>
+                </ul>
+
+            </li>
     </ul>
 
 
-            <footer>Version v0.2.1</footer>
+            <footer>Version v0.2.2</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -81,99 +84,51 @@
 </span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">import</span> <span class="nn">serde</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span> <span class="nn">serde</span> <span class="kn">import</span> <span class="n">deserialize</span>
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span> <span class="nn">aiochris.link.linked</span> <span class="kn">import</span> <span class="n">LinkedModel</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span> <span class="nn">aiochris.models.enums</span> <span class="kn">import</span> <span class="n">PluginType</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span> <span class="nn">aiochris.models.types</span> <span class="kn">import</span> <span class="o">*</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="nd">@deserialize</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="k">class</span> <span class="nc">PublicPlugin</span><span class="p">(</span><span class="n">LinkedModel</span><span class="p">):</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="sd">    A ChRIS plugin.</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">PluginUrl</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="n">PluginId</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="n">name</span><span class="p">:</span> <span class="n">PluginName</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="n">version</span><span class="p">:</span> <span class="n">PluginVersion</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="n">dock_image</span><span class="p">:</span> <span class="n">ImageTag</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>    <span class="n">public_repo</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="n">plugin_type</span><span class="p">:</span> <span class="n">PluginType</span> <span class="o">=</span> <span class="n">serde</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">rename</span><span class="o">=</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span> <span class="nn">aiochris.link</span> <span class="kn">import</span> <span class="n">http</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span> <span class="nn">aiochris.link.linked</span> <span class="kn">import</span> <span class="n">LinkedModel</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span> <span class="nn">aiochris.models.enums</span> <span class="kn">import</span> <span class="n">PluginType</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span> <span class="nn">aiochris.models.types</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="kn">from</span> <span class="nn">aiochris.util.search</span> <span class="kn">import</span> <span class="n">Search</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="nd">@deserialize</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="k">class</span> <span class="nc">ComputeResource</span><span class="p">:</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">ApiUrl</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="n">ComputeResourceId</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>    <span class="n">creation_date</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="n">modification_date</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="n">name</span><span class="p">:</span> <span class="n">ComputeResourceName</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="n">compute_url</span><span class="p">:</span> <span class="n">PfconUrl</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="n">compute_auth_url</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="n">max_job_exec_seconds</span><span class="p">:</span> <span class="nb">int</span>
 </span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>
 </span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
 </span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="nd">@deserialize</span>
 </span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="k">class</span> <span class="nc">ComputeResource</span><span class="p">:</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">ApiUrl</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="n">ComputeResourceId</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="n">creation_date</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>    <span class="n">modification_date</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>    <span class="n">name</span><span class="p">:</span> <span class="n">ComputeResourceName</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="n">compute_url</span><span class="p">:</span> <span class="n">PfconUrl</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="n">compute_auth_url</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>    <span class="n">max_job_exec_seconds</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="k">class</span> <span class="nc">PublicPlugin</span><span class="p">(</span><span class="n">LinkedModel</span><span class="p">):</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">    A ChRIS plugin.</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">PluginUrl</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="n">PluginId</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="n">name</span><span class="p">:</span> <span class="n">PluginName</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>    <span class="n">version</span><span class="p">:</span> <span class="n">PluginVersion</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>    <span class="n">dock_image</span><span class="p">:</span> <span class="n">ImageTag</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>    <span class="n">public_repo</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>    <span class="n">compute_resources</span><span class="p">:</span> <span class="n">ComputeResourceUrl</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="n">plugin_type</span><span class="p">:</span> <span class="n">PluginType</span> <span class="o">=</span> <span class="n">serde</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">rename</span><span class="o">=</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>    <span class="nd">@http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compute_resources&quot;</span><span class="p">)</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>    <span class="k">def</span> <span class="nf">get_compute_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">ComputeResource</span><span class="p">]:</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the compute resources this plugin is registered to.&quot;&quot;&quot;</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>        <span class="o">...</span>
 </span></pre></div>
 
 
             </section>
-                <section id="PublicPlugin">
-                            <input id="PublicPlugin-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr class">
-                    <div class="decorator">@deserialize</div>
-        <div class="decorator">@dataclass(frozen=True)</div>
-
-    <span class="def">class</span>
-    <span class="name">PublicPlugin</span><wbr>(<span class="base">aiochris.link.linked.LinkedModel</span>):
-
-                <label class="view-source-button" for="PublicPlugin-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#PublicPlugin"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PublicPlugin-15"><a href="#PublicPlugin-15"><span class="linenos">15</span></a><span class="nd">@deserialize</span>
-</span><span id="PublicPlugin-16"><a href="#PublicPlugin-16"><span class="linenos">16</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="PublicPlugin-17"><a href="#PublicPlugin-17"><span class="linenos">17</span></a><span class="k">class</span> <span class="nc">PublicPlugin</span><span class="p">(</span><span class="n">LinkedModel</span><span class="p">):</span>
-</span><span id="PublicPlugin-18"><a href="#PublicPlugin-18"><span class="linenos">18</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="PublicPlugin-19"><a href="#PublicPlugin-19"><span class="linenos">19</span></a><span class="sd">    A ChRIS plugin.</span>
-</span><span id="PublicPlugin-20"><a href="#PublicPlugin-20"><span class="linenos">20</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="PublicPlugin-21"><a href="#PublicPlugin-21"><span class="linenos">21</span></a>
-</span><span id="PublicPlugin-22"><a href="#PublicPlugin-22"><span class="linenos">22</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">PluginUrl</span>
-</span><span id="PublicPlugin-23"><a href="#PublicPlugin-23"><span class="linenos">23</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="n">PluginId</span>
-</span><span id="PublicPlugin-24"><a href="#PublicPlugin-24"><span class="linenos">24</span></a>    <span class="n">name</span><span class="p">:</span> <span class="n">PluginName</span>
-</span><span id="PublicPlugin-25"><a href="#PublicPlugin-25"><span class="linenos">25</span></a>    <span class="n">version</span><span class="p">:</span> <span class="n">PluginVersion</span>
-</span><span id="PublicPlugin-26"><a href="#PublicPlugin-26"><span class="linenos">26</span></a>    <span class="n">dock_image</span><span class="p">:</span> <span class="n">ImageTag</span>
-</span><span id="PublicPlugin-27"><a href="#PublicPlugin-27"><span class="linenos">27</span></a>    <span class="n">public_repo</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="PublicPlugin-28"><a href="#PublicPlugin-28"><span class="linenos">28</span></a>    <span class="n">plugin_type</span><span class="p">:</span> <span class="n">PluginType</span> <span class="o">=</span> <span class="n">serde</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">rename</span><span class="o">=</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>A ChRIS plugin.</p>
-</div>
-
-
-                            <div id="PublicPlugin.__init__" class="classattr">
-                                <div class="attr function">
-            
-        <span class="name">PublicPlugin</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">s</span><span class="p">:</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ClientSession</span>,</span><span class="param">	<span class="n">max_search_requests</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">url</span><span class="p">:</span> <span class="n"><a href="types.html#PluginUrl">aiochris.models.types.PluginUrl</a></span>,</span><span class="param">	<span class="nb">id</span><span class="p">:</span> <span class="n">aiochris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PluginId</span>,</span><span class="param">	<span class="n">name</span><span class="p">:</span> <span class="n"><a href="types.html#PluginName">aiochris.models.types.PluginName</a></span>,</span><span class="param">	<span class="n">version</span><span class="p">:</span> <span class="n"><a href="types.html#PluginVersion">aiochris.models.types.PluginVersion</a></span>,</span><span class="param">	<span class="n">dock_image</span><span class="p">:</span> <span class="n"><a href="types.html#ImageTag">aiochris.models.types.ImageTag</a></span>,</span><span class="param">	<span class="n">public_repo</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">plugin_type</span><span class="p">:</span> <span class="n"><a href="enums.html#PluginType">aiochris.models.enums.PluginType</a></span></span>)</span>
-
-        
-    </div>
-    <a class="headerlink" href="#PublicPlugin.__init__"></a>
-    
-    
-
-                            </div>
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt>aiochris.link.linked.Linked</dt>
-                                <dd id="PublicPlugin.max_search_requests" class="variable">max_search_requests</dd>
-
-            </div>
-                                </dl>
-                            </div>
-                </section>
                 <section id="ComputeResource">
                             <input id="ComputeResource-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
@@ -187,18 +142,18 @@
 
     </div>
     <a class="headerlink" href="#ComputeResource"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ComputeResource-31"><a href="#ComputeResource-31"><span class="linenos">31</span></a><span class="nd">@deserialize</span>
-</span><span id="ComputeResource-32"><a href="#ComputeResource-32"><span class="linenos">32</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="ComputeResource-33"><a href="#ComputeResource-33"><span class="linenos">33</span></a><span class="k">class</span> <span class="nc">ComputeResource</span><span class="p">:</span>
-</span><span id="ComputeResource-34"><a href="#ComputeResource-34"><span class="linenos">34</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">ApiUrl</span>
-</span><span id="ComputeResource-35"><a href="#ComputeResource-35"><span class="linenos">35</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="n">ComputeResourceId</span>
-</span><span id="ComputeResource-36"><a href="#ComputeResource-36"><span class="linenos">36</span></a>    <span class="n">creation_date</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="ComputeResource-37"><a href="#ComputeResource-37"><span class="linenos">37</span></a>    <span class="n">modification_date</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="ComputeResource-38"><a href="#ComputeResource-38"><span class="linenos">38</span></a>    <span class="n">name</span><span class="p">:</span> <span class="n">ComputeResourceName</span>
-</span><span id="ComputeResource-39"><a href="#ComputeResource-39"><span class="linenos">39</span></a>    <span class="n">compute_url</span><span class="p">:</span> <span class="n">PfconUrl</span>
-</span><span id="ComputeResource-40"><a href="#ComputeResource-40"><span class="linenos">40</span></a>    <span class="n">compute_auth_url</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="ComputeResource-41"><a href="#ComputeResource-41"><span class="linenos">41</span></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="ComputeResource-42"><a href="#ComputeResource-42"><span class="linenos">42</span></a>    <span class="n">max_job_exec_seconds</span><span class="p">:</span> <span class="nb">int</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ComputeResource-17"><a href="#ComputeResource-17"><span class="linenos">17</span></a><span class="nd">@deserialize</span>
+</span><span id="ComputeResource-18"><a href="#ComputeResource-18"><span class="linenos">18</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="ComputeResource-19"><a href="#ComputeResource-19"><span class="linenos">19</span></a><span class="k">class</span> <span class="nc">ComputeResource</span><span class="p">:</span>
+</span><span id="ComputeResource-20"><a href="#ComputeResource-20"><span class="linenos">20</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">ApiUrl</span>
+</span><span id="ComputeResource-21"><a href="#ComputeResource-21"><span class="linenos">21</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="n">ComputeResourceId</span>
+</span><span id="ComputeResource-22"><a href="#ComputeResource-22"><span class="linenos">22</span></a>    <span class="n">creation_date</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="ComputeResource-23"><a href="#ComputeResource-23"><span class="linenos">23</span></a>    <span class="n">modification_date</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="ComputeResource-24"><a href="#ComputeResource-24"><span class="linenos">24</span></a>    <span class="n">name</span><span class="p">:</span> <span class="n">ComputeResourceName</span>
+</span><span id="ComputeResource-25"><a href="#ComputeResource-25"><span class="linenos">25</span></a>    <span class="n">compute_url</span><span class="p">:</span> <span class="n">PfconUrl</span>
+</span><span id="ComputeResource-26"><a href="#ComputeResource-26"><span class="linenos">26</span></a>    <span class="n">compute_auth_url</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="ComputeResource-27"><a href="#ComputeResource-27"><span class="linenos">27</span></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="ComputeResource-28"><a href="#ComputeResource-28"><span class="linenos">28</span></a>    <span class="n">max_job_exec_seconds</span><span class="p">:</span> <span class="nb">int</span>
 </span></pre></div>
 
 
@@ -215,6 +170,92 @@
     
     
 
+                            </div>
+                </section>
+                <section id="PublicPlugin">
+                            <input id="PublicPlugin-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+                    <div class="decorator">@deserialize</div>
+        <div class="decorator">@dataclass(frozen=True)</div>
+
+    <span class="def">class</span>
+    <span class="name">PublicPlugin</span><wbr>(<span class="base">aiochris.link.linked.LinkedModel</span>):
+
+                <label class="view-source-button" for="PublicPlugin-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#PublicPlugin"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PublicPlugin-31"><a href="#PublicPlugin-31"><span class="linenos">31</span></a><span class="nd">@deserialize</span>
+</span><span id="PublicPlugin-32"><a href="#PublicPlugin-32"><span class="linenos">32</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="PublicPlugin-33"><a href="#PublicPlugin-33"><span class="linenos">33</span></a><span class="k">class</span> <span class="nc">PublicPlugin</span><span class="p">(</span><span class="n">LinkedModel</span><span class="p">):</span>
+</span><span id="PublicPlugin-34"><a href="#PublicPlugin-34"><span class="linenos">34</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PublicPlugin-35"><a href="#PublicPlugin-35"><span class="linenos">35</span></a><span class="sd">    A ChRIS plugin.</span>
+</span><span id="PublicPlugin-36"><a href="#PublicPlugin-36"><span class="linenos">36</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="PublicPlugin-37"><a href="#PublicPlugin-37"><span class="linenos">37</span></a>
+</span><span id="PublicPlugin-38"><a href="#PublicPlugin-38"><span class="linenos">38</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">PluginUrl</span>
+</span><span id="PublicPlugin-39"><a href="#PublicPlugin-39"><span class="linenos">39</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="n">PluginId</span>
+</span><span id="PublicPlugin-40"><a href="#PublicPlugin-40"><span class="linenos">40</span></a>    <span class="n">name</span><span class="p">:</span> <span class="n">PluginName</span>
+</span><span id="PublicPlugin-41"><a href="#PublicPlugin-41"><span class="linenos">41</span></a>    <span class="n">version</span><span class="p">:</span> <span class="n">PluginVersion</span>
+</span><span id="PublicPlugin-42"><a href="#PublicPlugin-42"><span class="linenos">42</span></a>    <span class="n">dock_image</span><span class="p">:</span> <span class="n">ImageTag</span>
+</span><span id="PublicPlugin-43"><a href="#PublicPlugin-43"><span class="linenos">43</span></a>    <span class="n">public_repo</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="PublicPlugin-44"><a href="#PublicPlugin-44"><span class="linenos">44</span></a>    <span class="n">compute_resources</span><span class="p">:</span> <span class="n">ComputeResourceUrl</span>
+</span><span id="PublicPlugin-45"><a href="#PublicPlugin-45"><span class="linenos">45</span></a>    <span class="n">plugin_type</span><span class="p">:</span> <span class="n">PluginType</span> <span class="o">=</span> <span class="n">serde</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">rename</span><span class="o">=</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
+</span><span id="PublicPlugin-46"><a href="#PublicPlugin-46"><span class="linenos">46</span></a>
+</span><span id="PublicPlugin-47"><a href="#PublicPlugin-47"><span class="linenos">47</span></a>    <span class="nd">@http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compute_resources&quot;</span><span class="p">)</span>
+</span><span id="PublicPlugin-48"><a href="#PublicPlugin-48"><span class="linenos">48</span></a>    <span class="k">def</span> <span class="nf">get_compute_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">ComputeResource</span><span class="p">]:</span>
+</span><span id="PublicPlugin-49"><a href="#PublicPlugin-49"><span class="linenos">49</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the compute resources this plugin is registered to.&quot;&quot;&quot;</span>
+</span><span id="PublicPlugin-50"><a href="#PublicPlugin-50"><span class="linenos">50</span></a>        <span class="o">...</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>A ChRIS plugin.</p>
+</div>
+
+
+                            <div id="PublicPlugin.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">PublicPlugin</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">s</span><span class="p">:</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ClientSession</span>,</span><span class="param">	<span class="n">max_search_requests</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">url</span><span class="p">:</span> <span class="n"><a href="types.html#PluginUrl">aiochris.models.types.PluginUrl</a></span>,</span><span class="param">	<span class="nb">id</span><span class="p">:</span> <span class="n">aiochris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PluginId</span>,</span><span class="param">	<span class="n">name</span><span class="p">:</span> <span class="n"><a href="types.html#PluginName">aiochris.models.types.PluginName</a></span>,</span><span class="param">	<span class="n">version</span><span class="p">:</span> <span class="n"><a href="types.html#PluginVersion">aiochris.models.types.PluginVersion</a></span>,</span><span class="param">	<span class="n">dock_image</span><span class="p">:</span> <span class="n"><a href="types.html#ImageTag">aiochris.models.types.ImageTag</a></span>,</span><span class="param">	<span class="n">public_repo</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">compute_resources</span><span class="p">:</span> <span class="n">aiochris</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ComputeResourceUrl</span>,</span><span class="param">	<span class="n">plugin_type</span><span class="p">:</span> <span class="n"><a href="enums.html#PluginType">aiochris.models.enums.PluginType</a></span></span>)</span>
+
+        
+    </div>
+    <a class="headerlink" href="#PublicPlugin.__init__"></a>
+    
+    
+
+                            </div>
+                            <div id="PublicPlugin.get_compute_resources" class="classattr">
+                                        <input id="PublicPlugin.get_compute_resources-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+                    <div class="decorator">@http.get(&#39;compute_resources&#39;)</div>
+
+        <span class="def">async def</span>
+        <span class="name">get_compute_resources</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span></span><span class="return-annotation">) -> <span class="n"><a href="../util/search.html#Search">aiochris.util.search.Search</a></span><span class="p">[</span><span class="n"><a href="#ComputeResource">aiochris.models.public.ComputeResource</a></span><span class="p">]</span>:</span></span>
+
+                <label class="view-source-button" for="PublicPlugin.get_compute_resources-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#PublicPlugin.get_compute_resources"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PublicPlugin.get_compute_resources-47"><a href="#PublicPlugin.get_compute_resources-47"><span class="linenos">47</span></a>    <span class="nd">@http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compute_resources&quot;</span><span class="p">)</span>
+</span><span id="PublicPlugin.get_compute_resources-48"><a href="#PublicPlugin.get_compute_resources-48"><span class="linenos">48</span></a>    <span class="k">def</span> <span class="nf">get_compute_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">ComputeResource</span><span class="p">]:</span>
+</span><span id="PublicPlugin.get_compute_resources-49"><a href="#PublicPlugin.get_compute_resources-49"><span class="linenos">49</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the compute resources this plugin is registered to.&quot;&quot;&quot;</span>
+</span><span id="PublicPlugin.get_compute_resources-50"><a href="#PublicPlugin.get_compute_resources-50"><span class="linenos">50</span></a>        <span class="o">...</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Get the compute resources this plugin is registered to.</p>
+</div>
+
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt>aiochris.link.linked.Linked</dt>
+                                <dd id="PublicPlugin.max_search_requests" class="variable">max_search_requests</dd>
+
+            </div>
+                                </dl>
                             </div>
                 </section>
     </main>
