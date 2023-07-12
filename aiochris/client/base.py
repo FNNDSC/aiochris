@@ -4,7 +4,9 @@ from typing import AsyncContextManager, Generic, Optional, Callable, TypeVar
 import aiohttp
 from serde import from_dict
 
+from aiochris import Search
 from aiochris.link.collection_client import L, CollectionJsonApiClient
+from aiochris.models.public import PublicPlugin
 from aiochris.util.errors import raise_for_status
 
 CSelf = TypeVar(
@@ -96,3 +98,10 @@ class BaseChrisClient(
         Close the HTTP session used by this client.
         """
         await self.s.close()
+
+    @abc.abstractmethod
+    def search_plugins(self, **query) -> Search[PublicPlugin]:
+        """
+        Search for plugins.
+        """
+        ...

@@ -13,7 +13,7 @@ from aiochris.models.logged_in import Plugin, PluginInstance
 from aiochris.models.public import ComputeResource
 from aiochris.models.types import Username, Password
 from aiochris.util.errors import IncorrectLoginError
-from aiochris.util.search import ManySearchError, NoneSearchError
+from aiochris.util.search import ManySearchError, NoneSearchError, acollect
 from tests.conftest import UserCredentials
 
 
@@ -104,6 +104,16 @@ def example_plugin_description(now_str: str) -> dict:
     data["name"] = f"example-{now_str}"
     data["dock_repo"] = f"localhost/fnndsc/aiochris-test-example:{now_str}"
     return data
+
+
+@pytest.fixture(scope="session")
+async def test_get_compute_resources(
+    normal_client: ChrisClient,
+    added_plugin: Plugin,
+    new_compute_resource: ComputeResource,
+):
+    cr = await acollect(added_plugin.get_compute_resources())
+    assert any(new_compute_resource.name == c.name for c in cr)
 
 
 @pytest.fixture(scope="session")
