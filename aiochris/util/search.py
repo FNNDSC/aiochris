@@ -70,6 +70,7 @@ class Search(Generic[T], AsyncIterable[T]):
     client: Linked
     Item: Type[T]
     max_requests: int = 100
+    subpath: str = "search/"
 
     def __aiter__(self) -> AsyncIterator[T]:
         return self._paginate(self.url)
@@ -168,7 +169,7 @@ class Search(Generic[T], AsyncIterable[T]):
 
     @property
     def _search_url(self) -> yarl.URL:
-        return yarl.URL(self.base_url) / "search/"
+        return yarl.URL(self.base_url) / self.subpath
 
     def _search_url_with(self, query: dict[str, Any]):
         return yarl.URL(self._search_url).with_query(query)

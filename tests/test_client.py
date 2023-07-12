@@ -106,7 +106,6 @@ def example_plugin_description(now_str: str) -> dict:
     return data
 
 
-@pytest.fixture(scope="session")
 async def test_get_compute_resources(
     normal_client: ChrisClient,
     added_plugin: Plugin,

@@ -124,7 +124,7 @@ def _http_method_decorator(
 
 
 def search(
-    collection_name: str,
+    collection_name: str, subpath: str = "search/"
 ) -> Callable[[Callable[..., Search[_R]]], Callable[..., Search[_R]]]:
     """
     Creates a decorator which searches the collection using GET requests.
@@ -145,6 +145,7 @@ def search(
                 base_url=self._get_link(collection_name),
                 params=kwargs,
                 max_requests=self.max_search_requests,
+                subpath=subpath,
             )
 
         LinkedMeta.mark_to_check(wrapped, collection_name)

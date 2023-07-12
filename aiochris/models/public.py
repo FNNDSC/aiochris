@@ -43,7 +43,7 @@ class PublicPlugin(LinkedModel):
     compute_resources: ComputeResourceUrl
     plugin_type: PluginType = serde.field(rename="type")
 
-    @http.get("compute_resources")
+    @http.search("compute_resources", subpath="")
     def get_compute_resources(self) -> Search[ComputeResource]:
         """Get the compute resources this plugin is registered to."""
         ...
