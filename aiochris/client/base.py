@@ -75,10 +75,13 @@ class BaseChrisClient(
         )
         if session_modifier is not None:
             session_modifier(session)
-
-        async with session.get(url) as res:
-            await raise_for_status(res)
-            body = await res.json()
+        try:
+            async with session.get(url) as res:
+                await raise_for_status(res)
+                body = await res.json()
+        except Exception:
+            await session.close()
+            raise
         links = from_dict(cls._collection_type(), body["collection_links"])
         return cls(
             url=url,
