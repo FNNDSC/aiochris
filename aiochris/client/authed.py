@@ -186,7 +186,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
             data = aiohttp.FormData()
             data.add_field("upload_path", upload_path)
             data.add_field("fname", f, filename=local_file.name)
-            sent = self.s.post(self.collection_links.uploadedfiles, data=data)
+            sent = self.s.post(self.collection_links.userfiles, data=data)
             return await deserialize_res(
                 sent, self, {"fname": local_file, "upload_path": upload_path}, File
             )
@@ -207,7 +207,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
     #     read_stream
     #         bytes stream
     #     upload_path
-    #         uploadedfiles path starting with `'{username}/uploads/`
+    #         userfiles path starting with `'{username}/uploads/`
     #     fname
     #         file name to use in the multipart POST request
     #     length
@@ -216,7 +216,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
     #     data = aiohttp.FormData()
     #     data.add_field('upload_path', upload_path)
     #     data.add_field('fname', read_stream, filename=fname)
-    #     async with self.s.post(self.collection_links.uploadedfiles, data=data) as res:
+    #     async with self.s.post(self.collection_links.userfiles, data=data) as res:
     #         return serde.json.from_json(File, await res.text())
     #
     #     with aiohttp.MultipartWriter() as mpwriter:

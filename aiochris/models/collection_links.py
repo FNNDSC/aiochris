@@ -45,7 +45,7 @@ class AnonymousCollectionLinks(AbstractCollectionLinks):
     pipeline_instances: ApiUrl
     workflows: ApiUrl
     tags: ApiUrl
-    uploadedfiles: ApiUrl
+    userfiles: ApiUrl
     pacsfiles: ApiUrl
     servicefiles: ApiUrl
     filebrowser: ApiUrl
