@@ -19,6 +19,10 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '${{ matrix.python-version }}'
+      - name: Keyring dependencies
+        run: |
+          sudo apt update -y
+          sudo apt install -y gnome-keyring
         # https://github.com/snok/install-poetry#caching-the-poetry-installation
       - name: Load cached poetry installation
         id: cached-poetry
@@ -37,10 +41,17 @@ jobs:
 
       - name: Install
         run: poetry install --all-extras --with=dev
+
       - name: Test
         id: test
+        continue-on-error: true  # we want to upload coverage, even on failure
+        # Use wrapper script to access keyring
+        # https://github.com/hwchen/keyring-rs/blob/4297618e0cf061eacedf6d7c3f164ee4074a3c5d/linux-test.sh
         run: |
-          set +e
+          cat > test.sh << EOF
+          rm -f $HOME/.local/share/keyrings/*
+          echo -n "test" | gnome-keyring-daemon --unlock
+          # retry tests: they might fail because of CUBE concurrency problems
           for attempt in {1..5}; do
             echo "          +---------------------+ "
             echo "          |       ATTEMPT $attempt     | "
@@ -54,7 +65,8 @@ jobs:
             fi
           done
           exit 1
-        continue-on-error: true
+          EOF
+          dbus-run-session -- bash -x test.sh
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
