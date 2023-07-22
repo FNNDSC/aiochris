@@ -3,15 +3,17 @@ Subclasses of classes from `aiochris.models.data` which are returned
 from an `aiochris.client.authed.AuthenticatedClient`.
 These classes may have read-write functionality on the *ChRIS* API.
 """
+import asyncio
+import time
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Sequence
 
 from serde import deserialize
 
 from aiochris.link import http
 from aiochris.link.linked import LinkedModel
 from aiochris.models.data import PluginInstanceData, FeedData, UserData, FeedNoteData
-from aiochris.enums import PluginType
+from aiochris.enums import PluginType, Status
 from aiochris.models.public import PublicPlugin
 from aiochris.types import *
 
@@ -57,10 +59,43 @@ class File(LinkedModel):
 
 @deserialize
 @dataclass(frozen=True)
+class PACSFile(File):
+    """
+    A file from a PACS server which was pushed into ChRIS.
+    A PACSFile is usually a DICOM file.
+
+    See https://github.com/FNNDSC/ChRIS_ultron_backEnd/blob/a1bf499144df79622eb3f8a459cdb80d8e34cb04/chris_backend/pacsfiles/models.py#L16-L33
+    """
+
+    PatientID: str
+    PatientName: str
+    PatientBirthDate: str
+    PatientAge: int
+    PatientSex: str
+    StudyDate: str  # TODO deserialize
+    AccessionNumber: str
+    Modality: str
+    ProtocolName: str
+    StudyInstanceUID: str
+    StudyDescription: str
+    SeriesInstanceUID: str
+    SeriesDescription: str
+    pacs_identifier: str
+
+
+@deserialize
+@dataclass(frozen=True)
 class PluginInstance(PluginInstanceData):
     @http.get("feed")
     async def get_feed(self) -> "Feed":
         """Get the feed this plugin instance belongs to."""
+        ...
+
+    @http.put("url")
+    async def get(self) -> "PluginInstance":
+        """
+        Get this plugin's state (again).
+        """
         ...
 
     @http.put("url")
@@ -76,6 +111,48 @@ class PluginInstance(PluginInstanceData):
     async def delete(self) -> None:
         """Delete this plugin instance."""
         ...
+
+    async def wait(
+        self,
+        status: Status
+        | Sequence[Status] = (
+            Status.finishedSuccessfully,
+            Status.finishedWithError,
+            Status.cancelled,
+        ),
+        timeout: float = 300,
+        interval: float = 5,
+    ) -> tuple[float, "PluginInstance"]:
+        """
+        Wait until this plugin instance finishes (or some other desired status).
+
+        Parameters
+        ----------
+        status
+            Statuses to wait for
+        timeout
+            Number of seconds to wait for before giving up
+        interval
+            Number of seconds to wait between checking on status
+
+        Returns
+        -------
+        Returns the number of seconds elapsed and the last state of the plugin instance.
+        This function will return for one of two reasons: either the plugin instance finished,
+        or this function timed out. Make sure you check the plugin instance's final status!
+        """
+        if status is Status:
+            status = (status,)
+        if self.status in status:
+            return 0.0, self
+        timeout_ns = timeout * 1e9
+        start = time.monotonic_ns()
+        while (cur := await self.get()).status not in status:
+            elapsed = time.monotonic_ns() - start
+            if elapsed > timeout_ns:
+                return elapsed / 1e9, cur
+            await asyncio.sleep(interval)
+        return (time.monotonic_ns() - start) / 1e9, cur
 
 
 @deserialize

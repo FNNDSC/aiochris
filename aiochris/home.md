@@ -69,6 +69,13 @@ await plugin.create_instance()  # works!
 - `ChrisAdminClient.from_login`: create an *admin* client using a username and password.
 - `ChrisAdminClient.from_token`: create an *admin* client using a token from `/api/v1/auth-token/`.
 
+### aiochris in Jupyter Notebook
+
+Jupyter and IPython support top-level `await`. This, in conjunction with `ChrisClient.from_chrs`,
+make `aiochris` a great way to use _ChRIS_ interactively with code.
+
+For a walkthrough, see https://github.com/FNNDSC/aiochris/blob/master/examples/aiochris_as_a_shell.ipynb
+
 ### Working with aiohttp
 
 `aiochris` hides the implementation detail that it is built upon `aiohttp`,

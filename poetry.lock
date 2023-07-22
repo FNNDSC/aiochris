@@ -1384,9 +1384,9 @@ docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.link
 testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-ignore-flaky", "pytest-mypy (>=0.9.1)", "pytest-ruff"]
 
 [extras]
-chrs = ["keyring", "pyserde"]
+chrs = ["chrs", "keyring", "pyserde"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "194b10ee66304f4e9b8c0e11bd3a7075943102662d81bf79698510574b88eadc"
+content-hash = "428247446e4ca7d8c25896d46f64e9ec2a6e3882c1dba83fc4fec6130a17b0c0"

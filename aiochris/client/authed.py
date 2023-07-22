@@ -10,7 +10,7 @@ from aiochris.client.base import BaseChrisClient
 from aiochris.client.base import L, CSelf
 from aiochris.link import http
 from aiochris.link.linked import deserialize_res
-from aiochris.models.logged_in import Plugin, File, User, PluginInstance, Feed
+from aiochris.models.logged_in import Plugin, File, User, PluginInstance, Feed, PACSFile
 from aiochris.models.public import ComputeResource
 from aiochris.types import ChrisURL, Username, Password
 from aiochris.errors import IncorrectLoginError, raise_for_status
@@ -326,6 +326,13 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         `search_compute_resources` :
         """
         return await acollect(self.search_compute_resources())
+
+    @http.search("pacsfiles")
+    def search_pacsfiles(self, **query) -> Search[PACSFile]:
+        """
+        Search for PACS files.
+        """
+        ...
 
 
 # async def _file_sender(file_name: str | os.PathLike, chunk_size: int):
