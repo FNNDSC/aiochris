@@ -34,7 +34,7 @@ jobs:
         uses: FNNDSC/miniChRIS-docker@master
 
       - name: Install
-        run: poetry install --with=dev
+        run: poetry install --all-extras --with=dev
       - name: Test
         id: test
         run: |
