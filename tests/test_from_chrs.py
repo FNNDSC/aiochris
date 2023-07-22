@@ -1,7 +1,6 @@
 import pytest
 from aiochris.client.from_chrs import ChrsLogins, _SERVICE
 from pathlib import Path
-import keyring as keyring_lib
 
 
 _example_path = Path("examples/example_logins.toml")
@@ -10,7 +9,12 @@ expected_password = "i am from a keyring"
 
 @pytest.fixture(scope="session")
 def keyring():
-    return keyring_lib.get_keyring()
+    try:
+        import keyring as keyring_lib
+
+        return keyring_lib.get_keyring()
+    except ModuleNotFoundError:
+        pytest.skip("keyring not installed. Please run poetry install --all-extras")
 
 
 @pytest.fixture(scope="session")
