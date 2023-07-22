@@ -36,13 +36,12 @@ class PluginParameter(LinkedModel):
     Information about a parameter (a command-line option/flag) of a plugin.
     """
 
-    # FIXME use NewTypes
-    url: str
+    url: PluginParameterUrl
     id: PluginParameterId
-    name: str
-    type: str
+    name: ParameterName
+    type: ParameterType
     optional: bool
-    default: Optional[Any]
+    default: Optional[ParameterType]
     flag: str
     short_flag: str
     action: Literal["store", "store_true", "store_false"]

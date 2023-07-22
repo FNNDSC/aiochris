@@ -101,3 +101,5 @@ PluginParametersUrl = NewType("PluginParametersUrl", str)
 TagsUrl = NewType("TagsUrl", str)
 TaggingsUrl = NewType("TaggingsUrl", str)
 CommentsUrl = NewType("CommentsUrl", str)
+
+PluginParameterUrl = NewType("PluginParameterUrl", str)
