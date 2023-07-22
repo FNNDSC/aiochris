@@ -356,6 +356,22 @@ files = [
 ]
 
 [[package]]
+name = "chrs"
+version = "0.2.4"
+description = "CLI ChRIS client"
+optional = true
+python-versions = ">=3.7"
+files = [
+    {file = "chrs-0.2.4-py3-none-macosx_10_7_x86_64.whl", hash = "sha256:2f5b746bd407561638bedfd636c9abf2c17f643de2086961a68b6068670701ba"},
+    {file = "chrs-0.2.4-py3-none-macosx_11_0_arm64.whl", hash = "sha256:6417b5a3d96d832602119a64943b89a93c6549db81747923b06a7624e71c56c1"},
+    {file = "chrs-0.2.4-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:fb0245d1ac2f0e2b8efd255d5c4828c886feb194f4f6a3340104b7f656c2bd14"},
+    {file = "chrs-0.2.4-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:6dc91376d2f6f031e2ddb721d72d99227b2337cb4cf17f3f71c58f8c0711342d"},
+    {file = "chrs-0.2.4-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a0b61772db575d3a87232e95cff3bb91be31b3679caf833025986d5fb30b3016"},
+    {file = "chrs-0.2.4-py3-none-win_amd64.whl", hash = "sha256:db10e76522bcf0f31a099a38ac4521e3039a0bfbe348f41da7d7e617fe72d563"},
+    {file = "chrs-0.2.4.tar.gz", hash = "sha256:7ccc2aaa9d4420680a003352133fb04298de8d455a13b5cd6a991cbe27a6fa9e"},
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -1373,4 +1389,4 @@ chrs = ["keyring", "pyserde"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e811bc6358f1b5c89ae650f7cd7ac16d3352227bdc655c6eb266e275f8914f6f"
+content-hash = "194b10ee66304f4e9b8c0e11bd3a7075943102662d81bf79698510574b88eadc"

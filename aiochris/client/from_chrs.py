@@ -1,5 +1,5 @@
 """
-Interoperability with [`chrs`](https://crates.io/crates/chrs) version 0.2.3.
+Interoperability with [`chrs`](https://crates.io/crates/chrs) version 0.2.4.
 
 The functions of this module uses dynamic importing of extras from the `chrs` group.
 """
@@ -15,7 +15,7 @@ _SERVICE = "org.chrisproject.chrs"
 """
 Keyring service name used by `chrs`.
 
-https://github.com/FNNDSC/chrs/blob/v0.2.3/chrs/src/login/saved.rs#L14
+https://github.com/FNNDSC/chrs/blob/v0.2.4/chrs/src/login/saved.rs#L14
 """
 
 
@@ -30,7 +30,7 @@ def _get_keyring():
 @dataclasses.dataclass(frozen=True)
 class StoredToken:
     """
-    https://github.com/FNNDSC/chrs/blob/v0.2.3/chrs/src/login/tokenstore.rs#L18-L24
+    https://github.com/FNNDSC/chrs/blob/v0.2.4/chrs/src/login/tokenstore.rs#L18-L24
     """
 
     # note: we can't do @serde.deserialize(tagging=serde.AdjacentTagging('store', 'value'))
@@ -50,7 +50,7 @@ class ChrsLogin:
     """
     A login saved by `chrs`.
 
-    https://github.com/FNNDSC/chrs/blob/v0.2.3/chrs/src/login/tokenstore.rs#L18-L34
+    https://github.com/FNNDSC/chrs/blob/v0.2.4/chrs/src/login/tokenstore.rs#L18-L34
     """
 
     address: ChrisURL
@@ -80,13 +80,13 @@ class ChrsLogin:
         """
         Produce the username for this login in the keyring.
 
-        https://github.com/FNNDSC/chrs/blob/v0.2.3/chrs/src/login/tokenstore.rs#L3
+        https://github.com/FNNDSC/chrs/blob/v0.2.4/chrs/src/login/tokenstore.rs#L3
         """
         return f"{self.username}@{self.address}"
 
     def _get_token_from_keyring(self) -> str:
         """
-        https://github.com/FNNDSC/chrs/blob/v0.2.3/chrs/src/login/tokenstore.rs#L110-L112
+        https://github.com/FNNDSC/chrs/blob/v0.2.4/chrs/src/login/tokenstore.rs#L110-L112
         """
         if self.store.store != "Keyring":
             raise ChrsKeyringError(
@@ -106,7 +106,7 @@ class ChrsLogins:
     """
     Logins saved by `chrs`.
 
-    https://github.com/FNNDSC/chrs/blob/v0.2.3/chrs/src/login/saved.rs#L18-L22
+    https://github.com/FNNDSC/chrs/blob/v0.2.4/chrs/src/login/saved.rs#L18-L22
     """
 
     cubes: list[ChrsLogin]
