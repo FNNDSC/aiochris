@@ -12,6 +12,8 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    env:
+      POETRY_VERSION: '1.5.1'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -23,12 +25,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.local
-          key: poetry-0  # increment to reset cache
+          key: poetry-${{ env.POETRY_VERSION }}-0  # increment to reset cache
       - name: Install Python Poetry
         if: steps.cached-poetry.outputs.cache-hit != 'true'
         uses: snok/install-poetry@c9e8b50048357a728ac0409bae3d7c0a1685118a
         with:
-          version: '1.5.1'
+          version: ${{ env.POETRY_VERSION }}
 
       - name: Install
         run: poetry install --all-extras
