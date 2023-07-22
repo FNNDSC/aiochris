@@ -1,0 +1,25 @@
+# An example of a file created by `chrs` v0.2.3 for storing logins.
+
+
+[[cubes]]
+address = 'https://one.example.com/api/v1/'
+username = 'celery'
+
+[cubes.store]
+store = 'Text'
+value = 'abcdefghijklmnopqrstuvwxyz'
+
+[[cubes]]
+address = 'https://two.example.com/api/v1/'
+username = 'okra'
+
+[cubes.store]
+store = 'Text'
+value = 'qwertyuiopasdfghjklzxcvbnm'
+
+[[cubes]]
+address = 'https://two.example.com/api/v1/'
+username = 'carrot'
+
+[cubes.store]
+store = 'Keyring'

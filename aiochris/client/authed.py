@@ -15,6 +15,7 @@ from aiochris.models.public import ComputeResource
 from aiochris.types import ChrisURL, Username, Password
 from aiochris.errors import IncorrectLoginError, raise_for_status
 from aiochris.util.search import Search, acollect
+from aiochris.client.from_chrs import ChrsLogins
 
 
 class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC):
@@ -87,7 +88,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         cls,
         url: str | ChrisURL,
         token: str,
-        max_search_requests: int,
+        max_search_requests: int = 100,
         connector: Optional[aiohttp.TCPConnector] = None,
         connector_owner: Optional[bool] = True,
     ) -> CSelf:
@@ -102,6 +103,61 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
             connector=connector,
             connector_owner=connector_owner,
             session_modifier=cls.__curry_token(token),
+        )
+
+    @classmethod
+    async def from_chrs(
+        cls,
+        url: Optional[str | ChrisURL] = None,
+        username: Optional[str | Username] = None,
+        max_search_requests: int = 100,
+        connector: Optional[aiohttp.TCPConnector] = None,
+        connector_owner: Optional[bool] = True,
+        config_file: Path = Path("~/.config/chrs/login.toml"),
+    ) -> CSelf:
+        """
+        Log in using [`chrs`](https://crates.io/crates/chrs).
+        *ChRIS* logins can be saved with the `chrs login` command.
+
+        In order to call this function, `aiochris` must be installed with the extras `from-chrs`.
+        Using pip:
+
+        ```shell
+        pip install aiochris[chrs]
+        ```
+
+        Or using Poetry:
+
+        ```shell
+        poetry add -E chrs aiochris
+        ```
+
+        `from_chrs` makes it easy to use `aiochris` in Jupyter Notebook or IPython,
+        especially since it saves you from having to write your password in a notebook
+        that you want to share with others. Both Jupyter and IPython support top-level `await`.
+
+        ```python
+        from aiochris import ChrisClient, acollect
+
+        chris = await ChrisClient.from_chrs()
+        await acollect(chris.search_plugins())
+        ```
+
+        When `from_chrs` is called with no parameters, it uses the "preferred account"
+        i.e. the most recently added account, the same _ChRIS_ account and server as
+        `chrs` would when called without options. The "preferred account" can be changed
+        by running `chrs switch`.
+        """
+        logins = ChrsLogins.load(config_file)
+        if (t := logins.get_token_for(url, username)) is None:
+            raise IncorrectLoginError("No chrs login found.")
+        url, token = t
+        return await cls.from_token(
+            url=url,
+            token=token,
+            max_search_requests=max_search_requests,
+            connector=connector,
+            connector_owner=connector_owner,
         )
 
     @staticmethod

@@ -65,6 +65,7 @@ await plugin.create_instance()  # works!
 - `AnonChrisClient.from_url`: create a *CUBE* client without logging in.
 - `ChrisClient.from_login`: create a *CUBE* client using a username and password.
 - `ChrisClient.from_token`: create a *CUBE* client using a token from `/api/v1/auth-token/`.
+- `ChrisClient.from_chrs`: create a *CUBE* client using logins saved by [`chrs`](https://crates.io/crates/chrs).
 - `ChrisAdminClient.from_login`: create an *admin* client using a username and password.
 - `ChrisAdminClient.from_token`: create an *admin* client using a token from `/api/v1/auth-token/`.
 
