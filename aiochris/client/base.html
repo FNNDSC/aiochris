@@ -49,7 +49,7 @@
     </ul>
 
 
-            <footer>Version v0.3.0rc3</footer>
+            <footer>Version v0.3.0</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -145,36 +145,39 @@
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>        <span class="p">)</span>
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>        <span class="k">if</span> <span class="n">session_modifier</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>            <span class="n">session_modifier</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>        <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>            <span class="k">await</span> <span class="n">raise_for_status</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>            <span class="n">body</span> <span class="o">=</span> <span class="k">await</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>        <span class="n">links</span> <span class="o">=</span> <span class="n">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_collection_type</span><span class="p">(),</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;collection_links&quot;</span><span class="p">])</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>            <span class="n">s</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>            <span class="n">collection_links</span><span class="o">=</span><span class="n">links</span><span class="p">,</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>            <span class="n">max_search_requests</span><span class="o">=</span><span class="n">max_search_requests</span><span class="p">,</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>        <span class="p">)</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CSelf</span><span class="p">:</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>            <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>                <span class="k">await</span> <span class="n">raise_for_status</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>                <span class="n">body</span> <span class="o">=</span> <span class="k">await</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>            <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>            <span class="k">raise</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>        <span class="n">links</span> <span class="o">=</span> <span class="n">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_collection_type</span><span class="p">(),</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;collection_links&quot;</span><span class="p">])</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>            <span class="n">s</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>            <span class="n">collection_links</span><span class="o">=</span><span class="n">links</span><span class="p">,</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>            <span class="n">max_search_requests</span><span class="o">=</span><span class="n">max_search_requests</span><span class="p">,</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>        <span class="p">)</span>
 </span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__aexit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CSelf</span><span class="p">:</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="sd">        Close the HTTP session used by this client.</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>    <span class="k">def</span> <span class="nf">search_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">PublicPlugin</span><span class="p">]:</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">        Search for plugins.</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="o">...</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__aexit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">        Close the HTTP session used by this client.</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="k">def</span> <span class="nf">search_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">PublicPlugin</span><span class="p">]:</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="sd">        Search for plugins.</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="o">...</span>
 </span></pre></div>
 
 
@@ -251,36 +254,39 @@
 </span><span id="BaseChrisClient-76"><a href="#BaseChrisClient-76"><span class="linenos"> 76</span></a>        <span class="p">)</span>
 </span><span id="BaseChrisClient-77"><a href="#BaseChrisClient-77"><span class="linenos"> 77</span></a>        <span class="k">if</span> <span class="n">session_modifier</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="BaseChrisClient-78"><a href="#BaseChrisClient-78"><span class="linenos"> 78</span></a>            <span class="n">session_modifier</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
-</span><span id="BaseChrisClient-79"><a href="#BaseChrisClient-79"><span class="linenos"> 79</span></a>
-</span><span id="BaseChrisClient-80"><a href="#BaseChrisClient-80"><span class="linenos"> 80</span></a>        <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
-</span><span id="BaseChrisClient-81"><a href="#BaseChrisClient-81"><span class="linenos"> 81</span></a>            <span class="k">await</span> <span class="n">raise_for_status</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</span><span id="BaseChrisClient-82"><a href="#BaseChrisClient-82"><span class="linenos"> 82</span></a>            <span class="n">body</span> <span class="o">=</span> <span class="k">await</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="BaseChrisClient-83"><a href="#BaseChrisClient-83"><span class="linenos"> 83</span></a>        <span class="n">links</span> <span class="o">=</span> <span class="n">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_collection_type</span><span class="p">(),</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;collection_links&quot;</span><span class="p">])</span>
-</span><span id="BaseChrisClient-84"><a href="#BaseChrisClient-84"><span class="linenos"> 84</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-</span><span id="BaseChrisClient-85"><a href="#BaseChrisClient-85"><span class="linenos"> 85</span></a>            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
-</span><span id="BaseChrisClient-86"><a href="#BaseChrisClient-86"><span class="linenos"> 86</span></a>            <span class="n">s</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
-</span><span id="BaseChrisClient-87"><a href="#BaseChrisClient-87"><span class="linenos"> 87</span></a>            <span class="n">collection_links</span><span class="o">=</span><span class="n">links</span><span class="p">,</span>
-</span><span id="BaseChrisClient-88"><a href="#BaseChrisClient-88"><span class="linenos"> 88</span></a>            <span class="n">max_search_requests</span><span class="o">=</span><span class="n">max_search_requests</span><span class="p">,</span>
-</span><span id="BaseChrisClient-89"><a href="#BaseChrisClient-89"><span class="linenos"> 89</span></a>        <span class="p">)</span>
-</span><span id="BaseChrisClient-90"><a href="#BaseChrisClient-90"><span class="linenos"> 90</span></a>
-</span><span id="BaseChrisClient-91"><a href="#BaseChrisClient-91"><span class="linenos"> 91</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CSelf</span><span class="p">:</span>
-</span><span id="BaseChrisClient-92"><a href="#BaseChrisClient-92"><span class="linenos"> 92</span></a>        <span class="k">return</span> <span class="bp">self</span>
+</span><span id="BaseChrisClient-79"><a href="#BaseChrisClient-79"><span class="linenos"> 79</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="BaseChrisClient-80"><a href="#BaseChrisClient-80"><span class="linenos"> 80</span></a>            <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
+</span><span id="BaseChrisClient-81"><a href="#BaseChrisClient-81"><span class="linenos"> 81</span></a>                <span class="k">await</span> <span class="n">raise_for_status</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</span><span id="BaseChrisClient-82"><a href="#BaseChrisClient-82"><span class="linenos"> 82</span></a>                <span class="n">body</span> <span class="o">=</span> <span class="k">await</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</span><span id="BaseChrisClient-83"><a href="#BaseChrisClient-83"><span class="linenos"> 83</span></a>        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span id="BaseChrisClient-84"><a href="#BaseChrisClient-84"><span class="linenos"> 84</span></a>            <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="BaseChrisClient-85"><a href="#BaseChrisClient-85"><span class="linenos"> 85</span></a>            <span class="k">raise</span>
+</span><span id="BaseChrisClient-86"><a href="#BaseChrisClient-86"><span class="linenos"> 86</span></a>        <span class="n">links</span> <span class="o">=</span> <span class="n">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_collection_type</span><span class="p">(),</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;collection_links&quot;</span><span class="p">])</span>
+</span><span id="BaseChrisClient-87"><a href="#BaseChrisClient-87"><span class="linenos"> 87</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+</span><span id="BaseChrisClient-88"><a href="#BaseChrisClient-88"><span class="linenos"> 88</span></a>            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+</span><span id="BaseChrisClient-89"><a href="#BaseChrisClient-89"><span class="linenos"> 89</span></a>            <span class="n">s</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
+</span><span id="BaseChrisClient-90"><a href="#BaseChrisClient-90"><span class="linenos"> 90</span></a>            <span class="n">collection_links</span><span class="o">=</span><span class="n">links</span><span class="p">,</span>
+</span><span id="BaseChrisClient-91"><a href="#BaseChrisClient-91"><span class="linenos"> 91</span></a>            <span class="n">max_search_requests</span><span class="o">=</span><span class="n">max_search_requests</span><span class="p">,</span>
+</span><span id="BaseChrisClient-92"><a href="#BaseChrisClient-92"><span class="linenos"> 92</span></a>        <span class="p">)</span>
 </span><span id="BaseChrisClient-93"><a href="#BaseChrisClient-93"><span class="linenos"> 93</span></a>
-</span><span id="BaseChrisClient-94"><a href="#BaseChrisClient-94"><span class="linenos"> 94</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__aexit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
-</span><span id="BaseChrisClient-95"><a href="#BaseChrisClient-95"><span class="linenos"> 95</span></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="BaseChrisClient-94"><a href="#BaseChrisClient-94"><span class="linenos"> 94</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CSelf</span><span class="p">:</span>
+</span><span id="BaseChrisClient-95"><a href="#BaseChrisClient-95"><span class="linenos"> 95</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="BaseChrisClient-96"><a href="#BaseChrisClient-96"><span class="linenos"> 96</span></a>
-</span><span id="BaseChrisClient-97"><a href="#BaseChrisClient-97"><span class="linenos"> 97</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="BaseChrisClient-98"><a href="#BaseChrisClient-98"><span class="linenos"> 98</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="BaseChrisClient-99"><a href="#BaseChrisClient-99"><span class="linenos"> 99</span></a><span class="sd">        Close the HTTP session used by this client.</span>
-</span><span id="BaseChrisClient-100"><a href="#BaseChrisClient-100"><span class="linenos">100</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="BaseChrisClient-101"><a href="#BaseChrisClient-101"><span class="linenos">101</span></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="BaseChrisClient-102"><a href="#BaseChrisClient-102"><span class="linenos">102</span></a>
-</span><span id="BaseChrisClient-103"><a href="#BaseChrisClient-103"><span class="linenos">103</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="BaseChrisClient-104"><a href="#BaseChrisClient-104"><span class="linenos">104</span></a>    <span class="k">def</span> <span class="nf">search_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">PublicPlugin</span><span class="p">]:</span>
-</span><span id="BaseChrisClient-105"><a href="#BaseChrisClient-105"><span class="linenos">105</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="BaseChrisClient-106"><a href="#BaseChrisClient-106"><span class="linenos">106</span></a><span class="sd">        Search for plugins.</span>
-</span><span id="BaseChrisClient-107"><a href="#BaseChrisClient-107"><span class="linenos">107</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="BaseChrisClient-108"><a href="#BaseChrisClient-108"><span class="linenos">108</span></a>        <span class="o">...</span>
+</span><span id="BaseChrisClient-97"><a href="#BaseChrisClient-97"><span class="linenos"> 97</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__aexit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+</span><span id="BaseChrisClient-98"><a href="#BaseChrisClient-98"><span class="linenos"> 98</span></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="BaseChrisClient-99"><a href="#BaseChrisClient-99"><span class="linenos"> 99</span></a>
+</span><span id="BaseChrisClient-100"><a href="#BaseChrisClient-100"><span class="linenos">100</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="BaseChrisClient-101"><a href="#BaseChrisClient-101"><span class="linenos">101</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="BaseChrisClient-102"><a href="#BaseChrisClient-102"><span class="linenos">102</span></a><span class="sd">        Close the HTTP session used by this client.</span>
+</span><span id="BaseChrisClient-103"><a href="#BaseChrisClient-103"><span class="linenos">103</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="BaseChrisClient-104"><a href="#BaseChrisClient-104"><span class="linenos">104</span></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="BaseChrisClient-105"><a href="#BaseChrisClient-105"><span class="linenos">105</span></a>
+</span><span id="BaseChrisClient-106"><a href="#BaseChrisClient-106"><span class="linenos">106</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+</span><span id="BaseChrisClient-107"><a href="#BaseChrisClient-107"><span class="linenos">107</span></a>    <span class="k">def</span> <span class="nf">search_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">PublicPlugin</span><span class="p">]:</span>
+</span><span id="BaseChrisClient-108"><a href="#BaseChrisClient-108"><span class="linenos">108</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="BaseChrisClient-109"><a href="#BaseChrisClient-109"><span class="linenos">109</span></a><span class="sd">        Search for plugins.</span>
+</span><span id="BaseChrisClient-110"><a href="#BaseChrisClient-110"><span class="linenos">110</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="BaseChrisClient-111"><a href="#BaseChrisClient-111"><span class="linenos">111</span></a>        <span class="o">...</span>
 </span></pre></div>
 
 
@@ -351,17 +357,20 @@ and functions related to the client object's own usage.</p>
 </span><span id="BaseChrisClient.new-76"><a href="#BaseChrisClient.new-76"><span class="linenos">76</span></a>        <span class="p">)</span>
 </span><span id="BaseChrisClient.new-77"><a href="#BaseChrisClient.new-77"><span class="linenos">77</span></a>        <span class="k">if</span> <span class="n">session_modifier</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="BaseChrisClient.new-78"><a href="#BaseChrisClient.new-78"><span class="linenos">78</span></a>            <span class="n">session_modifier</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
-</span><span id="BaseChrisClient.new-79"><a href="#BaseChrisClient.new-79"><span class="linenos">79</span></a>
-</span><span id="BaseChrisClient.new-80"><a href="#BaseChrisClient.new-80"><span class="linenos">80</span></a>        <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
-</span><span id="BaseChrisClient.new-81"><a href="#BaseChrisClient.new-81"><span class="linenos">81</span></a>            <span class="k">await</span> <span class="n">raise_for_status</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</span><span id="BaseChrisClient.new-82"><a href="#BaseChrisClient.new-82"><span class="linenos">82</span></a>            <span class="n">body</span> <span class="o">=</span> <span class="k">await</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="BaseChrisClient.new-83"><a href="#BaseChrisClient.new-83"><span class="linenos">83</span></a>        <span class="n">links</span> <span class="o">=</span> <span class="n">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_collection_type</span><span class="p">(),</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;collection_links&quot;</span><span class="p">])</span>
-</span><span id="BaseChrisClient.new-84"><a href="#BaseChrisClient.new-84"><span class="linenos">84</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-</span><span id="BaseChrisClient.new-85"><a href="#BaseChrisClient.new-85"><span class="linenos">85</span></a>            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
-</span><span id="BaseChrisClient.new-86"><a href="#BaseChrisClient.new-86"><span class="linenos">86</span></a>            <span class="n">s</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
-</span><span id="BaseChrisClient.new-87"><a href="#BaseChrisClient.new-87"><span class="linenos">87</span></a>            <span class="n">collection_links</span><span class="o">=</span><span class="n">links</span><span class="p">,</span>
-</span><span id="BaseChrisClient.new-88"><a href="#BaseChrisClient.new-88"><span class="linenos">88</span></a>            <span class="n">max_search_requests</span><span class="o">=</span><span class="n">max_search_requests</span><span class="p">,</span>
-</span><span id="BaseChrisClient.new-89"><a href="#BaseChrisClient.new-89"><span class="linenos">89</span></a>        <span class="p">)</span>
+</span><span id="BaseChrisClient.new-79"><a href="#BaseChrisClient.new-79"><span class="linenos">79</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="BaseChrisClient.new-80"><a href="#BaseChrisClient.new-80"><span class="linenos">80</span></a>            <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">res</span><span class="p">:</span>
+</span><span id="BaseChrisClient.new-81"><a href="#BaseChrisClient.new-81"><span class="linenos">81</span></a>                <span class="k">await</span> <span class="n">raise_for_status</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</span><span id="BaseChrisClient.new-82"><a href="#BaseChrisClient.new-82"><span class="linenos">82</span></a>                <span class="n">body</span> <span class="o">=</span> <span class="k">await</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</span><span id="BaseChrisClient.new-83"><a href="#BaseChrisClient.new-83"><span class="linenos">83</span></a>        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span id="BaseChrisClient.new-84"><a href="#BaseChrisClient.new-84"><span class="linenos">84</span></a>            <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="BaseChrisClient.new-85"><a href="#BaseChrisClient.new-85"><span class="linenos">85</span></a>            <span class="k">raise</span>
+</span><span id="BaseChrisClient.new-86"><a href="#BaseChrisClient.new-86"><span class="linenos">86</span></a>        <span class="n">links</span> <span class="o">=</span> <span class="n">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_collection_type</span><span class="p">(),</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;collection_links&quot;</span><span class="p">])</span>
+</span><span id="BaseChrisClient.new-87"><a href="#BaseChrisClient.new-87"><span class="linenos">87</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+</span><span id="BaseChrisClient.new-88"><a href="#BaseChrisClient.new-88"><span class="linenos">88</span></a>            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+</span><span id="BaseChrisClient.new-89"><a href="#BaseChrisClient.new-89"><span class="linenos">89</span></a>            <span class="n">s</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
+</span><span id="BaseChrisClient.new-90"><a href="#BaseChrisClient.new-90"><span class="linenos">90</span></a>            <span class="n">collection_links</span><span class="o">=</span><span class="n">links</span><span class="p">,</span>
+</span><span id="BaseChrisClient.new-91"><a href="#BaseChrisClient.new-91"><span class="linenos">91</span></a>            <span class="n">max_search_requests</span><span class="o">=</span><span class="n">max_search_requests</span><span class="p">,</span>
+</span><span id="BaseChrisClient.new-92"><a href="#BaseChrisClient.new-92"><span class="linenos">92</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
@@ -399,11 +408,11 @@ to add authentication headers to the session.</li>
 
     </div>
     <a class="headerlink" href="#BaseChrisClient.close"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseChrisClient.close-97"><a href="#BaseChrisClient.close-97"><span class="linenos"> 97</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="BaseChrisClient.close-98"><a href="#BaseChrisClient.close-98"><span class="linenos"> 98</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="BaseChrisClient.close-99"><a href="#BaseChrisClient.close-99"><span class="linenos"> 99</span></a><span class="sd">        Close the HTTP session used by this client.</span>
-</span><span id="BaseChrisClient.close-100"><a href="#BaseChrisClient.close-100"><span class="linenos">100</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="BaseChrisClient.close-101"><a href="#BaseChrisClient.close-101"><span class="linenos">101</span></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseChrisClient.close-100"><a href="#BaseChrisClient.close-100"><span class="linenos">100</span></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="BaseChrisClient.close-101"><a href="#BaseChrisClient.close-101"><span class="linenos">101</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="BaseChrisClient.close-102"><a href="#BaseChrisClient.close-102"><span class="linenos">102</span></a><span class="sd">        Close the HTTP session used by this client.</span>
+</span><span id="BaseChrisClient.close-103"><a href="#BaseChrisClient.close-103"><span class="linenos">103</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="BaseChrisClient.close-104"><a href="#BaseChrisClient.close-104"><span class="linenos">104</span></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -424,12 +433,12 @@ to add authentication headers to the session.</li>
 
     </div>
     <a class="headerlink" href="#BaseChrisClient.search_plugins"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseChrisClient.search_plugins-103"><a href="#BaseChrisClient.search_plugins-103"><span class="linenos">103</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="BaseChrisClient.search_plugins-104"><a href="#BaseChrisClient.search_plugins-104"><span class="linenos">104</span></a>    <span class="k">def</span> <span class="nf">search_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">PublicPlugin</span><span class="p">]:</span>
-</span><span id="BaseChrisClient.search_plugins-105"><a href="#BaseChrisClient.search_plugins-105"><span class="linenos">105</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="BaseChrisClient.search_plugins-106"><a href="#BaseChrisClient.search_plugins-106"><span class="linenos">106</span></a><span class="sd">        Search for plugins.</span>
-</span><span id="BaseChrisClient.search_plugins-107"><a href="#BaseChrisClient.search_plugins-107"><span class="linenos">107</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="BaseChrisClient.search_plugins-108"><a href="#BaseChrisClient.search_plugins-108"><span class="linenos">108</span></a>        <span class="o">...</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseChrisClient.search_plugins-106"><a href="#BaseChrisClient.search_plugins-106"><span class="linenos">106</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+</span><span id="BaseChrisClient.search_plugins-107"><a href="#BaseChrisClient.search_plugins-107"><span class="linenos">107</span></a>    <span class="k">def</span> <span class="nf">search_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Search</span><span class="p">[</span><span class="n">PublicPlugin</span><span class="p">]:</span>
+</span><span id="BaseChrisClient.search_plugins-108"><a href="#BaseChrisClient.search_plugins-108"><span class="linenos">108</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="BaseChrisClient.search_plugins-109"><a href="#BaseChrisClient.search_plugins-109"><span class="linenos">109</span></a><span class="sd">        Search for plugins.</span>
+</span><span id="BaseChrisClient.search_plugins-110"><a href="#BaseChrisClient.search_plugins-110"><span class="linenos">110</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="BaseChrisClient.search_plugins-111"><a href="#BaseChrisClient.search_plugins-111"><span class="linenos">111</span></a>        <span class="o">...</span>
 </span></pre></div>
 
 

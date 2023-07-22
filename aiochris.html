@@ -150,7 +150,7 @@
     </ul>
 
 
-            <footer>Version v0.3.0rc3</footer>
+            <footer>Version v0.3.0</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -232,9 +232,17 @@ These clients differ in permissions.</p>
 <li><code><a href="#AnonChrisClient.from_url">AnonChrisClient.from_url</a></code>: create a <em>CUBE</em> client without logging in.</li>
 <li><code><a href="#ChrisClient.from_login">ChrisClient.from_login</a></code>: create a <em>CUBE</em> client using a username and password.</li>
 <li><code><a href="#ChrisClient.from_token">ChrisClient.from_token</a></code>: create a <em>CUBE</em> client using a token from <code>/api/v1/auth-token/</code>.</li>
+<li><code><a href="#ChrisClient.from_chrs">ChrisClient.from_chrs</a></code>: create a <em>CUBE</em> client using logins saved by <a href="https://crates.io/crates/chrs"><code>chrs</code></a>.</li>
 <li><code><a href="#ChrisAdminClient.from_login">ChrisAdminClient.from_login</a></code>: create an <em>admin</em> client using a username and password.</li>
 <li><code><a href="#ChrisAdminClient.from_token">ChrisAdminClient.from_token</a></code>: create an <em>admin</em> client using a token from <code>/api/v1/auth-token/</code>.</li>
 </ul>
+
+<h3 id="aiochris-in-jupyter-notebook">aiochris in Jupyter Notebook</h3>
+
+<p>Jupyter and IPython support top-level <code>await</code>. This, in conjunction with <code><a href="#ChrisClient.from_chrs">ChrisClient.from_chrs</a></code>,
+make <code><a href="">aiochris</a></code> a great way to use _ChRIS_ interactively with code.</p>
+
+<p>For a walkthrough, see <a href="https://github.com/FNNDSC/aiochris/blob/master/examples/aiochris_as_a_shell.ipynb">https://github.com/FNNDSC/aiochris/blob/master/examples/aiochris_as_a_shell.ipynb</a></p>
 
 <h3 id="working-with-aiohttp">Working with aiohttp</h3>
 
@@ -692,6 +700,7 @@ such as being able to search for plugins.</p>
             <div><dt><a href="aiochris/client/authed.html#AuthenticatedClient">aiochris.client.authed.AuthenticatedClient</a></dt>
                                 <dd id="ChrisClient.from_login" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.from_login">from_login</a></dd>
                 <dd id="ChrisClient.from_token" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.from_token">from_token</a></dd>
+                <dd id="ChrisClient.from_chrs" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.from_chrs">from_chrs</a></dd>
                 <dd id="ChrisClient.search_feeds" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.search_feeds">search_feeds</a></dd>
                 <dd id="ChrisClient.search_plugins" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.search_plugins">search_plugins</a></dd>
                 <dd id="ChrisClient.plugin_instances" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.plugin_instances">plugin_instances</a></dd>
@@ -700,6 +709,7 @@ such as being able to search for plugins.</p>
                 <dd id="ChrisClient.username" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.username">username</a></dd>
                 <dd id="ChrisClient.search_compute_resources" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.search_compute_resources">search_compute_resources</a></dd>
                 <dd id="ChrisClient.get_all_compute_resources" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.get_all_compute_resources">get_all_compute_resources</a></dd>
+                <dd id="ChrisClient.search_pacsfiles" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.search_pacsfiles">search_pacsfiles</a></dd>
 
             </div>
             <div><dt><a href="aiochris/client/base.html#BaseChrisClient">aiochris.client.base.BaseChrisClient</a></dt>
@@ -1058,6 +1068,7 @@ or a sequence of compute resource names as <code>str</code>.</li>
             <div><dt><a href="aiochris/client/authed.html#AuthenticatedClient">aiochris.client.authed.AuthenticatedClient</a></dt>
                                 <dd id="ChrisAdminClient.from_login" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.from_login">from_login</a></dd>
                 <dd id="ChrisAdminClient.from_token" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.from_token">from_token</a></dd>
+                <dd id="ChrisAdminClient.from_chrs" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.from_chrs">from_chrs</a></dd>
                 <dd id="ChrisAdminClient.search_feeds" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.search_feeds">search_feeds</a></dd>
                 <dd id="ChrisAdminClient.search_plugins" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.search_plugins">search_plugins</a></dd>
                 <dd id="ChrisAdminClient.plugin_instances" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.plugin_instances">plugin_instances</a></dd>
@@ -1066,6 +1077,7 @@ or a sequence of compute resource names as <code>str</code>.</li>
                 <dd id="ChrisAdminClient.username" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.username">username</a></dd>
                 <dd id="ChrisAdminClient.search_compute_resources" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.search_compute_resources">search_compute_resources</a></dd>
                 <dd id="ChrisAdminClient.get_all_compute_resources" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.get_all_compute_resources">get_all_compute_resources</a></dd>
+                <dd id="ChrisAdminClient.search_pacsfiles" class="function"><a href="aiochris/client/authed.html#AuthenticatedClient.search_pacsfiles">search_pacsfiles</a></dd>
 
             </div>
             <div><dt><a href="aiochris/client/base.html#BaseChrisClient">aiochris.client.base.BaseChrisClient</a></dt>
