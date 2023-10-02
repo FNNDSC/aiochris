@@ -34,31 +34,31 @@ jobs:
 
       - name: Install
         run: poetry install --all-extras
-      # - name: Publish
-      #   run: poetry publish --build --username='__token__' --password='${{ secrets.PYPI_API_TOKEN }}'
+      - name: Publish
+        run: poetry publish --build --username='__token__' --password='${{ secrets.PYPI_API_TOKEN }}'
 
-      # - name: pdoc
-      #   run: |
-      #     poetry install --with=doc
-      #     poetry run pdoc \
-      #         --logo '${{ env.logo }}' \
-      #         --footer-text='Version ${{ github.ref_name }}' \
-      #         --docformat numpy \
-      #         aiochris -o pdoc
-      # - name: Deploy docs (version)
-      #   uses: JamesIves/github-pages-deploy-action@v4.4.1
-      #   with:
-      #     branch: gh-pages
-      #     folder: pdoc
-      #     clean: true
-      #     clean-exclude: 'v*.*.*/'
-      #     target-folder: "${{ github.ref_name }}"
-      # - name: Deploy docs (latest)
-      #   uses: JamesIves/github-pages-deploy-action@v4.4.1
-      #   with:
-      #     branch: gh-pages
-      #     folder: pdoc
-      #     clean: false
+      - name: pdoc
+        run: |
+          poetry install --with=doc
+          poetry run pdoc \
+              --logo '${{ env.logo }}' \
+              --footer-text='Version ${{ github.ref_name }}' \
+              --docformat numpy \
+              aiochris -o pdoc
+      - name: Deploy docs (version)
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: gh-pages
+          folder: pdoc
+          clean: true
+          clean-exclude: 'v*.*.*/'
+          target-folder: "${{ github.ref_name }}"
+      - name: Deploy docs (latest)
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: gh-pages
+          folder: pdoc
+          clean: false
       - name: Get version
         id: info
         run: echo "version=$(poetry version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
@@ -114,8 +114,8 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
-      # - name: Draft Github Release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     draft: true
-      #     body: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.ref_name }}"
+      - name: Draft Github Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          body: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.ref_name }}"
