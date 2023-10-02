@@ -15,7 +15,7 @@ jobs:
     env:
       POETRY_VERSION: '1.5.1'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
@@ -34,33 +34,88 @@ jobs:
 
       - name: Install
         run: poetry install --all-extras
-      - name: Publish
-        run: poetry publish --build --username='__token__' --password='${{ secrets.PYPI_API_TOKEN }}'
+      # - name: Publish
+      #   run: poetry publish --build --username='__token__' --password='${{ secrets.PYPI_API_TOKEN }}'
 
-      - name: pdoc
+      # - name: pdoc
+      #   run: |
+      #     poetry install --with=doc
+      #     poetry run pdoc \
+      #         --logo '${{ env.logo }}' \
+      #         --footer-text='Version ${{ github.ref_name }}' \
+      #         --docformat numpy \
+      #         aiochris -o pdoc
+      # - name: Deploy docs (version)
+      #   uses: JamesIves/github-pages-deploy-action@v4.4.1
+      #   with:
+      #     branch: gh-pages
+      #     folder: pdoc
+      #     clean: true
+      #     clean-exclude: 'v*.*.*/'
+      #     target-folder: "${{ github.ref_name }}"
+      # - name: Deploy docs (latest)
+      #   uses: JamesIves/github-pages-deploy-action@v4.4.1
+      #   with:
+      #     branch: gh-pages
+      #     folder: pdoc
+      #     clean: false
+      - name: Get version
+        id: info
+        run: echo "version=$(poetry version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+      - name: Create Dockerfile
         run: |
-          poetry install --with=doc
-          poetry run pdoc \
-              --logo '${{ env.logo }}' \
-              --footer-text='Version ${{ github.ref_name }}' \
-              --docformat numpy \
-              aiochris -o pdoc
-      - name: Deploy docs (version)
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+          set -ex
+          poetry build
+          cd dist
+          wheel=$(echo ./aiochris-${{ steps.info.outputs.version }}-py3-*.whl)
+          if ! [ -f "$wheel" ]; then
+            echo "::error ::Not a file: $wheel"
+            exit 1
+          fi
+          now=$(date --rfc-3339=seconds)
+          cat > Dockerfile << EOF
+          FROM docker.io/library/python:3.11.5-alpine
+          LABEL org.opencontainers.image.created="$now" \
+                org.opencontainers.image.authors="Jennings Zhang, FNNDSC <dev@babyMRI.org>" \
+                org.opencontainers.image.url="${{ github.server_url }}/${{ github.repository }}" \
+                org.opencontainers.image.documentation="https://fnndsc.github.io/aiochris" \
+                org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository }}" \
+                org.opencontainers.image.version="${{ steps.info.outputs.version }}" \
+                org.opencontainers.image.revision="${{ github.ref_name }}" \
+                org.opencontainers.image.licenses="MIT" \
+                org.opencontainers.image.title="aiochris Python package" \
+                org.opencontainers.image.description="Python async client library for ChRIS"
+
+          COPY $wheel /tmp/$wheel
+          RUN pip install --no-input --no-cache-dir --disable-pip-version-check '/tmp/$wheel' && rm -v '/tmp/$wheel'
+          EOF
+
+          cat Dockerfile
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
         with:
-          branch: gh-pages
-          folder: pdoc
-          clean: true
-          clean-exclude: 'v*.*.*/'
-          target-folder: "${{ github.ref_name }}"
-      - name: Deploy docs (latest)
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v3
         with:
-          branch: gh-pages
-          folder: pdoc
-          clean: false
-      - name: Github Release
-        uses: softprops/action-gh-release@v1
-        with:
-          draft: true
-          body: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.ref_name }}"
+          push: true
+          context: ./dist
+          tags: |
+            ghcr.io/fnndsc/aiochris:${{ steps.info.outputs.version }}
+            ghcr.io/fnndsc/aiochris:latest
+          platforms: linux/amd64,linux/ppc64le,linux/arm64
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+
+      # - name: Draft Github Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     draft: true
+      #     body: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.ref_name }}"

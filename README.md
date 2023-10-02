@@ -21,6 +21,12 @@ pip install aiochris
 poetry add aiochris
 ```
 
+For convenience, container images are also provided.
+
+```shell
+docker pull ghcr.io/fnndsc/aiochris:0.3.0
+```
+
 ## Quick Example
 
 ```python
