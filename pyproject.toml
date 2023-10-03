@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aiochris"
-version = "0.3.0"
+version = "0.3.1"
 description = "ChRIS client built on aiohttp"
 authors = ["FNNDSC <dev@babyMRI.org>"]
 readme = "README.md"
@@ -24,7 +24,7 @@ keyring = {version = "^24.2.0", optional = true}
 chrs = {version = "^0.2.4", optional = true}
 
 [tool.poetry.extras]
-chrs = ["pyserde", "keyring", "chrs"]
+chrs = ["keyring", "chrs"]
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.1"
