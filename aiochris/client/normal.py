@@ -23,7 +23,7 @@ class ChrisClient(AuthenticatedClient[CollectionLinks, "ChrisClient"]):
         username: Username | str,
         password: Password | str,
         email: str,
-        session: Optional[aiohttp.ClientSession],
+        session: Optional[aiohttp.ClientSession] = None,
     ) -> UserData:
         payload = {
             "template": {
