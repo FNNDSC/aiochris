@@ -36,7 +36,6 @@ class AbstractCollectionLinks:
 @dataclass(frozen=True)
 class AnonymousCollectionLinks(AbstractCollectionLinks):
     chrisinstance: ApiUrl
-    files: ApiUrl
     compute_resources: ApiUrl
     plugin_metas: ApiUrl
     plugins: ApiUrl
@@ -45,7 +44,6 @@ class AnonymousCollectionLinks(AbstractCollectionLinks):
     pipeline_instances: ApiUrl
     workflows: ApiUrl
     tags: ApiUrl
-    uploadedfiles: ApiUrl
     pacsfiles: ApiUrl
     servicefiles: ApiUrl
     filebrowser: ApiUrl
@@ -55,6 +53,7 @@ class AnonymousCollectionLinks(AbstractCollectionLinks):
 @dataclass(frozen=True)
 class CollectionLinks(AnonymousCollectionLinks):
     user: UserUrl
+    userfiles: ApiUrl
 
 
 @deserialize
