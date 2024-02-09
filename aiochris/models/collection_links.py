@@ -1,7 +1,7 @@
 import dataclasses
 import functools
 from dataclasses import dataclass
-from typing import Iterator
+from typing import Iterator, Optional
 
 from serde import deserialize
 
@@ -53,7 +53,18 @@ class AnonymousCollectionLinks(AbstractCollectionLinks):
 @dataclass(frozen=True)
 class CollectionLinks(AnonymousCollectionLinks):
     user: UserUrl
-    userfiles: ApiUrl
+    userfiles: Optional[ApiUrl]
+    uploadedfiles: Optional[ApiUrl]
+
+    def __post_init__(self):
+        if (self.userfiles is None) ^ (self.uploadedfiles is None):
+            raise ValueError("Either userfiles or uploadefiles link must be present")
+
+    @property
+    def useruploadedfiles(self) -> ApiUrl:
+        if self.userfiles is None:
+            return self.uploadedfiles
+        return self.userfiles
 
 
 @deserialize
