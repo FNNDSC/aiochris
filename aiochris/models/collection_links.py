@@ -57,8 +57,8 @@ class CollectionLinks(AnonymousCollectionLinks):
     uploadedfiles: Optional[ApiUrl]
 
     def __post_init__(self):
-        if (self.userfiles is None) ^ (self.uploadedfiles is None):
-            raise ValueError("Either userfiles or uploadefiles link must be present")
+        if not ((self.userfiles is None) ^ (self.uploadedfiles is None)):
+            raise ValueError("Either userfiles or uploadedfiles link must be present")
 
     @property
     def useruploadedfiles(self) -> ApiUrl:
