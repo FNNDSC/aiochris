@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aiochris"
-version = "0.5.0a3"
+version = "0.5.0a4"
 description = "ChRIS client built on aiohttp"
 authors = ["FNNDSC <dev@babyMRI.org>"]
 readme = "README.md"
@@ -13,7 +13,7 @@ aiohttp = "^3.8.3"
 async-property = "^0.2.1"
 # bug in yarl v1.9
 # https://github.com/aio-libs/yarl/issues/862
-yarl = "1.8.2"
+yarl = ">=1.8.2,!=1.9.0,!=1.9.1,!=1.9.2"
 aiofiles = "^23.1.0"
 
 # pyserde without pyserde[toml] is good enough is ChrisClient.from_chrs is not needed,
