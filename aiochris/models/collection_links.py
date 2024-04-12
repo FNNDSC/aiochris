@@ -41,20 +41,22 @@ class AnonymousCollectionLinks(AbstractCollectionLinks):
     plugins: ApiUrl
     plugin_instances: ApiUrl
     pipelines: ApiUrl
-    pipeline_instances: ApiUrl
     workflows: ApiUrl
     tags: ApiUrl
     pacsfiles: ApiUrl
-    servicefiles: ApiUrl
     filebrowser: ApiUrl
+
+    pacsseries: Optional[ApiUrl]  # added in CUBE version 6
+    servicefiles: Optional[ApiUrl]  # removed in CUBE version 6
+    pipeline_instances: Optional[ApiUrl]  # removed in CUBE version 6
 
 
 @deserialize
 @dataclass(frozen=True)
 class CollectionLinks(AnonymousCollectionLinks):
     user: UserUrl
-    userfiles: Optional[ApiUrl]
-    uploadedfiles: Optional[ApiUrl]
+    userfiles: Optional[ApiUrl]  # added in CUBE version 6
+    uploadedfiles: Optional[ApiUrl]  # removed in CUBE version 6
 
     def __post_init__(self):
         if not ((self.userfiles is None) ^ (self.uploadedfiles is None)):
