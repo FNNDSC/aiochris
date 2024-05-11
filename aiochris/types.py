@@ -103,3 +103,5 @@ TaggingsUrl = NewType("TaggingsUrl", str)
 CommentsUrl = NewType("CommentsUrl", str)
 
 PluginParameterUrl = NewType("PluginParameterUrl", str)
+
+PacsFileId = NewType("PacsFileId", int)

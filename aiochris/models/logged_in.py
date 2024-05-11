@@ -67,6 +67,7 @@ class PACSFile(File):
     See https://github.com/FNNDSC/ChRIS_ultron_backEnd/blob/a1bf499144df79622eb3f8a459cdb80d8e34cb04/chris_backend/pacsfiles/models.py#L16-L33
     """
 
+    id: PacsFileId
     PatientID: str
     PatientName: str
     PatientBirthDate: str
