@@ -26,8 +26,7 @@ class _AdminApiClient(CollectionJsonApiClient[AdminApiCollectionLinks]):
     """
 
     @http.post("compute_resources")
-    async def create_compute_resource(self, **kwargs) -> ComputeResource:
-        ...
+    async def create_compute_resource(self, **kwargs) -> ComputeResource: ...
 
 
 class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClient"]):
@@ -39,8 +38,7 @@ class ChrisAdminClient(AuthenticatedClient[AdminCollectionLinks, "ChrisAdminClie
     @http.post("admin")
     async def _register_plugin_from_store_raw(
         self, plugin_store_url: str, compute_names: str
-    ) -> Plugin:
-        ...
+    ) -> Plugin: ...
 
     async def register_plugin_from_store(
         self, plugin_store_url: PluginUrl, compute_names: Iterable[ComputeResourceName]

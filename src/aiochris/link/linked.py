@@ -97,12 +97,10 @@ class Linked(abc.ABC, metaclass=LinkedMeta):
 
     @classmethod
     @abc.abstractmethod
-    def _has_link(cls, name: str) -> bool:
-        ...
+    def _has_link(cls, name: str) -> bool: ...
 
     @abc.abstractmethod
-    def _get_link(self, name: str) -> yarl.URL:
-        ...
+    def _get_link(self, name: str) -> yarl.URL: ...
 
 
 @serde.deserialize
@@ -170,7 +168,7 @@ def _needs_session_field(t) -> bool:
 
 
 def _is_s_session_field(s: dataclasses.Field) -> bool:
-    return s.name == 's' and s.type is aiohttp.ClientSession
+    return s.name == "s" and s.type is aiohttp.ClientSession
 
 
 def _beartype_workaround410(t):
@@ -180,7 +178,7 @@ def _beartype_workaround410(t):
     - https://github.com/beartype/beartype/issues/410
     - https://github.com/yukinarit/pyserde/issues/575
     """
-    if '__name_beartype__' not in dir(t) or '__scope_name_beartype__' not in dir(t):
+    if "__name_beartype__" not in dir(t) or "__scope_name_beartype__" not in dir(t):
         return t
     module = importlib.import_module(t.__scope_name_beartype__)
     return module.__dict__[t.__name_beartype__]

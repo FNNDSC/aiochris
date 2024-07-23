@@ -2,6 +2,7 @@
 Testing metaprogramming without using any of the public classes of this package
 nor any real HTTP requests.
 """
+
 import json
 from dataclasses import dataclass
 import dataclasses
@@ -31,12 +32,10 @@ class ExampleCollectionLinks(AbstractCollectionLinks):
 @dataclass(frozen=True)
 class ExampleClient(CollectionJsonApiClient[ExampleCollectionLinks]):
     @http.post("example_collection_name")
-    async def example_method(self, a_param: str) -> list:
-        ...
+    async def example_method(self, a_param: str) -> list: ...
 
     @http.search("another_name")
-    def example_search(self, **kwargs) -> Search[str]:
-        ...
+    def example_search(self, **kwargs) -> Search[str]: ...
 
 
 @pytest.fixture

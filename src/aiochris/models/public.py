@@ -1,6 +1,7 @@
 """
 Read-only models for CUBE resources.
 """
+
 import sys
 from dataclasses import dataclass
 from typing import Optional, Literal, TextIO, Any

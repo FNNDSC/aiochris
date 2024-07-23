@@ -1,6 +1,7 @@
 """
 Metaprogramming helper functions.
 """
+
 import abc
 import functools
 import typing

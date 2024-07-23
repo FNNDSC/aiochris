@@ -21,5 +21,4 @@ def test_metaclass_validates_links():
                 raise pytest.fail(f'should not have link "{name}"')
 
             @http.post("a_name_that_dne")
-            async def bad_method(self, a_param: str) -> list:
-                ...
+            async def bad_method(self, a_param: str) -> list: ...

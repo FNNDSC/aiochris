@@ -3,6 +3,7 @@ Interoperability with [`chrs`](https://crates.io/crates/chrs) version 0.2.4.
 
 The functions of this module uses dynamic importing of extras from the `chrs` group.
 """
+
 import dataclasses
 from pathlib import Path
 

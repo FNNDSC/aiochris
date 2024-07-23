@@ -1,6 +1,7 @@
 """
 Assert metaprogramming helpers work on the public classes of this package.
 """
+
 from aiochris import AnonChrisClient, ChrisClient, ChrisAdminClient
 from aiochris.models.collection_links import (
     AnonymousCollectionLinks,
