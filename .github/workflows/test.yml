@@ -3,6 +3,9 @@ name: Test
 on:
   push:
     branches: [ master ]
+    paths:
+      - '.github/workflows/test.yml'
+      - '**.py'
   pull_request:
 
 jobs:
