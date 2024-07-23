@@ -1,4 +1,4 @@
-name: test
+name: Test
 
 on:
   push:
@@ -6,57 +6,35 @@ on:
   pull_request:
 
 jobs:
-  local:
+  test:
     name: Tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         python-version: [ '3.11', '3.12' ]
-    env:
-      POETRY_VERSION: '1.7.1'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Install rye
+        uses: eifinger/setup-rye@d4c3ac7b15d8bf2e0b45e2d257c6b5cdbebc3643  # v4.2.1
         with:
-          python-version: '${{ matrix.python-version }}'
-      - name: Keyring dependencies
-        run: |
-          sudo apt update -y
-          sudo apt install -y gnome-keyring
-        # https://github.com/snok/install-poetry#caching-the-poetry-installation
-      - name: Load cached poetry installation
-        id: cached-poetry
-        uses: actions/cache@v4
-        with:
-          path: ~/.local
-          key: poetry-${{ env.POETRY_VERSION }}-0  # increment to reset cache
-      - name: Install Python Poetry
-        if: steps.cached-poetry.outputs.cache-hit != 'true'
-        uses: snok/install-poetry@c9e8b50048357a728ac0409bae3d7c0a1685118a
-        with:
-          version: ${{ env.POETRY_VERSION }}
-
-      - name: miniChRIS
+          version: '0.36.0'
+          enable-cache: true
+          cache-prefix: 'python-v${{ matrix.python-version }}'
+      - name: Set Python version
+        run: rye pin --no-update-requires-python '${{ matrix.python-version }}'
+      - run: rye sync
+      - name: Start miniChRIS
         uses: FNNDSC/miniChRIS-docker@master
-
-      - name: Install
-        run: poetry install --all-extras --with=dev
-
       - name: Test
         id: test
         continue-on-error: true  # we want to upload coverage, even on failure
-        # Use wrapper script to access keyring
-        # https://github.com/hwchen/keyring-rs/blob/4297618e0cf061eacedf6d7c3f164ee4074a3c5d/linux-test.sh
         run: |
-          cat > test.sh << EOF
-          rm -f $HOME/.local/share/keyrings/*
-          echo -n "test" | gnome-keyring-daemon --unlock
           # retry tests: they might fail because of CUBE concurrency problems
           for attempt in {1..5}; do
             echo "          +---------------------+ "
             echo "          |       ATTEMPT $attempt     | "
             echo "          +---------------------+ "
-            poetry run pytest --cov=aiochris --cov-report=xml
+            rye run pytest --cov=aiochris --cov-report=xml
             if [ "$?" = 0 ]; then
               if [ "$attempt" != "1" ]; then
                 echo "::warning ::Tests took $attempt attempts."
@@ -65,12 +43,10 @@ jobs:
             fi
           done
           exit 1
-          EOF
-          dbus-run-session -- bash -x test.sh
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           files: ./coverage.xml
           env_vars: 'python-${{ matrix.python-version }}'
-      - name: End test
-        run: '[ "${{ steps.test.outcome }}" = "success" ]'
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}

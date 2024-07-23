@@ -1,6 +1,6 @@
 [project]
 name = "aiochris"
-version = "0.5.0a7"
+version = "0.0.0"
 description = "ChRIS client built on aiohttp"
 authors = [
     { name = "Jennings Zhang", email = "jennings.zhang@childrens.harvard.edu" },
