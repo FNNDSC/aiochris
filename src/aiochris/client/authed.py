@@ -126,12 +126,6 @@ class AuthenticatedClient(BaseChrisClient[L], Generic[L], abc.ABC):
         pip install aiochris[chrs]
         ```
 
-        Or using Poetry:
-
-        ```shell
-        poetry add -E chrs aiochris
-        ```
-
         `from_chrs` makes it easy to use `aiochris` in Jupyter Notebook or IPython,
         especially since it saves you from having to write your password in a notebook
         that you want to share with others. Both Jupyter and IPython support top-level `await`.
