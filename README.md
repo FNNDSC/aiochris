@@ -13,12 +13,12 @@
 
 ## Installation
 
-Requires Python 3.10 or 3.11.
+Requires Python 3.11 or 3.12.
 
 ```shell
 pip install aiochris
 # or
-poetry add aiochris
+rye add aiochris
 ```
 
 For convenience, container images are also provided.

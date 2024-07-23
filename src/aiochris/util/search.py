@@ -4,13 +4,11 @@ from dataclasses import dataclass
 from typing import (
     Optional,
     TypeVar,
-    AsyncGenerator,
     Type,
-    AsyncIterable,
     Any,
     Generic,
-    AsyncIterator,
 )
+from collections.abc import AsyncIterable, AsyncIterator, AsyncGenerator
 
 import yarl
 from serde import deserialize

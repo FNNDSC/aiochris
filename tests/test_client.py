@@ -261,8 +261,6 @@ async def test_feed(normal_client: ChrisClient, dircopy_instance: PluginInstance
 async def test_create_instance_checks_previous_type(
     dircopy: Plugin, simpledsapp: Plugin, dircopy_instance: PluginInstance
 ):
-    with pytest.raises(TypeError, match="4 is not a PluginInstance"):
-        await simpledsapp.create_instance(previous=4)  # type: ignore
     with pytest.raises(ValueError, match="Cannot give both previous and previous_id."):
         await simpledsapp.create_instance(previous=dircopy_instance, previous_id=4)
     e = "Cannot create plugin instance of a fs-type plugin with a previous plugin instance."

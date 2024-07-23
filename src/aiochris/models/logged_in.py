@@ -6,7 +6,8 @@ These classes may have read-write functionality on the *ChRIS* API.
 import asyncio
 import time
 from dataclasses import dataclass
-from typing import Optional, Sequence
+from typing import Optional
+from collections.abc import Sequence
 
 from serde import deserialize
 
