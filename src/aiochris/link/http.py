@@ -104,7 +104,7 @@ def _http_method_decorator(
     """
 
     def decorator(
-        fn: Callable[..., Coroutine[None, None, _R]]
+        fn: Callable[..., Coroutine[None, None, _R]],
     ) -> Callable[..., Coroutine[None, None, _R]]:
         @functools.wraps(fn)
         async def wrapped(self: Linked, *args, **kwargs) -> _R:
@@ -166,4 +166,4 @@ V = TypeVar("V")
 
 
 def _filter_none(d: dict[K, Optional[V]]) -> dict[K, V]:
-    return {k: v for k, v, in d.items() if v is not None}
+    return {k: v for k, v in d.items() if v is not None}

@@ -1,7 +1,8 @@
 import dataclasses
 import functools
 from dataclasses import dataclass
-from typing import Iterator, Optional
+from typing import Optional
+from collections.abc import Iterator
 
 from serde import deserialize
 

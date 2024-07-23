@@ -1,4 +1,4 @@
-name: Publish
+name: Release
 
 on:
   push:
@@ -11,42 +11,33 @@ env:
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-latest
-    env:
-      POETRY_VERSION: '1.7.1'
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Install rye
+        uses: eifinger/setup-rye@d4c3ac7b15d8bf2e0b45e2d257c6b5cdbebc3643  # v4.2.1
         with:
-          python-version: '3.10'
-        # https://github.com/snok/install-poetry#caching-the-poetry-installation
-      - name: Load cached poetry installation
-        id: cached-poetry
-        uses: actions/cache@v4
-        with:
-          path: ~/.local
-          key: poetry-${{ env.POETRY_VERSION }}-0  # increment to reset cache
-      - name: Install Python Poetry
-        if: steps.cached-poetry.outputs.cache-hit != 'true'
-        uses: snok/install-poetry@c9e8b50048357a728ac0409bae3d7c0a1685118a
-        with:
-          version: ${{ env.POETRY_VERSION }}
+          version: '0.36.0'
+          enable-cache: true
+          cache-prefix: ${{ github.workflow }}
 
-      - name: Install
-        run: poetry install --all-extras
+      - name: Set version
+        run: rye version '${{ github.ref_name }}'
+      - run: rye sync
+      - name: Build
+        run: rye build --wheel --clean --verbose
       - name: Publish
-        run: poetry publish --build --username='__token__' --password='${{ secrets.PYPI_API_TOKEN }}'
+        run: rye publish --yes --token '${{ secrets.PYPI_API_TOKEN }}' --verbose
 
       - name: pdoc
         run: |
-          poetry install --with=doc
-          poetry run pdoc \
+          rye run pdoc \
               --logo '${{ env.logo }}' \
               --footer-text='Version ${{ github.ref_name }}' \
               --docformat numpy \
               aiochris -o pdoc
       - name: Deploy docs (version)
-        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        uses: JamesIves/github-pages-deploy-action@v4.6.3
         with:
           branch: gh-pages
           folder: pdoc
@@ -54,44 +45,32 @@ jobs:
           clean-exclude: 'v*.*.*/'
           target-folder: "${{ github.ref_name }}"
       - name: Deploy docs (latest)
-        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        uses: JamesIves/github-pages-deploy-action@v4.6.3
         with:
           branch: gh-pages
           folder: pdoc
           clean: false
-      - name: Get version
-        id: info
-        run: echo "version=$(poetry version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+        # ref: https://rye.astral.sh/guide/docker/
       - name: Create Dockerfile
         run: |
-          set -ex
-          poetry build
-          cd dist
-          wheel=$(echo ./aiochris-${{ steps.info.outputs.version }}-py3-*.whl)
-          if ! [ -f "$wheel" ]; then
-            echo "::error ::Not a file: $wheel"
-            exit 1
-          fi
-          now=$(date --rfc-3339=seconds)
-          cat > Dockerfile << EOF
-          FROM docker.io/library/python:3.11.5-alpine
+          python_version="$(< .python_version)"
+          version="$(rye version)"
+          now="$(date --rfc-3339=seconds)"
+          tee Dockerfile << EOF
+          FROM docker.io/library/python:${python_version}-alpine
           LABEL org.opencontainers.image.created="$now" \
                 org.opencontainers.image.authors="Jennings Zhang, FNNDSC <dev@babyMRI.org>" \
                 org.opencontainers.image.url="${{ github.server_url }}/${{ github.repository }}" \
-                org.opencontainers.image.documentation="https://fnndsc.github.io/aiochris" \
                 org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository }}" \
-                org.opencontainers.image.version="${{ steps.info.outputs.version }}" \
+                org.opencontainers.image.documentation="https://fnndsc.github.io/aiochris/v$version/" \
+                org.opencontainers.image.version="$version" \
                 org.opencontainers.image.revision="${{ github.ref_name }}" \
                 org.opencontainers.image.licenses="MIT" \
                 org.opencontainers.image.title="aiochris Python package" \
                 org.opencontainers.image.description="Python async client library for ChRIS"
 
-          COPY $wheel /tmp/$wheel
-          RUN pip install --no-input --no-cache-dir --disable-pip-version-check '/tmp/$wheel' && rm -v '/tmp/$wheel'
+          RUN --mount=source=dist,target=/dist PYTHONDONTWRITEBYTECODE=1 pip install --no-cache-dir /dist/*.whl
           EOF
-
-          cat Dockerfile
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -102,20 +81,20 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get version
+        id: get-version
+        run: echo "version=$(rye version)" >> "$GITHUB_OUTPUT"
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
-          context: ./dist
           tags: |
-            ghcr.io/fnndsc/aiochris:${{ steps.info.outputs.version }}
+            ghcr.io/fnndsc/aiochris:${{ steps.get-version.outputs.version }}
             ghcr.io/fnndsc/aiochris:latest
           platforms: linux/amd64,linux/ppc64le,linux/arm64
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Draft Github Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           draft: true
           body: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.ref_name }}"

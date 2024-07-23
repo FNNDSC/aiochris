@@ -1,16 +1,17 @@
 """
 Read-only models for CUBE resources.
 """
+
 import sys
 from dataclasses import dataclass
-from typing import Optional, Literal, TextIO, Any
+from typing import Optional, Literal, TextIO
 
 import serde
 from serde import deserialize
 
+from aiochris.enums import PluginType
 from aiochris.link import http
 from aiochris.link.linked import LinkedModel
-from aiochris.enums import PluginType
 from aiochris.types import *
 from aiochris.util.search import Search
 

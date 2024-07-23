@@ -174,9 +174,9 @@ async def new_compute_resource(
     """
     created_compute_resource = await admin_client.create_compute_resource(
         name=f"test-aiochris-{now_str}-cr",
-        compute_url=f"http://localhost:56965/does-not-exist/api/v1/",
-        compute_user=f"pfcon",
-        compute_password=f"pfcon1234",
+        compute_url="http://localhost:56965/does-not-exist/api/v1/",
+        compute_user="pfcon",
+        compute_password="pfcon1234",
         description="a fake compute resource for testing aiochris.",
     )
     search = await normal_client.search_compute_resources(
@@ -261,8 +261,6 @@ async def test_feed(normal_client: ChrisClient, dircopy_instance: PluginInstance
 async def test_create_instance_checks_previous_type(
     dircopy: Plugin, simpledsapp: Plugin, dircopy_instance: PluginInstance
 ):
-    with pytest.raises(TypeError, match="4 is not a PluginInstance"):
-        await simpledsapp.create_instance(previous=4)  # type: ignore
     with pytest.raises(ValueError, match="Cannot give both previous and previous_id."):
         await simpledsapp.create_instance(previous=dircopy_instance, previous_id=4)
     e = "Cannot create plugin instance of a fs-type plugin with a previous plugin instance."

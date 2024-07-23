@@ -1,13 +1,12 @@
 """
-Interoperability with [`chrs`](https://crates.io/crates/chrs) version 0.2.4.
-
-The functions of this module uses dynamic importing of extras from the `chrs` group.
+TODO this module is broken since chrs version 0.3.0 and later.
 """
+
 import dataclasses
 from pathlib import Path
 
 import serde
-from typing import Optional, Literal
+from typing import Optional, Literal, Self
 from aiochris.types import Username, ChrisURL
 import functools
 
@@ -21,9 +20,7 @@ https://github.com/FNNDSC/chrs/blob/v0.2.4/chrs/src/login/saved.rs#L14
 
 @functools.cache
 def _get_keyring():
-    import keyring
-
-    return keyring.get_keyring()
+    raise NotImplementedError()
 
 
 @serde.deserialize
@@ -113,10 +110,12 @@ class ChrsLogins:
     """Saved logins in reverse order of preference."""
 
     @classmethod
-    def load(cls, path: Path) -> "ChrsLogins":
-        import serde.toml
-
-        return serde.toml.from_toml(cls, path.expanduser().read_text())
+    def load(cls, path: Path) -> Self:
+        raise NotImplementedError(
+            "This feature is no longer available since chrs version 0.3.0. "
+            "If you are seeing this message, please post a reply to this issue: "
+            "https://github.com/FNNDSC/aiochris/issues/1"
+        )
 
     def get_token_for(
         self,

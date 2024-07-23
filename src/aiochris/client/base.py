@@ -1,23 +1,19 @@
 import abc
-from typing import AsyncContextManager, Generic, Optional, Callable, TypeVar
+from typing import AsyncContextManager, Generic, Optional, Callable, Self
 
 import aiohttp
 from serde import from_dict
 
 from aiochris import Search
+from aiochris.errors import raise_for_status
 from aiochris.link.collection_client import L, CollectionJsonApiClient
 from aiochris.models.public import PublicPlugin
-from aiochris.errors import raise_for_status
-
-CSelf = TypeVar(
-    "CSelf", bound="BaseChrisClient"
-)  # can't wait for `Self` in Python 3.11!
 
 
 class BaseChrisClient(
-    Generic[L, CSelf],
+    Generic[L],
     CollectionJsonApiClient[L],
-    AsyncContextManager[CSelf],
+    AsyncContextManager[Self],
     abc.ABC,
 ):
     """
@@ -33,7 +29,7 @@ class BaseChrisClient(
         connector: Optional[aiohttp.BaseConnector] = None,
         connector_owner: bool = True,
         session_modifier: Optional[Callable[[aiohttp.ClientSession], None]] = None,
-    ) -> CSelf:
+    ) -> Self:
         """
         A constructor which creates the session for the `BaseChrisClient`
         and makes an initial request to populate `collection_links`.
@@ -90,7 +86,7 @@ class BaseChrisClient(
             max_search_requests=max_search_requests,
         )
 
-    async def __aenter__(self) -> CSelf:
+    async def __aenter__(self) -> Self:
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):

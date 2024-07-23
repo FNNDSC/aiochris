@@ -1,5 +1,5 @@
 """
-NewTypes for ChRIS models.
+NewTypes for _ChRIS_ models.
 """
 
 from typing import NewType, Union
@@ -41,11 +41,11 @@ UserId = NewType("UserId", int)
 AdminUrl = NewType("AdminUrl", str)
 """A admin resource URL ending with `/chris-admin/api/v1/`"""
 ComputeResourceName = NewType("ComputeResourceName", str)
-ComputeResourceId = NewType("ComputeResourceId", str)
+ComputeResourceId = NewType("ComputeResourceId", int)
 
 PfconUrl = NewType("PfconUrl", str)
 
-FeedId = NewType("FeedId", str)
+FeedId = NewType("FeedId", int)
 
 
 CubeFilePath = NewType("CubeFilePath", str)

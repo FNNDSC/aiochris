@@ -14,6 +14,7 @@ from typing import (
 import aiohttp
 import serde
 import yarl
+import importlib
 
 from aiochris.errors import raise_for_status, ResponseError
 
@@ -96,12 +97,10 @@ class Linked(abc.ABC, metaclass=LinkedMeta):
 
     @classmethod
     @abc.abstractmethod
-    def _has_link(cls, name: str) -> bool:
-        ...
+    def _has_link(cls, name: str) -> bool: ...
 
     @abc.abstractmethod
-    def _get_link(self, name: str) -> yarl.URL:
-        ...
+    def _get_link(self, name: str) -> yarl.URL: ...
 
 
 @serde.deserialize
@@ -131,14 +130,15 @@ class LinkedModel(Linked, abc.ABC):
 def deserialize_linked(client: Linked, t: Type[T], o: dict) -> T:
     """
     Wraps `serde.from_dict`.
-    If `t` is a subclass of `aiochris.models.connected.Connected`, its session is set.
+    If `t` is a dataclass with a field `s: aiohttp.ClientSession`, its session is set.
 
     Side effect: o is mutated
     """
-    if issubclass(t, LinkedModel):
+    fixed_t = _beartype_workaround410(t)
+    if _needs_session_field(fixed_t):
         o["s"] = client.s
         o["max_search_requests"] = client.max_search_requests
-    return serde.from_dict(t, o, reuse_instances=True)
+    return serde.from_dict(fixed_t, o, reuse_instances=True)
 
 
 async def deserialize_res(
@@ -156,3 +156,29 @@ async def deserialize_res(
             return None
         sent_data = await res.json(content_type="application/json")
     return deserialize_linked(client, return_type, sent_data)
+
+
+def _needs_session_field(t) -> bool:
+    """
+    Check whether `t` is a dataclass which has a field `s` with type `aiohttp.ClientSession`.
+    """
+    if not dataclasses.is_dataclass(t):
+        return False
+    return next(filter(_is_s_session_field, dataclasses.fields(t)), None) is not None
+
+
+def _is_s_session_field(s: dataclasses.Field) -> bool:
+    return s.name == "s" and s.type is aiohttp.ClientSession
+
+
+def _beartype_workaround410(t):
+    """
+    Workaround for
+
+    - https://github.com/beartype/beartype/issues/410
+    - https://github.com/yukinarit/pyserde/issues/575
+    """
+    if "__name_beartype__" not in dir(t) or "__scope_name_beartype__" not in dir(t):
+        return t
+    module = importlib.import_module(t.__scope_name_beartype__)
+    return module.__dict__[t.__name_beartype__]

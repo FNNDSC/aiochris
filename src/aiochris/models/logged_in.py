@@ -3,10 +3,12 @@ Subclasses of classes from `aiochris.models.data` which are returned
 from an `aiochris.client.authed.AuthenticatedClient`.
 These classes may have read-write functionality on the *ChRIS* API.
 """
+
 import asyncio
 import time
 from dataclasses import dataclass
-from typing import Optional, Sequence
+from typing import Optional
+from collections.abc import Sequence
 
 from serde import deserialize
 
@@ -115,8 +117,7 @@ class PluginInstance(PluginInstanceData):
 
     async def wait(
         self,
-        status: Status
-        | Sequence[Status] = (
+        status: Status | Sequence[Status] = (
             Status.finishedSuccessfully,
             Status.finishedWithError,
             Status.cancelled,
@@ -196,8 +197,7 @@ class Feed(FeedData):
         ...
 
     @http.get("note")
-    async def get_note(self) -> FeedNote:
-        ...
+    async def get_note(self) -> FeedNote: ...
 
 
 @deserialize
@@ -210,8 +210,7 @@ class Plugin(PublicPlugin):
     instances: ApiUrl
 
     @http.post("instances")
-    async def _create_instance_raw(self, **kwargs) -> PluginInstance:
-        ...
+    async def _create_instance_raw(self, **kwargs) -> PluginInstance: ...
 
     async def create_instance(
         self, previous: Optional[PluginInstance] = None, **kwargs

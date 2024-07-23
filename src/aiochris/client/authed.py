@@ -1,13 +1,13 @@
 import abc
 import os
 from pathlib import Path
-from typing import Optional, Generic, Callable, Sequence
+from typing import Optional, Generic, Callable, Sequence, Self
 
 import aiohttp
 from async_property import async_cached_property
 
 from aiochris.client.base import BaseChrisClient
-from aiochris.client.base import L, CSelf
+from aiochris.client.base import L
 from aiochris.link import http
 from aiochris.link.linked import deserialize_res
 from aiochris.models.logged_in import Plugin, File, User, PluginInstance, Feed, PACSFile
@@ -18,7 +18,7 @@ from aiochris.util.search import Search, acollect
 from aiochris.client.from_chrs import ChrsLogins
 
 
-class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC):
+class AuthenticatedClient(BaseChrisClient[L], Generic[L], abc.ABC):
     """
     An authenticated ChRIS client.
     """
@@ -32,7 +32,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         max_search_requests: int = 100,
         connector: Optional[aiohttp.TCPConnector] = None,
         connector_owner: bool = True,
-    ) -> CSelf:
+    ) -> Self:
         """
         Get authentication token using username and password, then construct the client.
 
@@ -65,7 +65,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         max_search_requests: int,
         session: aiohttp.ClientSession,
         connector_owner: bool,
-    ) -> CSelf:
+    ) -> Self:
         """
         Get authentication token using the given session, and then construct the client.
         """
@@ -91,7 +91,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         max_search_requests: int = 100,
         connector: Optional[aiohttp.TCPConnector] = None,
         connector_owner: Optional[bool] = True,
-    ) -> CSelf:
+    ) -> Self:
         """
         Construct an authenticated client using the given token.
 
@@ -114,7 +114,7 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
         connector: Optional[aiohttp.TCPConnector] = None,
         connector_owner: Optional[bool] = True,
         config_file: Path = Path("~/.config/chrs/login.toml"),
-    ) -> CSelf:
+    ) -> Self:
         """
         Log in using [`chrs`](https://crates.io/crates/chrs).
         *ChRIS* logins can be saved with the `chrs login` command.
@@ -124,12 +124,6 @@ class AuthenticatedClient(BaseChrisClient[L, CSelf], Generic[L, CSelf], abc.ABC)
 
         ```shell
         pip install aiochris[chrs]
-        ```
-
-        Or using Poetry:
-
-        ```shell
-        poetry add -E chrs aiochris
         ```
 
         `from_chrs` makes it easy to use `aiochris` in Jupyter Notebook or IPython,
