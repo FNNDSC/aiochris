@@ -16,7 +16,7 @@ import serde
 import yarl
 import importlib
 
-from aiochris.errors import raise_for_status, ResponseError
+from aiochris.errors import raise_for_status, StatusError
 
 T = TypeVar("T")
 
@@ -150,8 +150,9 @@ async def deserialize_res(
     async with sent_request as res:
         try:
             await raise_for_status(res)
-        except ResponseError as e:
-            raise e.__class__(*e.args, f"data={sent_data}")
+        except StatusError as e:
+            e.request_data = sent_data
+            raise e
         if return_type is type(None):  # noqa
             return None
         sent_data = await res.json(content_type="application/json")
@@ -175,4 +176,4 @@ def _beartype_workaround410(t):
     """
     See https://github.com/beartype/beartype/issues/410#issuecomment-2249195428
     """
-    return getattr(t, '__type_beartype__', None) or t
+    return getattr(t, "__type_beartype__", None) or t
