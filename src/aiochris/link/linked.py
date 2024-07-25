@@ -173,12 +173,6 @@ def _is_s_session_field(s: dataclasses.Field) -> bool:
 
 def _beartype_workaround410(t):
     """
-    Workaround for
-
-    - https://github.com/beartype/beartype/issues/410
-    - https://github.com/yukinarit/pyserde/issues/575
+    See https://github.com/beartype/beartype/issues/410#issuecomment-2249195428
     """
-    if "__name_beartype__" not in dir(t) or "__scope_name_beartype__" not in dir(t):
-        return t
-    module = importlib.import_module(t.__scope_name_beartype__)
-    return module.__dict__[t.__name_beartype__]
+    return getattr(t, '__type_beartype__', None) or t
