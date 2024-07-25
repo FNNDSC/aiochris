@@ -131,6 +131,10 @@ class LinkedModel(Linked, abc.ABC):
     A class where its fields may be API links.
     """
 
+    def to_dict(self) -> dict:
+        """Serialize this object."""
+        return serde.to_dict(self)
+
     @classmethod
     def _has_link(cls, name: str) -> bool:
         return any(name == field for field in cls._field_names())
