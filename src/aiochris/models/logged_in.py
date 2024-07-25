@@ -139,9 +139,10 @@ class PluginInstance(PluginInstanceData):
 
         Returns
         -------
-        Returns the number of seconds elapsed and the last state of the plugin instance.
-        This function will return for one of two reasons: either the plugin instance finished,
-        or this function timed out. Make sure you check the plugin instance's final status!
+        elapsed_seconds
+            Number of seconds elapsed and the last state of the plugin instance.
+            This function will return for one of two reasons: either the plugin instance finished,
+            or this function timed out. Make sure you check the plugin instance's final status!
         """
         if status is Status:
             status = (status,)
