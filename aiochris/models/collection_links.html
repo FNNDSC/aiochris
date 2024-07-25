@@ -139,7 +139,7 @@
     </ul>
 
 
-            <footer>Version v0.6.0</footer>
+            <footer>Version v0.7.0</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -160,16 +160,16 @@
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">import</span> <span class="nn">dataclasses</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="kn">import</span> <span class="nn">functools</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterator</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterator</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 </span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span> <span class="nn">serde</span> <span class="kn">import</span> <span class="n">deserialize</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span> <span class="nn">serde</span> <span class="kn">import</span> <span class="n">serde</span>
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
 </span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span> <span class="nn">aiochris.types</span> <span class="kn">import</span> <span class="n">ApiUrl</span><span class="p">,</span> <span class="n">UserUrl</span><span class="p">,</span> <span class="n">AdminUrl</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="nd">@deserialize</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="nd">@serde</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="k">class</span> <span class="nc">AbstractCollectionLinks</span><span class="p">:</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="nd">@classmethod</span>
@@ -193,7 +193,7 @@
 </span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>        <span class="k">return</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
 </span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="nd">@deserialize</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="nd">@serde</span>
 </span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="k">class</span> <span class="nc">AnonymousCollectionLinks</span><span class="p">(</span><span class="n">AbstractCollectionLinks</span><span class="p">):</span>
 </span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="n">chrisinstance</span><span class="p">:</span> <span class="n">ApiUrl</span>
@@ -212,7 +212,7 @@
 </span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>    <span class="n">pipeline_instances</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ApiUrl</span><span class="p">]</span>  <span class="c1"># removed in CUBE version 6</span>
 </span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>
 </span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="nd">@deserialize</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="nd">@serde</span>
 </span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="k">class</span> <span class="nc">CollectionLinks</span><span class="p">(</span><span class="n">AnonymousCollectionLinks</span><span class="p">):</span>
 </span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>    <span class="n">user</span><span class="p">:</span> <span class="n">UserUrl</span>
@@ -230,13 +230,13 @@
 </span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">userfiles</span>
 </span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>
 </span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="nd">@deserialize</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="nd">@serde</span>
 </span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a><span class="k">class</span> <span class="nc">AdminCollectionLinks</span><span class="p">(</span><span class="n">CollectionLinks</span><span class="p">):</span>
 </span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>    <span class="n">admin</span><span class="p">:</span> <span class="n">AdminUrl</span>
 </span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>
 </span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a>
-</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a><span class="nd">@deserialize</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a><span class="nd">@serde</span>
 </span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a><span class="k">class</span> <span class="nc">AdminApiCollectionLinks</span><span class="p">(</span><span class="n">AbstractCollectionLinks</span><span class="p">):</span>
 </span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a>    <span class="n">compute_resources</span><span class="p">:</span> <span class="n">ApiUrl</span>
@@ -247,7 +247,7 @@
                 <section id="AbstractCollectionLinks">
                             <input id="AbstractCollectionLinks-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@deserialize</div>
+                    <div class="decorator">@serde</div>
         <div class="decorator">@dataclass(frozen=True)</div>
 
     <span class="def">class</span>
@@ -257,7 +257,7 @@
 
     </div>
     <a class="headerlink" href="#AbstractCollectionLinks"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="AbstractCollectionLinks-13"><a href="#AbstractCollectionLinks-13"><span class="linenos">13</span></a><span class="nd">@deserialize</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="AbstractCollectionLinks-13"><a href="#AbstractCollectionLinks-13"><span class="linenos">13</span></a><span class="nd">@serde</span>
 </span><span id="AbstractCollectionLinks-14"><a href="#AbstractCollectionLinks-14"><span class="linenos">14</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="AbstractCollectionLinks-15"><a href="#AbstractCollectionLinks-15"><span class="linenos">15</span></a><span class="k">class</span> <span class="nc">AbstractCollectionLinks</span><span class="p">:</span>
 </span><span id="AbstractCollectionLinks-16"><a href="#AbstractCollectionLinks-16"><span class="linenos">16</span></a>    <span class="nd">@classmethod</span>
@@ -333,7 +333,7 @@
                 <section id="AnonymousCollectionLinks">
                             <input id="AnonymousCollectionLinks-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@deserialize</div>
+                    <div class="decorator">@serde</div>
         <div class="decorator">@dataclass(frozen=True)</div>
 
     <span class="def">class</span>
@@ -343,7 +343,7 @@
 
     </div>
     <a class="headerlink" href="#AnonymousCollectionLinks"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="AnonymousCollectionLinks-37"><a href="#AnonymousCollectionLinks-37"><span class="linenos">37</span></a><span class="nd">@deserialize</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="AnonymousCollectionLinks-37"><a href="#AnonymousCollectionLinks-37"><span class="linenos">37</span></a><span class="nd">@serde</span>
 </span><span id="AnonymousCollectionLinks-38"><a href="#AnonymousCollectionLinks-38"><span class="linenos">38</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="AnonymousCollectionLinks-39"><a href="#AnonymousCollectionLinks-39"><span class="linenos">39</span></a><span class="k">class</span> <span class="nc">AnonymousCollectionLinks</span><span class="p">(</span><span class="n">AbstractCollectionLinks</span><span class="p">):</span>
 </span><span id="AnonymousCollectionLinks-40"><a href="#AnonymousCollectionLinks-40"><span class="linenos">40</span></a>    <span class="n">chrisinstance</span><span class="p">:</span> <span class="n">ApiUrl</span>
@@ -534,7 +534,7 @@
                 <section id="CollectionLinks">
                             <input id="CollectionLinks-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@deserialize</div>
+                    <div class="decorator">@serde</div>
         <div class="decorator">@dataclass(frozen=True)</div>
 
     <span class="def">class</span>
@@ -544,7 +544,7 @@
 
     </div>
     <a class="headerlink" href="#CollectionLinks"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="CollectionLinks-56"><a href="#CollectionLinks-56"><span class="linenos">56</span></a><span class="nd">@deserialize</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="CollectionLinks-56"><a href="#CollectionLinks-56"><span class="linenos">56</span></a><span class="nd">@serde</span>
 </span><span id="CollectionLinks-57"><a href="#CollectionLinks-57"><span class="linenos">57</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="CollectionLinks-58"><a href="#CollectionLinks-58"><span class="linenos">58</span></a><span class="k">class</span> <span class="nc">CollectionLinks</span><span class="p">(</span><span class="n">AnonymousCollectionLinks</span><span class="p">):</span>
 </span><span id="CollectionLinks-59"><a href="#CollectionLinks-59"><span class="linenos">59</span></a>    <span class="n">user</span><span class="p">:</span> <span class="n">UserUrl</span>
@@ -660,7 +660,7 @@
                 <section id="AdminCollectionLinks">
                             <input id="AdminCollectionLinks-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@deserialize</div>
+                    <div class="decorator">@serde</div>
         <div class="decorator">@dataclass(frozen=True)</div>
 
     <span class="def">class</span>
@@ -670,7 +670,7 @@
 
     </div>
     <a class="headerlink" href="#AdminCollectionLinks"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="AdminCollectionLinks-74"><a href="#AdminCollectionLinks-74"><span class="linenos">74</span></a><span class="nd">@deserialize</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="AdminCollectionLinks-74"><a href="#AdminCollectionLinks-74"><span class="linenos">74</span></a><span class="nd">@serde</span>
 </span><span id="AdminCollectionLinks-75"><a href="#AdminCollectionLinks-75"><span class="linenos">75</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="AdminCollectionLinks-76"><a href="#AdminCollectionLinks-76"><span class="linenos">76</span></a><span class="k">class</span> <span class="nc">AdminCollectionLinks</span><span class="p">(</span><span class="n">CollectionLinks</span><span class="p">):</span>
 </span><span id="AdminCollectionLinks-77"><a href="#AdminCollectionLinks-77"><span class="linenos">77</span></a>    <span class="n">admin</span><span class="p">:</span> <span class="n">AdminUrl</span>
@@ -739,7 +739,7 @@
                 <section id="AdminApiCollectionLinks">
                             <input id="AdminApiCollectionLinks-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@deserialize</div>
+                    <div class="decorator">@serde</div>
         <div class="decorator">@dataclass(frozen=True)</div>
 
     <span class="def">class</span>
@@ -749,7 +749,7 @@
 
     </div>
     <a class="headerlink" href="#AdminApiCollectionLinks"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="AdminApiCollectionLinks-80"><a href="#AdminApiCollectionLinks-80"><span class="linenos">80</span></a><span class="nd">@deserialize</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="AdminApiCollectionLinks-80"><a href="#AdminApiCollectionLinks-80"><span class="linenos">80</span></a><span class="nd">@serde</span>
 </span><span id="AdminApiCollectionLinks-81"><a href="#AdminApiCollectionLinks-81"><span class="linenos">81</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="AdminApiCollectionLinks-82"><a href="#AdminApiCollectionLinks-82"><span class="linenos">82</span></a><span class="k">class</span> <span class="nc">AdminApiCollectionLinks</span><span class="p">(</span><span class="n">AbstractCollectionLinks</span><span class="p">):</span>
 </span><span id="AdminApiCollectionLinks-83"><a href="#AdminApiCollectionLinks-83"><span class="linenos">83</span></a>    <span class="n">compute_resources</span><span class="p">:</span> <span class="n">ApiUrl</span>

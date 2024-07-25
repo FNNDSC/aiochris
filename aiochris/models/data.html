@@ -259,7 +259,7 @@
     </ul>
 
 
-            <footer>Version v0.6.0</footer>
+            <footer>Version v0.7.0</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -294,14 +294,14 @@ and <code><a href="public.html">aiochris.models.public</a></code> with methods t
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">import</span> <span class="nn">datetime</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="kn">from</span> <span class="nn">serde</span> <span class="kn">import</span> <span class="n">deserialize</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="kn">from</span> <span class="nn">serde</span> <span class="kn">import</span> <span class="n">serde</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="kn">from</span> <span class="nn">aiochris.link.linked</span> <span class="kn">import</span> <span class="n">LinkedModel</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="kn">from</span> <span class="nn">aiochris.enums</span> <span class="kn">import</span> <span class="n">PluginType</span><span class="p">,</span> <span class="n">Status</span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="kn">from</span> <span class="nn">aiochris.types</span> <span class="kn">import</span> <span class="o">*</span>
 </span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>
 </span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>
-</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="nd">@deserialize</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="nd">@serde</span>
 </span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a><span class="k">class</span> <span class="nc">UserData</span><span class="p">:</span>
 </span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A *CUBE* user.&quot;&quot;&quot;</span>
@@ -313,7 +313,7 @@ and <code><a href="public.html">aiochris.models.public</a></code> with methods t
 </span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>
 </span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>
 </span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="c1"># TODO It&#39;d be better to use inheritance instead of optionals</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a><span class="nd">@deserialize</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a><span class="nd">@serde</span>
 </span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="k">class</span> <span class="nc">PluginInstanceData</span><span class="p">(</span><span class="n">LinkedModel</span><span class="p">):</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -375,7 +375,7 @@ and <code><a href="public.html">aiochris.models.public</a></code> with methods t
 </span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>
 </span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="nd">@deserialize</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="nd">@serde</span>
 </span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="k">class</span> <span class="nc">FeedData</span><span class="p">(</span><span class="n">LinkedModel</span><span class="p">):</span>
 </span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">FeedUrl</span>
@@ -401,7 +401,7 @@ and <code><a href="public.html">aiochris.models.public</a></code> with methods t
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>    <span class="n">plugin_instances</span><span class="p">:</span> <span class="n">PluginInstancesUrl</span>
 </span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>
 </span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="nd">@deserialize</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="nd">@serde</span>
 </span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="k">class</span> <span class="nc">FeedNoteData</span><span class="p">(</span><span class="n">LinkedModel</span><span class="p">):</span>
 </span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">FeedUrl</span>
@@ -416,7 +416,7 @@ and <code><a href="public.html">aiochris.models.public</a></code> with methods t
                 <section id="UserData">
                             <input id="UserData-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@deserialize</div>
+                    <div class="decorator">@serde</div>
         <div class="decorator">@dataclass(frozen=True)</div>
 
     <span class="def">class</span>
@@ -426,7 +426,7 @@ and <code><a href="public.html">aiochris.models.public</a></code> with methods t
 
     </div>
     <a class="headerlink" href="#UserData"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="UserData-20"><a href="#UserData-20"><span class="linenos">20</span></a><span class="nd">@deserialize</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="UserData-20"><a href="#UserData-20"><span class="linenos">20</span></a><span class="nd">@serde</span>
 </span><span id="UserData-21"><a href="#UserData-21"><span class="linenos">21</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="UserData-22"><a href="#UserData-22"><span class="linenos">22</span></a><span class="k">class</span> <span class="nc">UserData</span><span class="p">:</span>
 </span><span id="UserData-23"><a href="#UserData-23"><span class="linenos">23</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A *CUBE* user.&quot;&quot;&quot;</span>
@@ -502,7 +502,7 @@ and <code><a href="public.html">aiochris.models.public</a></code> with methods t
                 <section id="PluginInstanceData">
                             <input id="PluginInstanceData-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@deserialize</div>
+                    <div class="decorator">@serde</div>
         <div class="decorator">@dataclass(frozen=True)</div>
 
     <span class="def">class</span>
@@ -512,7 +512,7 @@ and <code><a href="public.html">aiochris.models.public</a></code> with methods t
 
     </div>
     <a class="headerlink" href="#PluginInstanceData"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PluginInstanceData-32"><a href="#PluginInstanceData-32"><span class="linenos">32</span></a><span class="nd">@deserialize</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PluginInstanceData-32"><a href="#PluginInstanceData-32"><span class="linenos">32</span></a><span class="nd">@serde</span>
 </span><span id="PluginInstanceData-33"><a href="#PluginInstanceData-33"><span class="linenos">33</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="PluginInstanceData-34"><a href="#PluginInstanceData-34"><span class="linenos">34</span></a><span class="k">class</span> <span class="nc">PluginInstanceData</span><span class="p">(</span><span class="n">LinkedModel</span><span class="p">):</span>
 </span><span id="PluginInstanceData-35"><a href="#PluginInstanceData-35"><span class="linenos">35</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -982,7 +982,7 @@ but not when the plugin instance is created.</p>
                 <section id="FeedData">
                             <input id="FeedData-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@deserialize</div>
+                    <div class="decorator">@serde</div>
         <div class="decorator">@dataclass(frozen=True)</div>
 
     <span class="def">class</span>
@@ -992,7 +992,7 @@ but not when the plugin instance is created.</p>
 
     </div>
     <a class="headerlink" href="#FeedData"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="FeedData-94"><a href="#FeedData-94"><span class="linenos"> 94</span></a><span class="nd">@deserialize</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="FeedData-94"><a href="#FeedData-94"><span class="linenos"> 94</span></a><span class="nd">@serde</span>
 </span><span id="FeedData-95"><a href="#FeedData-95"><span class="linenos"> 95</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="FeedData-96"><a href="#FeedData-96"><span class="linenos"> 96</span></a><span class="k">class</span> <span class="nc">FeedData</span><span class="p">(</span><span class="n">LinkedModel</span><span class="p">):</span>
 </span><span id="FeedData-97"><a href="#FeedData-97"><span class="linenos"> 97</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">FeedUrl</span>
@@ -1278,7 +1278,7 @@ but not when the plugin instance is created.</p>
                 <section id="FeedNoteData">
                             <input id="FeedNoteData-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-                    <div class="decorator">@deserialize</div>
+                    <div class="decorator">@serde</div>
         <div class="decorator">@dataclass(frozen=True)</div>
 
     <span class="def">class</span>
@@ -1288,7 +1288,7 @@ but not when the plugin instance is created.</p>
 
     </div>
     <a class="headerlink" href="#FeedNoteData"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="FeedNoteData-120"><a href="#FeedNoteData-120"><span class="linenos">120</span></a><span class="nd">@deserialize</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="FeedNoteData-120"><a href="#FeedNoteData-120"><span class="linenos">120</span></a><span class="nd">@serde</span>
 </span><span id="FeedNoteData-121"><a href="#FeedNoteData-121"><span class="linenos">121</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="FeedNoteData-122"><a href="#FeedNoteData-122"><span class="linenos">122</span></a><span class="k">class</span> <span class="nc">FeedNoteData</span><span class="p">(</span><span class="n">LinkedModel</span><span class="p">):</span>
 </span><span id="FeedNoteData-123"><a href="#FeedNoteData-123"><span class="linenos">123</span></a>    <span class="n">url</span><span class="p">:</span> <span class="n">FeedUrl</span>
