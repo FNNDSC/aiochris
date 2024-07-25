@@ -98,4 +98,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           draft: true
-          body: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.ref_name }}"
+          body: |
+            PyPI: https://pypi.org/project/aiochris/${{ steps.get-version.outputs.version }}/
+            
+            Documentation: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.ref_name }}
+
+            Container image: `podman pull ghcr.io/fnndsc/aiochris:${{ steps.get-version.outputs.version }}`
