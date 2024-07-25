@@ -82,14 +82,35 @@ class LinkedMeta(abc.ABCMeta):
         setattr(method, mcs.__DECORATED_METHOD_MARK, link_name)
 
 
-@serde.deserialize
+_S = TypeVar("_S")
+
+
+def _deserialize_noop_hack(s: _S) -> _S:
+    setattr(s, "_AIOCHRIS_LINKED_DESERIALIZED", True)
+    return s
+
+
+def _skip_hacked(s: any) -> bool:
+    if getattr(s, "_AIOCHRIS_LINKED_DESERIALIZED"):
+        return False
+    return True
+
+
+@serde.serde
 @dataclasses.dataclass(frozen=True)
 class Linked(abc.ABC, metaclass=LinkedMeta):
     """
     A `Linked` is an object which can make HTTP requests to links from an API.
     """
 
-    s: aiohttp.ClientSession = serde.field(deserializer=lambda s: s)
+    # The functions `_deserialize_noop_hack` and `_skip_hacked`  are used with `serde.field`
+    # so that `s` is included in deserialization, but excluded when serialized.
+    s: aiohttp.ClientSession = serde.field(
+        deserializer=_deserialize_noop_hack,
+        serializer=lambda s: s,
+        skip_if=_skip_hacked,
+    )
+
     max_search_requests: int
     """
     Maximum number of requests to make for pagination.
@@ -103,7 +124,7 @@ class Linked(abc.ABC, metaclass=LinkedMeta):
     def _get_link(self, name: str) -> yarl.URL: ...
 
 
-@serde.deserialize
+@serde.serde
 @dataclasses.dataclass(frozen=True)
 class LinkedModel(Linked, abc.ABC):
     """

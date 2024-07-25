@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from typing import Optional, Literal, TextIO
 
 import serde
-from serde import deserialize
 
 from aiochris.enums import PluginType
 from aiochris.link import http
@@ -16,7 +15,7 @@ from aiochris.types import *
 from aiochris.util.search import Search
 
 
-@deserialize
+@serde.serde
 @dataclass(frozen=True)
 class ComputeResource:
     url: ApiUrl
@@ -30,7 +29,7 @@ class ComputeResource:
     max_job_exec_seconds: int
 
 
-@deserialize
+@serde.serde
 @dataclass(frozen=True)
 class PluginParameter(LinkedModel):
     """
@@ -51,7 +50,7 @@ class PluginParameter(LinkedModel):
     plugin: PluginUrl
 
 
-@deserialize
+@serde.serde
 @dataclass(frozen=True)
 class PublicPlugin(LinkedModel):
     """

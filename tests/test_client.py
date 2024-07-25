@@ -4,6 +4,7 @@ import time
 from typing import Callable, Awaitable
 
 import pytest
+import serde
 from aiohttp.client_exceptions import ClientConnectorError
 
 import tests.examples.plugin_description as example_descriptions
@@ -141,6 +142,15 @@ async def test_added_plugin(
     )
     assert plinst.plugin_name == added_plugin.name
     assert plinst.compute_resource_name == new_compute_resource.name
+
+
+async def test_serialize(dircopy_instance: PluginInstance):
+    """
+    Make sure it's possible to use `serde.to_dict` on models.
+    """
+    serialized = serde.to_dict(dircopy_instance)
+    assert not hasattr(serialized, "s")
+    assert serialized["id"] == dircopy_instance.id
 
 
 async def test_add_plugin_compute_resources_serialization(

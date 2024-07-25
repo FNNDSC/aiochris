@@ -6,27 +6,27 @@ These classes may have read-write functionality on the *ChRIS* API.
 
 import asyncio
 import time
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Optional
-from collections.abc import Sequence
 
-from serde import deserialize
+from serde import serde
 
+from aiochris.enums import PluginType, Status
 from aiochris.link import http
 from aiochris.link.linked import LinkedModel
 from aiochris.models.data import PluginInstanceData, FeedData, UserData, FeedNoteData
-from aiochris.enums import PluginType, Status
 from aiochris.models.public import PublicPlugin
 from aiochris.types import *
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class User(UserData, LinkedModel):
     pass  # TODO change_email, change_password
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class File(LinkedModel):
     """
@@ -59,7 +59,7 @@ class File(LinkedModel):
     # TODO download methods
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class PACSFile(File):
     """
@@ -86,7 +86,7 @@ class PACSFile(File):
     pacs_identifier: str
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class PluginInstance(PluginInstanceData):
     @http.get("feed")
@@ -158,7 +158,7 @@ class PluginInstance(PluginInstanceData):
         return (time.monotonic_ns() - start) / 1e9, cur
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class FeedNote(FeedNoteData):
     @http.get("feed")
@@ -174,7 +174,7 @@ class FeedNote(FeedNoteData):
         ...
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class Feed(FeedData):
     """
@@ -201,7 +201,7 @@ class Feed(FeedData):
     async def get_note(self) -> FeedNote: ...
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class Plugin(PublicPlugin):
     """

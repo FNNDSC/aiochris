@@ -9,14 +9,14 @@ from dataclasses import dataclass
 import datetime
 from typing import Optional
 
-from serde import deserialize
+from serde import serde
 
 from aiochris.link.linked import LinkedModel
 from aiochris.enums import PluginType, Status
 from aiochris.types import *
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class UserData:
     """A *CUBE* user."""
@@ -28,7 +28,7 @@ class UserData:
 
 
 # TODO It'd be better to use inheritance instead of optionals
-@deserialize
+@serde
 @dataclass(frozen=True)
 class PluginInstanceData(LinkedModel):
     """
@@ -90,7 +90,7 @@ class PluginInstanceData(LinkedModel):
     """
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class FeedData(LinkedModel):
     url: FeedUrl
@@ -116,7 +116,7 @@ class FeedData(LinkedModel):
     plugin_instances: PluginInstancesUrl
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class FeedNoteData(LinkedModel):
     url: FeedUrl

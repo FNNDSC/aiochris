@@ -1,5 +1,6 @@
 import copy
 import logging
+from collections.abc import AsyncIterable, AsyncIterator, AsyncGenerator
 from dataclasses import dataclass
 from typing import (
     Optional,
@@ -8,25 +9,24 @@ from typing import (
     Any,
     Generic,
 )
-from collections.abc import AsyncIterable, AsyncIterator, AsyncGenerator
 
 import yarl
-from serde import deserialize
+from serde import serde
 from serde.json import from_json
 
-from aiochris.link.linked import deserialize_linked, Linked
 from aiochris.errors import (
     BaseClientError,
     raise_for_status,
     NonsenseResponseError,
 )
+from aiochris.link.linked import deserialize_linked, Linked
 
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
 
-@deserialize
+@serde
 class _Paginated:
     """
     Response from a paginated endpoint.

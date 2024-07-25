@@ -1,15 +1,15 @@
 import dataclasses
 import functools
+from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Optional
-from collections.abc import Iterator
 
-from serde import deserialize
+from serde import serde
 
 from aiochris.types import ApiUrl, UserUrl, AdminUrl
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class AbstractCollectionLinks:
     @classmethod
@@ -33,7 +33,7 @@ class AbstractCollectionLinks:
         return dataclasses.asdict(self)
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class AnonymousCollectionLinks(AbstractCollectionLinks):
     chrisinstance: ApiUrl
@@ -52,7 +52,7 @@ class AnonymousCollectionLinks(AbstractCollectionLinks):
     pipeline_instances: Optional[ApiUrl]  # removed in CUBE version 6
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class CollectionLinks(AnonymousCollectionLinks):
     user: UserUrl
@@ -70,13 +70,13 @@ class CollectionLinks(AnonymousCollectionLinks):
         return self.userfiles
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class AdminCollectionLinks(CollectionLinks):
     admin: AdminUrl
 
 
-@deserialize
+@serde
 @dataclass(frozen=True)
 class AdminApiCollectionLinks(AbstractCollectionLinks):
     compute_resources: ApiUrl
