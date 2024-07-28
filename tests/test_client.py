@@ -242,6 +242,16 @@ async def test_plugin_instances(
     found_plinst = await normal_client.plugin_instances(id=changed_inst.id).get_only()
     assert found_plinst.title == changed_inst.title
 
+    params = await acollect(dircopy_instance.get_parameters())
+    dir_param_inst = next(filter(lambda p: p.param_name == "dir", params), None)
+    assert dir_param_inst is not None
+    assert dir_param_inst.type == "unextpath"
+    dir_param = await dir_param_inst.get_plugin_parameter()
+    assert dir_param.url == dir_param_inst.plugin_param
+    assert dir_param.action == "store"
+    assert not dir_param.optional
+    assert dir_param.default is None
+
 
 async def test_delete(
     normal_client: ChrisClient, dircopy_instance: PluginInstance, simpledsapp: Plugin

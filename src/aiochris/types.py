@@ -2,7 +2,7 @@
 NewTypes for _ChRIS_ models.
 """
 
-from typing import NewType, Union
+from typing import NewType, Union, Literal
 
 Username = NewType("Username", str)
 """ChRIS user account username"""
@@ -58,9 +58,12 @@ ContainerImageTag = NewType("ContainerImageTag", str)
 PipingId = NewType("PipingId", int)
 PipelineId = NewType("PipelineId", int)
 
-
 ParameterName = NewType("ParameterName", str)
-ParameterType = Union[str, int, float, bool]
+ParameterValue = Union[str, int, float, bool]
+ParameterType = Literal["boolean", "integer", "float", "string", "path", "unextpath"]
+
+PluginInstanceParameterUrl = NewType("PluginInstanceParameterUrl", str)
+PluginInstanceParameterId = NewType("PluginInstanceParameterId", int)
 
 PipelineParameterId = NewType("ParameterLocalId", int)
 PluginParameterId = NewType("ParameterGlobalId", int)

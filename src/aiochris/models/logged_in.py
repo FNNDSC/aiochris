@@ -16,7 +16,8 @@ from aiochris.enums import PluginType, Status
 from aiochris.link import http
 from aiochris.link.linked import LinkedModel
 from aiochris.models.data import PluginInstanceData, FeedData, UserData, FeedNoteData
-from aiochris.models.public import PublicPlugin
+from aiochris.models.public import PublicPlugin, PluginParameter
+from aiochris.util.search import Search
 from aiochris.types import *
 
 
@@ -88,10 +89,37 @@ class PACSFile(File):
 
 @serde
 @dataclass(frozen=True)
+class PluginInstanceParameter(LinkedModel):
+    url: PluginInstanceParameterUrl
+    id: PluginInstanceParameterId
+    param_name: ParameterName
+    value: ParameterValue
+    type: ParameterType
+    plugin_inst: PluginInstanceUrl
+    plugin_param: PluginParameterUrl
+
+    @http.get("plugin_inst")
+    async def get_plugin_instance(self) -> "PluginInstance":
+        """Get the plugin instance of this parameter instance."""
+        ...
+
+    @http.get("plugin_param")
+    async def get_plugin_parameter(self) -> PluginParameter:
+        """Get the plugin parameter of this plugin instance parameter."""
+        ...
+
+
+@serde
+@dataclass(frozen=True)
 class PluginInstance(PluginInstanceData):
     @http.get("feed")
     async def get_feed(self) -> "Feed":
         """Get the feed this plugin instance belongs to."""
+        ...
+
+    @http.search("parameters", subpath="")
+    def get_parameters(self) -> Search[PluginInstanceParameter]:
+        """Get the parameters of this plugin instance."""
         ...
 
     @http.put("url")

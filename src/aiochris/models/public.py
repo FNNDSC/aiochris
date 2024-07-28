@@ -41,7 +41,7 @@ class PluginParameter(LinkedModel):
     name: ParameterName
     type: ParameterType
     optional: bool
-    default: Optional[ParameterType]
+    default: Optional[ParameterValue]
     flag: str
     short_flag: str
     action: Literal["store", "store_true", "store_false"]
