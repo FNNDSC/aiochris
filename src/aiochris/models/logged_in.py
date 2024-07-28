@@ -72,10 +72,10 @@ class PACSFile(File):
     id: PacsFileId
     PatientID: str
     PatientName: str
-    PatientBirthDate: str
-    PatientAge: int
+    PatientBirthDate: Optional[str]
+    PatientAge: Optional[int]
     PatientSex: str
-    StudyDate: str  # TODO deserialize
+    StudyDate: str
     AccessionNumber: str
     Modality: str
     ProtocolName: str
