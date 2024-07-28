@@ -198,7 +198,14 @@ class Feed(FeedData):
         ...
 
     @http.get("note")
-    async def get_note(self) -> FeedNote: ...
+    async def get_note(self) -> FeedNote:
+        """Get the note of this feed."""
+        ...
+
+    @http.delete("url")
+    async def delete(self) -> None:
+        """Delete this feed."""
+        ...
 
 
 @serde
